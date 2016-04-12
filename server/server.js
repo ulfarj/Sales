@@ -39,6 +39,16 @@ app.get('/categories', function (req, res) {
     }); 
 });
 
+app.get('/companies', function (req, res) {  
+
+    MongoClient.connect(url, function(err, db) {
+        var collection = db.collection('companies');
+        
+        collection.find({}).toArray(function(err, docs) {                    
+            res.jsonp(docs);
+        });
+    }); 
+});
 
 
 http.createServer(app).listen(3030, function () {

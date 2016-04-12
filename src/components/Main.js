@@ -5,6 +5,8 @@ Panel, Modal, Grid, Row, Col} from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { fetchCategoriesIfNeeded } from '../actions/categories';
+import { fetchCompanies } from '../actions/companies';
+import Company from './Company';
 
 const styles = {
   input: {
@@ -31,14 +33,17 @@ class Main extends Component {
 	 constructor(props) {
 	    super(props);
 
-	    this.state = {}
+	    this.state = {
+        showSelectCategories: true
+      }
 
       this.filter = _.debounce(this.filter, 300);               
   	}
 
     componentWillMount(){
       const { dispatch } = this.props;
-       dispatch(fetchCategoriesIfNeeded());  
+       dispatch(fetchCategoriesIfNeeded());
+       dispatch(fetchCompanies());  
     }
 
     filterRow = (e) => {
@@ -130,34 +135,34 @@ class Main extends Component {
              </Col>
             );                       
       });
+    
+      let companies = this.props.companies.map(company => {
 
-          
-      /*let companies = this.props.companies.map(edge => {
-
-          let sales = edge.node.sales.map(sale => {
+          let sales = company.sales.map(sale => {
                                      
-            var status = _.filter(store.statusConnection.edges, {node: {id: sale.statusId}});
+          /*  var status = _.filter(store.statusConnection.edges, {node: {id: sale.statusId}});
             var category = _.filter(store.categoryConnection.edges, {node: {id: sale.categoryId}});
-            var salesman = _.filter(store.salesmanConnection.edges, {node: {id: sale.salesmanId}});
+            var salesman = _.filter(store.salesmanConnection.edges, {node: {id: sale.salesmanId}});*/
             
             return {
-              status: status[0].node.name,
-              color: status[0].node.color,              
-              selected: _.indexOf(relay.variables.categories, sale.categoryId) > -1,
-              category: category[0].node.name,
-              salesman: salesman[0].node.name
+              status: 'status[0].node.name',
+              color: 'status[0].node.color',              
+              //selected: _.indexOf(relay.variables.categories, sale.categoryId) > -1,
+              selected: false,
+              category: 'category[0].node.name',
+              salesman: 'salesman[0].node.name'
             }
           });
 
           return (
             <Company 
-              key={edge.node.id} 
-              company={edge.node}
+              key={company._id} 
+              company={company}
               sales={sales} 
               onClick={this.editCompany} />
             );
 
-      });*/
+      });
       
   		return (
   			<div>
@@ -216,9 +221,10 @@ class Main extends Component {
 
             <div>
               <div>
-                <Panel collapsible 
-                		//expanded={relay.variables.showSelectCategories}
-                		>
+                <Panel 
+                    collapsible 
+                    expanded={this.state.showSelectCategories}
+                    >
                   <Grid>
                     <Row>
                       <Col>
@@ -271,7 +277,7 @@ class Main extends Component {
                       <td><Input type="text" style={styles.input} onChange={this.filterRow} name="email" /></td>
                       <td><Input type="text" style={styles.input} onChange={this.filterRow} name="comment" /></td>
                     </tr>                    
-                                  
+                    {companies}              
                   </tbody>
                 </Table>
               </div>              
@@ -281,22 +287,24 @@ class Main extends Component {
 }
 
 Main.propTypes = {  
-  categories: PropTypes.object.isRequired,  
+  categories: PropTypes.array.isRequired,
+  companies: PropTypes.array.isRequired,  
   loaded: PropTypes.bool.isRequired,   
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   var categories = state.categories.items;
+  var companies = state.companies.items;
 
   let loaded = false;
 
-  if(categories && state.categories.loaded)
-  {
+  if(state.categories.loaded && state.companies.loaded)
+  {    
     loaded = true;
   }
 
-  return { categories, loaded }  
+  return { loaded, categories, companies }  
 }
 
 export default connect(mapStateToProps)(Main);
