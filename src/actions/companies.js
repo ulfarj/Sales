@@ -8,7 +8,7 @@ function requestCompanies() {
   }
 }
 
-function receiveCompanies(json) {     
+function receiveCompanies(json) {
   return {
     type: types.RECEIVE_COMPANIES,
     items: json,
@@ -16,20 +16,26 @@ function receiveCompanies(json) {
   }
 }
 
-export function fetchCompanies() { 
+export function fetchCompanies(filter) {
 
-  var name = 'xx'; 
+  console.log('test');
+  console.log(filter);
 
   let config = {
-    method: 'POST',
-    headers: { 'Content-Type':'application/json' },             
-    body: `name=${name}`        
-   }  
+		method: 'POST',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify(filter)
+  }
+
+  //var query = '?name='+name+'&ssn='+ssn+'&categories='+categories;
 
   return dispatch => {
     dispatch(requestCompanies())
-    return fetch(`http://localhost:3030/companies/namex/ssnx`)
-      .then(response => response.json())       
-      .then(json => dispatch(receiveCompanies(json)))      
-  } 
+    return fetch(`http://localhost:3030/companies/`, config)
+      .then(response => response.json())
+      .then(json => dispatch(receiveCompanies(json)))
+  }
 }

@@ -13,53 +13,57 @@ app.use(function(req,res,next){
     next();
 });
 
-app.use(bodyParser.json());      
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(function(req, res, next) {
     if (req.headers.origin) {
-        res.header('Access-Control-Allow-Origin', '*')
-        res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization')
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE')
-        if (req.method === 'OPTIONS') return res.send(200)
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE');
+        if (req.method === 'OPTIONS'){
+          return res.send(200);
+        }
     }
-    next()
+    next();
 });
 
 var url = 'mongodb://localhost:27017/ssdb';
 
-app.get('/categories', function (req, res) {  
+app.get('/categories', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
         var collection = db.collection('categories');
-        
-        collection.find({}).toArray(function(err, docs) {                    
+
+        collection.find({}).toArray(function(err, docs) {
             res.jsonp(docs);
         });
-    }); 
+    });
 });
 
-    
-app.get('/companies/:name/:ssn', function (req, res) {  
+
+app.post('/companies', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
         var findParams = {};
 
-        if(req.params.name) {
-           findParams.name = new RegExp(req.params.name, 'i');                       
+        console.log(req.body);
+
+        if(req.body.name) {
+           findParams.name = new RegExp(req.body.name, 'i');
         }
 
-        if(req.params.ssn) {
-           findParams.ssn = new RegExp(req.params.ssn, 'i');                       
+        if(req.body.ssn) {
+           findParams.ssn = new RegExp(req.body.ssn, 'i');
         }
 
         var collection = db.collection('companies');
-        
-        collection.find(findParams).toArray(function(err, docs) {                    
+
+        collection.find(findParams).toArray(function(err, docs) {
             res.jsonp(docs);
         });
-    }); 
+    });
 });
 
 

@@ -22,22 +22,22 @@ class Company extends Component {
 					</rect>
 					);
 			}
-						
-			cx = cx + 15;										
+
+			cx = cx + 15;
 			return (
 				<circle cx={cx} cy="8" r="6" stroke="black" strokeWidth="1" fill={sale.color}>
 					<title>{sale.category} - {sale.salesman} - {sale.status}</title>
 				</circle>
 			);
 		});
-	
+
 		return(
 			<tr>
 				<td></td>
-				<td>					 
-					<svg width="100" height="16">					
+				<td>
+					<svg width="100" height="16">
 						{statuses}
-					</svg> 					
+					</svg>
 				</td>
 				<td onClick={e => this.onClick(company.id)}>{company.name}</td>
 				<td>{company.ssn}</td>
