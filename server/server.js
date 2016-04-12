@@ -39,12 +39,24 @@ app.get('/categories', function (req, res) {
     }); 
 });
 
-app.get('/companies', function (req, res) {  
+    
+app.get('/companies/:name/:ssn', function (req, res) {  
 
     MongoClient.connect(url, function(err, db) {
+
+        var findParams = {};
+
+        if(req.params.name) {
+           findParams.name = new RegExp(req.params.name, 'i');                       
+        }
+
+        if(req.params.ssn) {
+           findParams.ssn = new RegExp(req.params.ssn, 'i');                       
+        }
+
         var collection = db.collection('companies');
         
-        collection.find({}).toArray(function(err, docs) {                    
+        collection.find(findParams).toArray(function(err, docs) {                    
             res.jsonp(docs);
         });
     }); 
