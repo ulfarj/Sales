@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Input } from 'react-bootstrap';
 import {Table, Column, Cell} from 'fixed-data-table';
 import { connect } from 'react-redux';
-import Company from './Company';
+import TextCell from './cells/TextCell';
 
 import 'fixed-data-table/dist/fixed-data-table.min.css';
 
@@ -29,42 +29,16 @@ class Companies extends Component {
     const { loaded } = this.props;
 
     if(!loaded) {
-        return(<div>Loading</div>);
+        return(<div></div>);
     }
 
- /*
-    let companies = this.props.companies.map(company => {
-
-        let sales = company.sales.map(sale => {
-
-          return {
-            status: 'status[0].node.name',
-            color: 'status[0].node.color',
-            //selected: _.indexOf(relay.variables.categories, sale.categoryId) > -1,
-            selected: false,
-            category: 'category[0].node.name',
-            salesman: 'salesman[0].node.name'
-          }
-        });
-
-        return (
-          <Company
-            key={company._id}
-            company={company}
-            sales={sales}
-            onClick={this.editCompany} />
-          );
-    });
-
-    const TextCell = ({rowIndex, data, col, ...props}) => (
-      <Cell {...props}>
-        {data.getObjectAt(rowIndex)[col]}
-      </Cell>
-    );
-
-    console.log(this.props.companies);
-*/
     const { companies } = this.props;
+
+    const StatusCell = ({rowIndex}) => (
+       <Cell>
+           {companies[rowIndex].name}
+       </Cell>
+     );
 
     return(
 
@@ -76,15 +50,15 @@ class Companies extends Component {
            height={500}
            {...this.props}>
           <Column
-            cell={props => (
-              <Cell {...props}>
-                {companies[props.rowIndex].name}
-              </Cell>
-            )}
-           fixed={true}
-           width={150}
-
+            cell={props => (<Cell {...props}>{companies[props.rowIndex].name}</Cell>)}
+            fixed={true}
+            width={150}
            />
+           <Column
+             cell={props => (<TextCell {...props} column="name" />)}
+             fixed={true}
+             width={150}
+            />
         </Table>
     )
 

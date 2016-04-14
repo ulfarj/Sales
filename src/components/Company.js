@@ -7,7 +7,7 @@ class Company extends Component {
 	};
 
 	render() {
-		let {company, sales} = this.props;
+		let {sales} = this.props;
 
 		let x = 0;
 		let cx = 0;
@@ -32,21 +32,9 @@ class Company extends Component {
 		});
 
 		return(
-			<tr>
-				<td></td>
-				<td>
-					<svg width="100" height="16">
-						{statuses}
-					</svg>
-				</td>
-				<td onClick={e => this.onClick(company.id)}>{company.name}</td>
-				<td>{company.ssn}</td>
-				<td>{company.address}</td>
-				<td>{company.postalCode}</td>
-				<td>{company.phone}</td>
-				<td>{company.email}</td>
-				<td>{company.comment}</td>
-			</tr>
+			<svg width="100" height="16">
+				{statuses}
+			</svg>
 		);
 	}
 
