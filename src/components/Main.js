@@ -112,9 +112,14 @@ class Main extends Component {
       relay.setVariables({showCreateCompanyModal: false});*/
     };
 
+    getRowCount = () => {
+      alert('sad');
+      return 1;
+    };
+
   	render() {
 
-      const { loaded } = this.props;
+      const { loaded, companiesCount } = this.props;
 
       if(!loaded) {
           return(<div>Loading</div>);
@@ -215,8 +220,7 @@ class Main extends Component {
            </div>
 
            <div style={styles.gridArea}>
-              <Filter filter={this.filter} />
-              <Companies />
+              <Companies filter={this.filter} rowCount={companiesCount} />
            </div>
         </div>
   		);
@@ -224,6 +228,7 @@ class Main extends Component {
 }
 
 Main.propTypes = {
+  companiesCount: PropTypes.number.isRequired,
   categories: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired
@@ -231,6 +236,7 @@ Main.propTypes = {
 
 function mapStateToProps(state) {
   var categories = state.categories.items;
+  var companies = state.companies.items;
 
   let loaded = false;
 
@@ -238,7 +244,13 @@ function mapStateToProps(state) {
     loaded = true;
   }
 
-  return { loaded, categories}
+  let companiesCount = 0;
+
+  if(state.companies.loaded) {
+    companiesCount = state.companies.items.length;
+  }
+
+  return { loaded, categories, companiesCount}
 }
 
 export default connect(mapStateToProps)(Main);

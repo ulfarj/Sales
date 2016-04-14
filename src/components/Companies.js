@@ -3,6 +3,7 @@ import { Input } from 'react-bootstrap';
 import {Table, Column, Cell} from 'fixed-data-table';
 import { connect } from 'react-redux';
 import TextCell from './cells/TextCell';
+import TextFilter from './cells/TextFilter';
 
 import 'fixed-data-table/dist/fixed-data-table.min.css';
 
@@ -24,21 +25,30 @@ class Companies extends Component {
      }
   }
 
+  filterRow = (e) => {
+    var filter = this.state.filter;
+    filter[e.target.name] = e.target.value;
+    this.props.filter(filter);
+  };
+
   render() {
 
     const { rowCount } = this.props;
 
+
+     console.log('RowCount' + rowCount);
+
     return(
         <Table
            rowHeight={30}
-           headerHeight={30}
+           headerHeight={80}
            rowsCount={rowCount}
            width={1000}
            height={500}
            {...this.props}>
            <Column
-             header="Name"
-             cell={props => (<TextCell {...props} column="name" />)}
+             header={<TextFilter label="Nafn" column="name" filter={this.filterRow} />}
+             cell={props => (<TextCell {...props} column="name" filter={this.filterRow} />)}
              fixed={true}
              width={150}
             />
@@ -49,20 +59,20 @@ class Companies extends Component {
 }
 
 Companies.propTypes = {
-  rowCount: PropTypes.number.isRequired,
+  //rowCount: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  var companies = state.companies.items;
 
+/*
   let rowCount = 0;
 
   if(state.companies.loaded) {
     rowCount = state.companies.items.length;
   }
-
-  return { rowCount }
+*/
+  return {  }
 }
 
 export default connect(mapStateToProps)(Companies);
