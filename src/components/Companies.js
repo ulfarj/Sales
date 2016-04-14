@@ -26,62 +26,43 @@ class Companies extends Component {
 
   render() {
 
-    const { loaded } = this.props;
-
-    if(!loaded) {
-        return(<div></div>);
-    }
-
-    const { companies } = this.props;
-
-    const StatusCell = ({rowIndex}) => (
-       <Cell>
-           {companies[rowIndex].name}
-       </Cell>
-     );
+    const { rowCount } = this.props;
 
     return(
-
         <Table
            rowHeight={30}
-           headerHeight={0}
-           rowsCount={companies.length}
+           headerHeight={30}
+           rowsCount={rowCount}
            width={1000}
            height={500}
            {...this.props}>
-          <Column
-            cell={props => (<Cell {...props}>{companies[props.rowIndex].name}</Cell>)}
-            fixed={true}
-            width={150}
-           />
            <Column
+             header="Name"
              cell={props => (<TextCell {...props} column="name" />)}
              fixed={true}
              width={150}
             />
         </Table>
     )
-
   }
 
 }
 
 Companies.propTypes = {
-  companies: PropTypes.array.isRequired,
-  loaded: PropTypes.bool.isRequired,
+  rowCount: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   var companies = state.companies.items;
 
-  let loaded = false;
+  let rowCount = 0;
 
   if(state.companies.loaded) {
-    loaded = true;
+    rowCount = state.companies.items.length;
   }
 
-  return { loaded, companies }
+  return { rowCount }
 }
 
 export default connect(mapStateToProps)(Companies);
