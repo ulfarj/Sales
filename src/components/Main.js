@@ -5,7 +5,9 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { fetchCategoriesIfNeeded } from '../actions/categories';
 import { fetchCompanies } from '../actions/companies';
-import Company from './Company';
+//import Company from './Company';
+import Companies from './Companies';
+import Filter from './Filter';
 
 const styles = {
   input: {
@@ -32,16 +34,8 @@ class Main extends Component {
 	 constructor(props) {
 	    super(props);
 	    this.state = {
-        showSelectCategories: true,
+        showSelectCategories: false,
         filter: {},
-        name: '',
-        ssn: '',
-        email: '',
-        phone: '',
-        address: '',
-        postalCode: '',
-        comment: '',
-        categories: []
       }
 
       this.filter = _.debounce(this.filter, 300);
@@ -62,7 +56,6 @@ class Main extends Component {
     filter = (filter) => {
       const { dispatch } = this.props;
       dispatch(fetchCompanies(filter));
-      this.setState(filter);
     };
 
     changeCategory = (e) => {
@@ -142,33 +135,6 @@ class Main extends Component {
             );
       });
 
-      let companies = this.props.companies.map(company => {
-
-          let sales = company.sales.map(sale => {
-
-          /*  var status = _.filter(store.statusConnection.edges, {node: {id: sale.statusId}});
-            var category = _.filter(store.categoryConnection.edges, {node: {id: sale.categoryId}});
-            var salesman = _.filter(store.salesmanConnection.edges, {node: {id: sale.salesmanId}});*/
-
-            return {
-              status: 'status[0].node.name',
-              color: 'status[0].node.color',
-              //selected: _.indexOf(relay.variables.categories, sale.categoryId) > -1,
-              selected: false,
-              category: 'category[0].node.name',
-              salesman: 'salesman[0].node.name'
-            }
-          });
-
-          return (
-            <Company
-              key={company._id}
-              company={company}
-              sales={sales}
-              onClick={this.editCompany} />
-            );
-
-      });
 
   		return (
   			<div>
@@ -249,44 +215,9 @@ class Main extends Component {
            </div>
 
            <div style={styles.gridArea}>
-             <Table striped bordered condensed hove responsive>
-                  <thead>
-                    <tr>
-                      <th>Sölumaður</th>
-                      <th>Staða</th>
-                      <th>Nafn</th>
-                      <th>Kennitala</th>
-                      <th>Heimilisfang</th>
-                      <th>Póstnúmer</th>
-                      <th>Sími</th>
-                      <th>Netfang</th>
-                      <th>Athugasemd</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <select style={{border:0, height: 30}} onChange={this.filterRow} name="salesman">
-                          <option value="">Sýna allt</option>
-                        </select>
-                      </td>
-                      <td>
-                        <select style={{border:0, height: 30}} onChange={this.filterRow} name="status">
-                          <option value="">Sýna allt</option>
-                        </select>
-                      </td>
-                      <td><Input type="text" style={styles.input} onChange={this.filterRow} name="name" /></td>
-                      <td><Input type="text" style={styles.input} onChange={this.filterRow} name="ssn" /></td>
-                      <td><Input type="text" style={styles.input} onChange={this.filterRow} name="address" /></td>
-                      <td><Input type="text" style={styles.input} onChange={this.filterRow} name="postalCode" /></td>
-                      <td><Input type="text" style={styles.input} onChange={this.filterRow} name="phone" /></td>
-                      <td><Input type="text" style={styles.input} onChange={this.filterRow} name="email" /></td>
-                      <td><Input type="text" style={styles.input} onChange={this.filterRow} name="comment" /></td>
-                    </tr>
-                    {companies}
-                  </tbody>
-                </Table>
-              </div>
+              <Filter filter={this.filter} />
+              <Companies />
+           </div>
         </div>
   		);
   	}
@@ -294,23 +225,20 @@ class Main extends Component {
 
 Main.propTypes = {
   categories: PropTypes.array.isRequired,
-  companies: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   var categories = state.categories.items;
-  var companies = state.companies.items;
 
   let loaded = false;
 
-  if(state.categories.loaded && state.companies.loaded)
-  {
+  if(state.categories.loaded) {
     loaded = true;
   }
 
-  return { loaded, categories, companies }
+  return { loaded, categories}
 }
 
 export default connect(mapStateToProps)(Main);
