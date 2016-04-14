@@ -8,7 +8,7 @@ function requestCategories() {
   }
 }
 
-function receiveCategories(json) {     
+function receiveCategories(json) {
   return {
     type: types.RECEIVE_CATEGORIES,
     items: json,
@@ -20,7 +20,7 @@ function shouldFetchCategories(state) {
 
   const categories = state.categories;
 
-  if (_.isEmpty(categories)) {       
+  if (_.isEmpty(categories)) {
     return true;
   }
   if (categories.isFetching) {
@@ -30,19 +30,19 @@ function shouldFetchCategories(state) {
   return categories.didInvalidate
 }
 
-function fetchCategories() { 
+function fetchCategories() {
   return dispatch => {
     dispatch(requestCategories())
     return fetch(`http://localhost:3030/categories`)
-      .then(response => response.json())       
-      .then(json => dispatch(receiveCategories(json)))      
-  } 
+      .then(response => response.json())
+      .then(json => dispatch(receiveCategories(json)))
+  }
 }
 
-export function fetchCategoriesIfNeeded() {
+export function fetchCategoriesIfNeeded() {  
    return (dispatch, getState) => {
-    if (shouldFetchCategories(getState())) {      
-        return dispatch(fetchCategories())    
+    if (shouldFetchCategories(getState())) {
+        return dispatch(fetchCategories())
     }
   }
 }

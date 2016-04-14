@@ -41,14 +41,23 @@ app.get('/categories', function (req, res) {
     });
 });
 
+app.get('/salesmen', function (req, res) {
+
+    MongoClient.connect(url, function(err, db) {
+        var collection = db.collection('salesmen');
+
+        collection.find({}).toArray(function(err, docs) {
+            res.jsonp(docs);
+        });
+    });
+});
+
 
 app.post('/companies', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
         var findParams = {};
-
-        console.log(req.body);
 
         if(req.body.name) {
            findParams.name = new RegExp(req.body.name, 'i');

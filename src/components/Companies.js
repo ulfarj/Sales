@@ -35,9 +35,6 @@ class Companies extends Component {
 
     const { rowCount } = this.props;
 
-
-     console.log('RowCount' + rowCount);
-
     return(
         <Table
            rowHeight={30}
@@ -59,19 +56,10 @@ class Companies extends Component {
 }
 
 Companies.propTypes = {
-  //rowCount: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-
-/*
-  let rowCount = 0;
-
-  if(state.companies.loaded) {
-    rowCount = state.companies.items.length;
-  }
-*/
   return {  }
 }
 

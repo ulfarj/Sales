@@ -4,10 +4,11 @@ import {Table, Input, Fade, Button, Well, ButtonToolbar, Overlay, Popover, Panel
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { fetchCategoriesIfNeeded } from '../actions/categories';
+import { fetchSalesmenIfNeeded } from '../actions/salesmen';
 import { fetchCompanies } from '../actions/companies';
-//import Company from './Company';
 import Companies from './Companies';
 import Filter from './Filter';
+import CreateCompany from './CreateCompany';
 
 const styles = {
   input: {
@@ -35,6 +36,7 @@ class Main extends Component {
 	    super(props);
 	    this.state = {
         showSelectCategories: false,
+        showCreateCompanyModal: false,
         filter: {},
       }
 
@@ -44,14 +46,9 @@ class Main extends Component {
     componentWillMount(){
       const { dispatch } = this.props;
        dispatch(fetchCategoriesIfNeeded());
+       dispatch(fetchSalesmenIfNeeded());
        dispatch(fetchCompanies({}));
     }
-
-    filterRow = (e) => {
-      var filter = this.state.filter;
-      filter[e.target.name] = e.target.value;
-      this.filter(filter);
-    };
 
     filter = (filter) => {
       const { dispatch } = this.props;
@@ -107,14 +104,7 @@ class Main extends Component {
     };
 
     onCreateCompany = () => {
-      /*const { relay } = this.props;
-
-      relay.setVariables({showCreateCompanyModal: false});*/
-    };
-
-    getRowCount = () => {
-      alert('sad');
-      return 1;
+      this.setState({showCreateCompanyModal: false});
     };
 
   	render() {
@@ -156,19 +146,22 @@ class Main extends Component {
 
               <div style={{width: 100}}>
                 <Button
-                  //onClick={e => relay.setVariables({showCreateCompanyModal: true})}
+                  onClick={e => this.setState({showCreateCompanyModal: true})}
                   bsStyle="primary">
                     Skrá fyrirtæki
                 </Button>
                 <Modal
-                  //show={relay.variables.showCreateCompanyModal}
-                  //onHide={e => relay.setVariables({showCreateCompanyModal: false})}
+                  show={this.state.showCreateCompanyModal}
+                  onHide={e => this.setState({showCreateCompanyModal: false})}
                   bsSize="lg">
                   <Modal.Header closeButton>
                     <Modal.Title>Skrá fyrirtæki</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-
+                    <CreateCompany
+                      onCreate={this.onCreateCompany}
+                      categories={this.props.categories}
+                      salesmen={this.props.salesmen} />
                   </Modal.Body>
                 </Modal>
               </div>
@@ -190,7 +183,7 @@ class Main extends Component {
               <div style={{paddingLeft: '40', width: 300}}>
                 <label>
                   <h4>
-                    Fjöldi færslna:
+                    Fjöldi færslna: {companiesCount}
                   </h4>
                 </label>
               </div>
@@ -230,6 +223,7 @@ class Main extends Component {
 Main.propTypes = {
   companiesCount: PropTypes.number.isRequired,
   categories: PropTypes.array.isRequired,
+  salesmen: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired
 }
@@ -237,10 +231,11 @@ Main.propTypes = {
 function mapStateToProps(state) {
   var categories = state.categories.items;
   var companies = state.companies.items;
+  var salesmen = state.salesmen.items;
 
   let loaded = false;
 
-  if(state.categories.loaded) {
+  if(state.categories.loaded && state.salesmen.loaded) {
     loaded = true;
   }
 
@@ -250,7 +245,7 @@ function mapStateToProps(state) {
     companiesCount = state.companies.items.length;
   }
 
-  return { loaded, categories, companiesCount}
+  return { loaded, categories, salesmen, companiesCount}
 }
 
 export default connect(mapStateToProps)(Main);
