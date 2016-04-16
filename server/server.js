@@ -65,6 +65,10 @@ app.post('/companies', function (req, res) {
         if(req.body.ssn) {
            findParams.ssn = new RegExp(req.body.ssn, 'i');
         }
+      
+        if(req.body.categories) {
+						findParams.sales = { $elemMatch: { categoryId: {$in: req.body.categories}}};
+				}
 
         var collection = db.collection('companies');
 

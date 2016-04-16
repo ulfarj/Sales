@@ -67,9 +67,7 @@ class Main extends Component {
         categories.splice(_.indexOf(categories, e.target.value), 1);
       }
 
-      console.log(categories);
-
-      this.setState({categories: categories});
+      this.setCategories(categories);
     };
 
     toggleAllCategories = (e) => {
@@ -86,7 +84,14 @@ class Main extends Component {
         });
       }
 
+      this.setCategories(categories);
+    };
+
+    setCategories = (categories) => {
       this.setState({categories, categories});
+      var filter = this.state.filter;
+      filter['categories'] = categories;
+      this.filter(filter);
     };
 
     editCompany = (companyId) => {
