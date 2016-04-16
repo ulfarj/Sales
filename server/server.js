@@ -52,7 +52,6 @@ app.get('/salesmen', function (req, res) {
     });
 });
 
-
 app.post('/companies', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
@@ -73,6 +72,32 @@ app.post('/companies', function (req, res) {
             res.jsonp(docs);
         });
     });
+});
+
+app.post('/company', function(req, res) {
+
+  MongoClient.connect(url, function(err, db) {
+
+    try{
+      db.collection("companies").insertOne({
+          "ssn": req.body.ssn,
+          "name": req.body.name,
+          "address": req.body.address,
+          "postalCode": req.body.postalCode,
+          "phone": req.body.phone,
+          "email": req.body.email,
+          "comment": req.body.comment,
+          "sales": req.body.sales
+      });
+
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+
+  });
 });
 
 

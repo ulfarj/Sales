@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import {Input, Button, Alert, DropDown, Col} from 'react-bootstrap';
 import _ from 'lodash';
+import { connect } from 'react-redux';
 import ToggleDisplay from 'react-toggle-display';
+import { createCompany } from '../actions/company';
 
 
 class CreateCompany extends React.Component {
@@ -15,38 +17,39 @@ class CreateCompany extends React.Component {
    }
 
   componentWillMount(){
-
-    //relay.setVariables({salesman: store.salesmanConnection.edges[0].node.id});
+    const {salesmen} = this.props;
+    this.setState({salesman: salesmen[0]._id});
   }
 
   createCompany = (e) => {
-/*
+
+    const { dispatch } = this.props;
+
+    dispatch(createCompany(
+      this.refs.ssn.getValue(),
+      this.refs.name.getValue(),
+      this.refs.address.getValue(),
+      this.refs.postalCode.getValue(),
+      this.refs.phone.getValue(),
+      this.refs.email.getValue(),
+      this.refs.comment.getValue(),
+      this.getSales(),
+    ));
+  };
+
+  getSales = () => {
     const statusId = '56b6196af7ec61807b2fdffb';
 
     let sales = [];
-    relay.variables.categories.map(function(category){
-      sales.push(
-        {
-          "categoryId": category.categoryId,
-          "salesmanId": category.salesmanId,
-          "statusId": statusId
-        });
-
+    this.state.categories.map(function(category){
+      sales.push({
+        "categoryId": category.categoryId,
+        "salesmanId": category.salesmanId,
+        "statusId": statusId
+      });
     }.bind(this));
 
-    Relay.Store.commitUpdate(
-      new CreateCompanyMutation({
-        name: this.refs.name.getValue(),
-        ssn: this.refs.ssn.getValue(),
-        address: this.refs.address.getValue(),
-        postalCode: this.refs.postalCode.getValue(),
-        phone: this.refs.phone.getValue(),
-        email: this.refs.email.getValue(),
-        comment: this.refs.comment.getValue(),
-        sales: sales,
-        store: this.props.store
-      }), {onSuccess, onFailure}
-    );    */
+    return sales;
   };
 
   changeSalesman = (e) => {
@@ -79,15 +82,15 @@ class CreateCompany extends React.Component {
     });
 
     let categories = this.props.categories.map(category => {
-      return (        
+      return (
         <Col>
              <Input
               key={category._id}
               type="checkbox"
               label={category.name}
-              value={category.id}
+              value={category._id}
               //checked={this.props.checked}
-              checked={this.state.categories.indexOf(category._id) >= 0}
+              //checked={this.state.categories.indexOf(category) >= 0}
               onClick={this.changeCategory}  />
         </Col>
       );
@@ -95,7 +98,7 @@ class CreateCompany extends React.Component {
 
     let categoriesBySalesman = this.props.salesmen.map(salesman => {
       return(
-          <ToggleDisplay show={this.props.salesman === salesman._id} key={salesman._id}>
+          <ToggleDisplay show={this.state.salesman === salesman._id} key={salesman._id}>
             <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
               { categories }
             </div>
@@ -139,7 +142,7 @@ class CreateCompany extends React.Component {
 	}
 }
 
-/*
+
 CreateCompany.propTypes = {
   categories: PropTypes.array.isRequired,
   salesmen: PropTypes.array.isRequired,
@@ -159,5 +162,5 @@ function mapStateToProps(state) {
 
   return { categories, salesmen, loaded}
 }
-*/
-export default CreateCompany;
+
+export default connect(mapStateToProps)(CreateCompany);

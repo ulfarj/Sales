@@ -160,8 +160,7 @@ class Main extends Component {
                   <Modal.Body>
                     <CreateCompany
                       onCreate={this.onCreateCompany}
-                      categories={this.props.categories}
-                      salesmen={this.props.salesmen} />
+                      />
                   </Modal.Body>
                 </Modal>
               </div>
