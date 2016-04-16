@@ -38,6 +38,7 @@ class Main extends Component {
         showSelectCategories: false,
         showCreateCompanyModal: false,
         filter: {},
+        categories: []
       }
 
       this.filter = _.debounce(this.filter, 300);
@@ -57,10 +58,7 @@ class Main extends Component {
 
     changeCategory = (e) => {
 
-      /*
-      const { relay, store } = this.props;
-
-      var categories = relay.variables.categories;
+      var categories = this.state.categories;
 
       if(e.target.checked) {
         categories.push(e.target.value);
@@ -69,29 +67,26 @@ class Main extends Component {
         categories.splice(_.indexOf(categories, e.target.value), 1);
       }
 
-      let empt = [];
-      relay.setVariables({categories, empt});
-      relay.setVariables({categories, categories});*/
+      console.log(categories);
+
+      this.setState({categories: categories});
     };
 
     toggleAllCategories = (e) => {
 
-     /*
-      const { relay, store } = this.props;
+      var showAllCategories = !this.state.showAllCategories;
 
-      var showAllCategories = !relay.variables.showAllCategories;
-
-      relay.setVariables({showAllCategories: showAllCategories});
+      this.setState({showAllCategories: showAllCategories});
 
       let categories = [];
 
       if(showAllCategories){
-         categories = store.categoryConnection.edges.map(edge => {
-          return edge.node.id;
+         categories = this.props.categories.map(category => {
+          return category._id;
         });
       }
 
-      relay.setVariables({categories, categories}); */
+      this.setState({categories, categories});
     };
 
     editCompany = (companyId) => {
@@ -124,9 +119,8 @@ class Main extends Component {
                 key={category.id}
                 type="checkbox"
                 label={category.name}
-                value={category.id}
-                //checked={relay.variables.categories.indexOf(edge.node.id) >= 0}
-                //checked={categories.indexOf(category.id) >= 0}
+                value={category._id}
+                checked={this.state.categories.indexOf(category._id) >= 0}
                 onClick={e => this.changeCategory(e)}  />
              </Col>
             );
