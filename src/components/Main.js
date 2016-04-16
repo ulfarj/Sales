@@ -104,6 +104,8 @@ class Main extends Component {
     };
 
     onCreateCompany = () => {
+      const { dispatch } = this.props;
+      dispatch(fetchCompanies());
       this.setState({showCreateCompanyModal: false});
     };
 

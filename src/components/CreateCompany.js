@@ -35,6 +35,8 @@ class CreateCompany extends React.Component {
       this.refs.comment.getValue(),
       this.getSales(),
     ));
+
+    this.props.onCreate();
   };
 
   getSales = () => {
@@ -75,13 +77,30 @@ class CreateCompany extends React.Component {
     this.setState({categories: categories});
   };
 
+  isChecked = (category) => {
+    return _.findIndex(this.state.categories, ['categoryId', category._id]) > - 1 ? true : false;
+  };
+
+  isDisabled = (category) => {
+    var category = _.find(this.state.categories, { 'categoryId': category._id });
+    return (category.salesmanId === this.props.salesman);
+  };
+
 	render() {
 
     let salesmen = this.props.salesmen.map(salesman => {
       return (<option value={salesman._id} key={salesman._id}>{salesman.name}</option>);
     });
 
+    let salesman = this.state.salesman;
+    
     let categories = this.props.categories.map(category => {
+
+      let index = _.findIndex(this.state.categories, ['categoryId', category._id]);
+      let checked = (index > -1) ? true : false;
+
+      let disabled = checked ? (this.state.categories[index].salesmanId !== salesman) : false;
+
       return (
         <Col>
              <Input
@@ -89,8 +108,8 @@ class CreateCompany extends React.Component {
               type="checkbox"
               label={category.name}
               value={category._id}
-              //checked={this.props.checked}
-              //checked={this.state.categories.indexOf(category) >= 0}
+              checked={checked}
+              disabled={disabled}
               onClick={this.changeCategory}  />
         </Col>
       );
