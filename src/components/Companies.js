@@ -25,10 +25,8 @@ class Companies extends Component {
      }
   }
 
-  filterRow = (e) => {
-    var filter = this.state.filter;
-    filter[e.target.name] = e.target.value;
-    this.props.filter(filter);
+  filterRow = (e) => {    
+    this.props.filter(e.target.name, e.target.value);
   };
 
   render() {

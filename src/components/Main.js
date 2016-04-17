@@ -9,6 +9,7 @@ import { fetchCompanies } from '../actions/companies';
 import Companies from './Companies';
 import Filter from './Filter';
 import CreateCompany from './CreateCompany';
+import Categories from './Categories';
 
 const styles = {
   input: {
@@ -38,7 +39,7 @@ class Main extends Component {
         showSelectCategories: false,
         showCreateCompanyModal: false,
         filter: {},
-        categories: []
+        //categories: []
       }
 
       this.filter = _.debounce(this.filter, 300);
@@ -51,11 +52,15 @@ class Main extends Component {
        dispatch(fetchCompanies({}));
     }
 
-    filter = (filter) => {
+    filter = (name, value) => {
+      var filter = this.state.filter;
+      filter[name] = value;
+
       const { dispatch } = this.props;
       dispatch(fetchCompanies(filter));
     };
 
+/*
     changeCategory = (e) => {
 
       var categories = this.state.categories;
@@ -90,9 +95,8 @@ class Main extends Component {
     setCategories = (categories) => {
       this.setState({categories, categories});
       var filter = this.state.filter;
-      filter['categories'] = categories;
-      this.filter(filter);
-    };
+      this.filter('categories', categories);
+    };*/
 
     editCompany = (companyId) => {
 
@@ -117,6 +121,7 @@ class Main extends Component {
           return(<div>Loading</div>);
       }
 
+      /*
       let categories = this.props.categories.map(category => {
           return (
               <Col>
@@ -129,7 +134,7 @@ class Main extends Component {
                 onClick={e => this.changeCategory(e)}  />
              </Col>
             );
-      });
+      });*/
 
 
   		return (
@@ -195,19 +200,7 @@ class Main extends Component {
                     collapsible
                     expanded={this.state.showSelectCategories}
                     >
-                  <Grid>
-                    <Row>
-                      <Col>
-                        <Input
-                          type="checkbox"
-                          label='Sýna alla flokka'
-                          value='showall'
-                          //checked={relay.variables.showAllCategories}
-                          onClick={e => this.toggleAllCategories(e)} />
-                      </Col>
-                      {categories}
-                    </Row>
-                  </Grid>
+                    <Categories filter={this.filter} />                  
                 </Panel>
               </div>
            </div>

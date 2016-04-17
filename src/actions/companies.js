@@ -27,8 +27,6 @@ export function fetchCompanies(filter) {
     body: JSON.stringify(filter)
   }
 
-  //var query = '?name='+name+'&ssn='+ssn+'&categories='+categories;
-
   return dispatch => {
     dispatch(requestCompanies())
     return fetch(`http://localhost:3030/companies/`, config)
