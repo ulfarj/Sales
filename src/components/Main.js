@@ -8,7 +8,6 @@ import { fetchSalesmenIfNeeded } from '../actions/salesmen';
 import { fetchStatusesIfNeeded } from '../actions/statuses';
 import { fetchCompanies } from '../actions/companies';
 import Companies from './Companies';
-//import Filter from './Filter';
 import CreateCompany from './CreateCompany';
 import EditCompany from './EditCompany';
 import Categories from './Categories';

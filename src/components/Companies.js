@@ -42,15 +42,51 @@ class Companies extends Component {
            rowHeight={30}
            headerHeight={80}
            rowsCount={rowCount}
-           width={1000}
-           height={500}
+           width={1200}
+           height={600}
            {...this.props}>
            <Column
              header={<TextFilter label="Nafn" column="name" filter={this.filterRow} />}
              cell={props => (<TextCell {...props} column="name" onClick={this.onClick} filter={this.filterRow} />)}
              fixed={true}
-             width={150}
+             width={160}
             />
+            <Column
+              header={<TextFilter label="Kennitala" column="ssn" filter={this.filterRow} />}
+              cell={props => (<TextCell {...props} column="ssn" filter={this.filterRow} />)}
+              fixed={true}
+              width={120}
+             />
+             <Column
+               header={<TextFilter label="Heimilisfang" column="address" filter={this.filterRow} />}
+               cell={props => (<TextCell {...props} column="address" filter={this.filterRow} />)}
+               fixed={true}
+               width={160}
+              />
+            <Column
+              header={<TextFilter label="Póst nr" column="postalCode" filter={this.filterRow} />}
+              cell={props => (<TextCell {...props} column="postalCode" filter={this.filterRow} />)}
+              fixed={true}
+              width={80}
+              />
+            <Column
+              header={<TextFilter label="Sími" column="phone" filter={this.filterRow} />}
+              cell={props => (<TextCell {...props} column="phone" filter={this.filterRow} />)}
+              fixed={true}
+              width={100}
+              />
+            <Column
+              header={<TextFilter label="Netfang" column="email" filter={this.filterRow} />}
+              cell={props => (<TextCell {...props} column="email" filter={this.filterRow} />)}
+              fixed={true}
+              width={120}
+              />
+            <Column
+              header={<TextFilter label="Athugasemd" column="comment" filter={this.filterRow} />}
+              cell={props => (<TextCell {...props} column="comment" filter={this.filterRow} />)}
+              fixed={true}
+              width={160}
+              />
         </Table>
     )
   }

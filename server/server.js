@@ -77,6 +77,30 @@ app.post('/companies', function (req, res) {
            findParams.ssn = new RegExp(req.body.ssn, 'i');
         }
 
+        if(req.body.phone) {
+           findParams.phone = new RegExp(req.body.phone, 'i');
+        }
+
+        if(req.body.address) {
+           findParams.address = new RegExp(req.body.address, 'i');
+        }
+
+        if(req.body.postalCode) {
+           findParams.postalCode = new RegExp(req.body.postalCode, 'i');
+        }
+
+        if(req.body.phone) {
+           findParams.phone = new RegExp(req.body.phone, 'i');
+        }
+
+        if(req.body.email) {
+           findParams.email = new RegExp(req.body.email, 'i');
+        }
+
+        if(req.body.comment) {
+           findParams.comment = new RegExp(req.body.comment, 'i');
+        }
+
         if(req.body.categories) {
 						findParams.sales = { $elemMatch: { categoryId: {$in: req.body.categories}}};
 				}
