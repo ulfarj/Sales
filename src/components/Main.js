@@ -5,11 +5,14 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { fetchCategoriesIfNeeded } from '../actions/categories';
 import { fetchSalesmenIfNeeded } from '../actions/salesmen';
+import { fetchStatusesIfNeeded } from '../actions/statuses';
 import { fetchCompanies } from '../actions/companies';
 import Companies from './Companies';
-import Filter from './Filter';
+//import Filter from './Filter';
 import CreateCompany from './CreateCompany';
+import EditCompany from './EditCompany';
 import Categories from './Categories';
+
 
 const styles = {
   input: {
@@ -38,8 +41,9 @@ class Main extends Component {
 	    this.state = {
         showSelectCategories: false,
         showCreateCompanyModal: false,
+        showEditCompanyModal: false,
         filter: {},
-        //categories: []
+        company: ''
       }
 
       this.filter = _.debounce(this.filter, 300);
@@ -49,6 +53,7 @@ class Main extends Component {
       const { dispatch } = this.props;
        dispatch(fetchCategoriesIfNeeded());
        dispatch(fetchSalesmenIfNeeded());
+       dispatch(fetchStatusesIfNeeded());
        dispatch(fetchCompanies({}));
     }
 
@@ -60,51 +65,10 @@ class Main extends Component {
       dispatch(fetchCompanies(filter));
     };
 
-/*
-    changeCategory = (e) => {
+    editCompany = (company) => {
 
-      var categories = this.state.categories;
-
-      if(e.target.checked) {
-        categories.push(e.target.value);
-      }
-      else{
-        categories.splice(_.indexOf(categories, e.target.value), 1);
-      }
-
-      this.setCategories(categories);
-    };
-
-    toggleAllCategories = (e) => {
-
-      var showAllCategories = !this.state.showAllCategories;
-
-      this.setState({showAllCategories: showAllCategories});
-
-      let categories = [];
-
-      if(showAllCategories){
-         categories = this.props.categories.map(category => {
-          return category._id;
-        });
-      }
-
-      this.setCategories(categories);
-    };
-
-    setCategories = (categories) => {
-      this.setState({categories, categories});
-      var filter = this.state.filter;
-      this.filter('categories', categories);
-    };*/
-
-    editCompany = (companyId) => {
-
-     /*
-      const { relay } = this.props;
-
-      relay.setVariables({showEditModal: true});
-      relay.setVariables({editCompanyId: companyId});              */
+      this.setState({showEditCompanyModal: true});
+      this.setState({company: company});
     };
 
     onCreateCompany = () => {
@@ -121,22 +85,6 @@ class Main extends Component {
           return(<div>Loading</div>);
       }
 
-      /*
-      let categories = this.props.categories.map(category => {
-          return (
-              <Col>
-               <Input
-                key={category.id}
-                type="checkbox"
-                label={category.name}
-                value={category._id}
-                checked={this.state.categories.indexOf(category._id) >= 0}
-                onClick={e => this.changeCategory(e)}  />
-             </Col>
-            );
-      });*/
-
-
   		return (
   			<div>
 
@@ -144,8 +92,7 @@ class Main extends Component {
               <div style={{width: 120}}>
                 <Button
                   bsStyle="primary"
-                  onClick={e => this.setState({showSelectCategories: !this.state.showSelectCategories})}
-                  >
+                  onClick={e => this.setState({showSelectCategories: !this.state.showSelectCategories})}>
                     Velja flokka
                 </Button>
               </div>
@@ -164,23 +111,21 @@ class Main extends Component {
                     <Modal.Title>Skrá fyrirtæki</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    <CreateCompany
-                      onCreate={this.onCreateCompany}
-                      />
+                    <CreateCompany onCreate={this.onCreateCompany} />
                   </Modal.Body>
                 </Modal>
               </div>
 
               <div>
                 <Modal
-                  //show={relay.variables.showEditModal}
-                  //onHide={e => relay.setVariables({showEditModal: false})}
+                  show={this.state.showEditCompanyModal}
+                  onHide={e => this.setState({showEditCompanyModal: false})}
                   bsSize="lg">
                   <Modal.Header closeButton>
                     <Modal.Title>Verk</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-
+                    <EditCompany company={this.state.company}/>
                   </Modal.Body>
                 </Modal>
               </div>
@@ -197,16 +142,18 @@ class Main extends Component {
             <div>
               <div>
                 <Panel
-                    collapsible
-                    expanded={this.state.showSelectCategories}
-                    >
-                    <Categories filter={this.filter} />                  
+                  collapsible
+                  expanded={this.state.showSelectCategories}>
+                    <Categories filter={this.filter} />
                 </Panel>
               </div>
            </div>
 
            <div style={styles.gridArea}>
-              <Companies filter={this.filter} rowCount={companiesCount} />
+              <Companies
+                filter={this.filter}
+                rowCount={companiesCount}
+                onClick={this.editCompany} />
            </div>
         </div>
   		);
@@ -217,6 +164,7 @@ Main.propTypes = {
   companiesCount: PropTypes.number.isRequired,
   categories: PropTypes.array.isRequired,
   salesmen: PropTypes.array.isRequired,
+  statuses: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired
 }
@@ -225,10 +173,11 @@ function mapStateToProps(state) {
   var categories = state.categories.items;
   var companies = state.companies.items;
   var salesmen = state.salesmen.items;
+  var statuses = state.statuses.items;
 
   let loaded = false;
 
-  if(state.categories.loaded && state.salesmen.loaded) {
+  if(state.categories.loaded && state.salesmen.loaded && state.statuses.loaded) {
     loaded = true;
   }
 
@@ -238,7 +187,7 @@ function mapStateToProps(state) {
     companiesCount = state.companies.items.length;
   }
 
-  return { loaded, categories, salesmen, companiesCount}
+  return { loaded, categories, salesmen, statuses, companiesCount}
 }
 
 export default connect(mapStateToProps)(Main);

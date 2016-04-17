@@ -25,8 +25,12 @@ class Companies extends Component {
      }
   }
 
-  filterRow = (e) => {    
+  filterRow = (e) => {
     this.props.filter(e.target.name, e.target.value);
+  };
+
+  onClick = (company) => {
+    this.props.onClick(company);
   };
 
   render() {
@@ -43,7 +47,7 @@ class Companies extends Component {
            {...this.props}>
            <Column
              header={<TextFilter label="Nafn" column="name" filter={this.filterRow} />}
-             cell={props => (<TextCell {...props} column="name" filter={this.filterRow} />)}
+             cell={props => (<TextCell {...props} column="name" onClick={this.onClick} filter={this.filterRow} />)}
              fixed={true}
              width={150}
             />

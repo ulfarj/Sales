@@ -52,6 +52,17 @@ app.get('/salesmen', function (req, res) {
     });
 });
 
+app.get('/statuses', function (req, res) {
+
+    MongoClient.connect(url, function(err, db) {
+        var collection = db.collection('statuses');
+
+        collection.find({}).toArray(function(err, docs) {
+            res.jsonp(docs);
+        });
+    });
+});
+
 app.post('/companies', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
@@ -65,7 +76,7 @@ app.post('/companies', function (req, res) {
         if(req.body.ssn) {
            findParams.ssn = new RegExp(req.body.ssn, 'i');
         }
-      
+
         if(req.body.categories) {
 						findParams.sales = { $elemMatch: { categoryId: {$in: req.body.categories}}};
 				}

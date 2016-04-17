@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import {Table, Input, Fade, Button, Well, ButtonToolbar, Overlay, Popover, Panel, Modal,
 	Grid, Row, Col, Tabs, Tab} from 'react-bootstrap';
 import _ from 'lodash';
-
+import { connect } from 'react-redux';
 
 class EditCompany extends React.Component {
 
@@ -54,7 +54,10 @@ class EditCompany extends React.Component {
 	      	);
 	    });
 
-	    let sales = this.props.sales.map(sale => {
+			console.log('this.props.company');
+			console.log(this.props.company);
+
+	    let sales = this.props.company.sales.map(sale => {
 	    	return (
 	    		<div style={{display: 'flex', flexDirection: 'row', paddingTop: '10px'}}>
 	          		<Input type="select" value={sale.salesmanId}>
@@ -190,6 +193,19 @@ class EditCompany extends React.Component {
 	}
 }
 
+EditCompany.propTypes = {
+  categories: PropTypes.array.isRequired,
+  salesmen: PropTypes.array.isRequired,
+  statuses: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired
+}
 
+function mapStateToProps(state) {
+  var categories = state.categories.items;
+  var salesmen = state.salesmen.items;
+  var statuses = state.statuses.items;
 
-export default EditCompany;
+  return { categories, salesmen, statuses}
+}
+
+export default connect(mapStateToProps)(EditCompany);

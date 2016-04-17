@@ -5,6 +5,15 @@ import { connect } from 'react-redux';
 
 class TextCell extends Component {
 
+  onClick = () => {
+
+    if(this.props.onClick) {
+      const { companies, rowIndex} = this.props;
+      this.props.onClick(companies[rowIndex]);
+    }
+
+  };
+
   render() {
 
     const { loaded, companies, rowIndex, column } = this.props;
@@ -14,8 +23,8 @@ class TextCell extends Component {
     }
 
     return(
-      <Cell>
-        {companies[rowIndex][column]}
+      <Cell onClick={this.onClick}>
+        <div>{companies[rowIndex][column]}</div>
       </Cell>
     );
   }
