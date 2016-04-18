@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import TextCell from './cells/TextCell';
 import TextFilter from './cells/TextFilter';
 import SalesmenCell from './cells/SalesmenCell';
+import StatusCell from './cells/StatusCell';
 
 import 'fixed-data-table/dist/fixed-data-table.min.css';
 
@@ -52,6 +53,12 @@ class Companies extends Component {
              fixed={true}
              width={160}
             />
+            <Column
+              header="Staða"
+              cell={props => (<StatusCell {...props} />)}
+              fixed={true}
+              width={140}
+             />
            <Column
              header={<TextFilter label="Nafn" column="name" filter={this.filterRow} />}
              cell={props => (<TextCell {...props} column="name" onClick={this.onClick} />)}

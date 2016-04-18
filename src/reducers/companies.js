@@ -2,7 +2,7 @@ import {
   REQUEST_COMPANIES, RECEIVE_COMPANIES
 } from '../constants/ActionTypes';
 
-export default function advertisements(state = {}, action) {
+export default function companies(state = {}, action) {
   switch (action.type) {
     case REQUEST_COMPANIES:
        return Object.assign({}, state, {

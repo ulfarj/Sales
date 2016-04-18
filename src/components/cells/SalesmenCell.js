@@ -19,7 +19,6 @@ class SalesmenCell extends Component {
 
     if(salesmen.length > 1){
 
-
       let tooltip = salesmen.map(salesman => {
           return(
             <span>{salesman}</span>
@@ -27,16 +26,12 @@ class SalesmenCell extends Component {
       });
 
       return(
-        <Cell>
-          <div>* {salesmen.length} Sölumenn</div>
-        </Cell>
+        <Cell>* {salesmen.length} Sölumenn</Cell>
       );
     }
 
     return(
-      <Cell>
-        <div>{salesmen[0]}</div>
-      </Cell>
+      <Cell>{salesmen[0]}</Cell>
     );
   }
 

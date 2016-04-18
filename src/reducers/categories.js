@@ -2,7 +2,7 @@ import {
   REQUEST_CATEGORIES, RECEIVE_CATEGORIES
 } from '../constants/ActionTypes';
 
-export default function advertisements(state = {}, action) {
+export default function categories(state = {}, action) {
   switch (action.type) {
     case REQUEST_CATEGORIES:
        return Object.assign({}, state, {
