@@ -2,9 +2,10 @@ import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import * as types from '../constants/ActionTypes'
 
-function requestCompanies() {
+function requestCompanies(filter) {
   return {
-    type: types.REQUEST_COMPANIES
+    type: types.REQUEST_COMPANIES,
+    filter: filter
   }
 }
 
@@ -28,9 +29,16 @@ export function fetchCompanies(filter) {
   }
 
   return dispatch => {
-    dispatch(requestCompanies())
+    dispatch(requestCompanies(filter))
     return fetch(`http://localhost:3030/companies/`, config)
       .then(response => response.json())
       .then(json => dispatch(receiveCompanies(json)))
+  }
+}
+
+export function setFilter(filter) {
+  return {
+    type: types.SET_FILTER,
+    filter: filter
   }
 }

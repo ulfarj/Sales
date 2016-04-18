@@ -41,7 +41,6 @@ class Main extends Component {
         showSelectCategories: false,
         showCreateCompanyModal: false,
         showEditCompanyModal: false,
-        filter: {},
         company: ''
       }
 
@@ -57,7 +56,7 @@ class Main extends Component {
     }
 
     filter = (name, value) => {
-      var filter = this.state.filter;
+      var filter = this.props.filter;
       filter[name] = value;
 
       const { dispatch } = this.props;
@@ -165,6 +164,7 @@ Main.propTypes = {
   salesmen: PropTypes.array.isRequired,
   statuses: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
+  filter: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
@@ -180,13 +180,10 @@ function mapStateToProps(state) {
     loaded = true;
   }
 
-  let companiesCount = 0;
+  let companiesCount = state.companies.loaded ? state.companies.items.length : 0;
+  let filter = state.companies ? state.companies.filter : {};
 
-  if(state.companies.loaded) {
-    companiesCount = state.companies.items.length;
-  }
-
-  return { loaded, categories, salesmen, statuses, companiesCount}
+  return { loaded, categories, salesmen, statuses, companiesCount, filter}
 }
 
 export default connect(mapStateToProps)(Main);

@@ -7,7 +7,7 @@ class StatusCell extends Component {
 
   render() {
 
-    const { loaded, companies, categories, statuses, rowIndex } = this.props;
+    const { loaded, companies, categories, statuses, rowIndex, filter } = this.props;
 
     if(!loaded) {return(<Cell></Cell>);}
 
@@ -15,39 +15,34 @@ class StatusCell extends Component {
     let cx = 0;
     let statusIcons = companies[rowIndex].sales.map(sale => {
 
-      var category = _.find(this.props.categories, ['_id', sale.categoryId]);
-      var status = _.find(this.props.statuses, ['_id', sale.statusId]);
-      var salesman = _.find(this.props.salesmen, ['_id', sale.salesmanId]);
+      let selected = _.indexOf(filter.categories, sale.categoryId) > -1;
+      let category = _.find(this.props.categories, ['_id', sale.categoryId]);
+      let status = _.find(this.props.statuses, ['_id', sale.statusId]);
+      let salesman = _.find(this.props.salesmen, ['_id', sale.salesmanId]);
 
-      cx = cx + 15;
-      return (
-        <circle cx={cx} cy="8" r="6" stroke="black" strokeWidth="1" fill={status.color}>
-          <title>{category.name} - {salesman.name} - {status.name}</title>
-        </circle>
-      );
-    });
-
-      /*x = x + 15;
-      if(sale.selected)
+      x = x + 15;
+      if(selected)
       {
         return (
           <rect width="12" height="12" x={x} y="3" stroke="black" strokeWidth="1" fill={sale.color}>
-            <title>{sale.category} - {sale.salesman} - {sale.status}</title>
+            <title>{category.name} - {salesman.name} - {status.name}</title>
           </rect>
           );
       }
 
-      fill={sale.color}
-      */
+      return (
+        <rect width="12" height="12" x={x} y="3" rx={8} ry={8} stroke="black" strokeWidth="1" fill={sale.color}>
+          <title>{category.name} - {salesman.name} - {status.name}</title>
+        </rect>
+        );
 
       /*cx = cx + 15;
       return (
-        <circle cx={cx} cy="8" r="6" stroke="black" strokeWidth="1" >
-          <title>{sale.categoryId} - {sale.salesmanId} - {sale.statusId}</title>
+        <circle cx={cx} cy="8" r="6" stroke="black" strokeWidth="1" fill={status.color}>
+          <title>{category.name} - {salesman.name} - {status.name}</title>
         </circle>
-      );
-    });*/
-
+      );*/
+    });
 
     return(
       <Cell>
@@ -66,6 +61,7 @@ StatusCell.propTypes = {
   statuses: PropTypes.array.isRequired,
   salesmen: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
+  filter: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
@@ -74,6 +70,7 @@ function mapStateToProps(state) {
   let categories = state.categories.items;
   let statuses = state.statuses.items;
   let salesmen = state.salesmen.items;
+  let filter = state.companies.filter;
 
   let loaded = false;
 
@@ -81,7 +78,7 @@ function mapStateToProps(state) {
     loaded = true;
   }
 
-  return { loaded, companies, categories, statuses, salesmen }
+  return { loaded, companies, categories, statuses, salesmen, filter }
 }
 
 export default connect(mapStateToProps)(StatusCell);

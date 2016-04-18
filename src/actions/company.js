@@ -54,8 +54,6 @@ export function createCompany(ssn, name, address, postalCode, phone, email, comm
       .then(response => response.json())
       .then(function(response) {
 
-        console.log(response);
-
         if(response.error){
           dispatch(registerFailure(response.error));
         } else {

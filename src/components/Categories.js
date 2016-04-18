@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Grid, Row, Col, Input } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { setFilter } from '../actions/companies';
 
 class Categories extends Component {
 
@@ -17,6 +18,11 @@ class Categories extends Component {
     let categories = this.props.categories.map(category => {
         return category._id;
     });
+
+    const {dispatch} = this.props;
+    var filter = {};
+    filter['categories'] = categories;
+    dispatch(setFilter(filter));
 
     this.setState({categories: categories});
   };

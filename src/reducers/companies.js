@@ -1,5 +1,5 @@
 import {
-  REQUEST_COMPANIES, RECEIVE_COMPANIES
+  REQUEST_COMPANIES, RECEIVE_COMPANIES, SET_FILTER
 } from '../constants/ActionTypes';
 
 export default function companies(state = {}, action) {
@@ -8,7 +8,8 @@ export default function companies(state = {}, action) {
        return Object.assign({}, state, {
         isFetching: true,
         items: [],
-        loaded: false
+        loaded: false,
+        filter: action.filter
       })
     case RECEIVE_COMPANIES:
        return Object.assign({}, state, {
@@ -17,6 +18,10 @@ export default function companies(state = {}, action) {
         lastUpdated: action.receivedAt,
         loaded: true
       })
+    case SET_FILTER:
+      return Object.assign({}, state, {       
+       filter: action.filter
+     })
     default:
       return state
   }
