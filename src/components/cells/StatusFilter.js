@@ -18,14 +18,14 @@ const styles = {
 };
 
 
-class SalesmanFilter extends Component {
+class StatusFilter extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
       filter: {},
-      salesmen: [],
+      statuses: [],
       open: false,
     };
   }
@@ -33,35 +33,35 @@ class SalesmanFilter extends Component {
   componentWillMount = () => {
     const {dispatch} = this.props;
 
-    let salesmen = this.props.salesmen.map(salesman => {
-        return salesman._id;
+    let statuses = this.props.statuses.map(status => {
+        return status._id;
     });
 
     var filter = {};
-    filter['salesmen'] = salesmen;
+    filter['statuses'] = statuses;
     dispatch(setFilter(filter));
 
-    this.setState({salesmen: salesmen});
+    this.setState({statuses: statuses});
   };
 
-  changeSalesman = (e) => {
+  changeStatus = (e) => {
 
-    var salesmen = this.state.salesmen;
+    var statuses = this.state.statuses;
 
     if(e.target.checked) {
-      salesmen.push(e.target.value);
+      statuses.push(e.target.value);
     }
     else{
-      salesmen.splice(_.indexOf(salesmen, e.target.value), 1);
+      statuses.splice(_.indexOf(statuses, e.target.value), 1);
     }
 
-    this.setSalesmen(salesmen);
+    this.setStatuses(statuses);
   };
 
-  setSalesmen = (salesmen) => {
-    this.setState({salesmen, salesmen});
+  setStatuses = (statuses) => {
+    this.setState({statuses, statuses});
     var filter = this.state.filter;
-    this.props.filter('salesmen', salesmen);
+    this.props.filter('statuses', statuses);
   };
 
   handleTouchTap = (event) => {
@@ -82,15 +82,15 @@ class SalesmanFilter extends Component {
 
     const { label, column } = this.props;
 
-    let salesmen = this.props.salesmen.map(salesman => {
+    let statuses = this.props.statuses.map(status => {
       return (
         <Input
-         key={salesman._id}
+         key={status._id}
          type="checkbox"
-         label={salesman.name}
-         value={salesman._id}
-         checked={this.state.salesmen.indexOf(salesman._id) >= 0}
-         onClick={e => this.changeSalesman(e)}
+         label={status.name}
+         value={status._id}
+         checked={this.state.statuses.indexOf(status._id) >= 0}
+         onClick={e => this.changeStatus(e)}
         />
       );
     });
@@ -103,7 +103,7 @@ class SalesmanFilter extends Component {
             <Button
               bsStyle="secondary"
               onClick={this.handleTouchTap}>
-                Sölumaður
+                Staða
             </Button>
           </div>
 
@@ -116,7 +116,7 @@ class SalesmanFilter extends Component {
             onRequestClose={this.handleRequestClose}
           >
              <div style={{padding: '10px'}}>
-             {salesmen}
+             {statuses}
             </div>
           </Popover>
           </div>
@@ -126,7 +126,7 @@ class SalesmanFilter extends Component {
   }
 }
 
-SalesmanFilter.propTypes = {
+StatusFilter.propTypes = {
   statuses: PropTypes.array.isRequired,
   salesmen: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired
@@ -139,4 +139,4 @@ function mapStateToProps(state) {
   return { statuses, salesmen }
 }
 
-export default connect(mapStateToProps)(SalesmanFilter);
+export default connect(mapStateToProps)(StatusFilter);

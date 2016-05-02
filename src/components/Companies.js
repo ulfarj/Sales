@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import TextCell from './cells/TextCell';
 import TextFilter from './cells/TextFilter';
 import SalesmanFilter from './cells/SalesmanFilter';
+import StatusFilter from './cells/StatusFilter';
 import SalesmenCell from './cells/SalesmenCell';
 import StatusCell from './cells/StatusCell';
 
@@ -59,7 +60,7 @@ class Companies extends Component {
              width={160}
             />
             <Column
-              header="Staða"
+              header={<StatusFilter label="Staða" column="status" filter={this.filter} />}
               cell={props => (<StatusCell {...props} />)}
               fixed={true}
               width={140}
