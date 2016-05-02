@@ -71,7 +71,8 @@ class CreateCompany extends React.Component {
       categories.push(category);
     }
     else{
-      categories.splice(_.indexOf(categories, category), 1);
+      var index = _.findIndex(categories, ['categoryId', sale.categoryId]);
+      categories.splice(index, 1);      
     }
 
     this.setState({categories: categories});
@@ -93,7 +94,7 @@ class CreateCompany extends React.Component {
     });
 
     let salesman = this.state.salesman;
-    
+
     let categories = this.props.categories.map(category => {
 
       let index = _.findIndex(this.state.categories, ['categoryId', category._id]);

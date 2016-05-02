@@ -3,125 +3,165 @@ import {Table, Input, Fade, Button, Well, ButtonToolbar, Overlay, Popover, Panel
 	Grid, Row, Col, Tabs, Tab} from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import ToggleDisplay from 'react-toggle-display';
 
 class EditCompany extends React.Component {
 
+	constructor(props) {
+		 super(props);
+		 this.state = {
+			 salesmanId: '',
+			 statusId: '',
+			 sales: []
+		 }
+	 }
+
 	componentWillMount(){
-		/*const { relay, companyId, store } = this.props;
-	  relay.setVariables({sales: store.companyConnection.edges[0].node.sales});*/
+		const {salesmen, statuses, company} = this.props;
+
+		var status = _.find(statuses, { 'name': 'Enginn staða' });
+
+		this.setState({sales: company.sales});
+		this.setState({statusId: status._id});
+		this.setState({salesmanId: salesmen[0]._id});
 	}
 
-	createSale() {
- /*
-		const { relay, companyId } = this.props;
+	update() {
+	};
 
-		var onSuccess = (response) => {
-		  //relay.setVariables({sales: store.saleConnection.edges});
-	      console.log('Mutation sales successful!');
-	    };
+	changeCategory = (e) => {
 
-	    var onFailure = (transaction) => {
-	      console.log(transaction.getError());
-	    };
+		var sales = this.state.sales;
+		var sale = {
+			'statusId': this.state.statusId,
+			'categoryId': e.target.value,
+			'salesmanId': this.state.salesmanId,
+		};
 
-	    Relay.Store.commitUpdate(
-	      new UpdateSalesMutation({
-	        companyId: companyId,
-	        sales: []
-	      }), {onSuccess, onFailure}
-	    );*/
+		if(e.target.checked) {
+			sales.push(sale);
+		}
+		else{
+			var index = _.findIndex(sales, ['categoryId', sale.categoryId]);
+			sales.splice(index, 1);
+		}
+
+		this.setState({sales: sales});
+	};
+
+	changeSalesman = (e) => {
+		this.setState({salesmanId: e.target.value});
 	};
 
 	render() {
 
-		const { companyId } = this.props;
+		const { companyId, company } = this.props;
 
-	    let categories = this.props.categories.map(category => {
-	    	return (
-	        	<option key={category._id} value={category._id}>{category.name}</option>
-	         );
-	    });
+		let salesmen = this.props.salesmen.map(salesman => {
+			return (<option value={salesman._id} key={salesman._id}>{salesman.name}</option>);
+		});
 
-	    let salesmen = this.props.salesmen.map(salesman => {
-	      return (
-	      		<option key={salesman._id} value={salesman._id}>{salesman.name}</option>
-	      	);
-	    });
+		let statuses = this.props.statuses.map(status => {
+			return (
+					<option key={status._id} value={status._id}>{status.name}</option>
+				);
+		});
 
-	    let statuses = this.props.statuses.map(status => {
-	      return (
-	      		<option key={status._id} value={status._id}>{status.name}</option>
-	      	);
-	    });
+    let categories = this.props.categories.map(category => {
 
-			console.log('this.props.company');
-			console.log(this.props.company);
+      let index = _.findIndex(this.state.sales, ['categoryId', category._id]);
+      let checked = (index > -1) ? true : false;
+      //let disabled = checked ? (this.state.sales[index].salesmanId !== this.state.salesmanId) : false;
 
-	    let sales = this.props.company.sales.map(sale => {
-	    	return (
-	    		<div style={{display: 'flex', flexDirection: 'row', paddingTop: '10px'}}>
-	          		<Input type="select" value={sale.salesmanId}>
-			      		{salesmen}
-			      	</Input>
-		          	<Input type="select" value={sale.categoryId}>
-			      		{categories}
-			      	</Input>
-			      	<Input type="select" value={sale.statusId}>
-			      		{statuses}
-			      	</Input>
-		      	</div>
-	    		);
-	    });
+			let statusId = checked ? this.state.sales[index].statusId : this.state.statusId;
+
+      return (
+        <tr>
+					<td>
+             <Input
+              key={category._id}
+              type="checkbox"
+              label={category.name}
+              value={category._id}
+              checked={checked}
+              onClick={this.changeCategory}  />
+					</td>
+					<td>
+						<Input type="select" style={{width: '150px'}} value={statusId}>
+							{statuses}
+						</Input>
+					</td>
+					<td>
+						<Input type="select" onChange={this.changeSalesman} style={{width: 250}}>
+							{salesmen}
+						</Input>
+					</td>
+        </tr>
+      );
+    });
+
+    let categoriesBySalesman = this.props.salesmen.map(salesman => {
+			//style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}
+      return(
+          <ToggleDisplay show={this.state.salesmanId === salesman._id} key={salesman._id}>
+            <table>
+              { categories }
+            </table>
+          </ToggleDisplay>
+        );
+    });
+
+		//style={{display: 'flex', flexDirection: 'row',}}
 
 		return(
-			<Tabs defaultActiveKey={1}>
-	          <Tab eventKey={1} title="Fyrirtæki">
-	            <div style={{paddingTop: '10px'}}>
-	              <div style={{display: 'flex', flexDirection: 'row',}}>
-	                <Input type="text" label="Nafn" placeholder="Nafn" ref="name" style={{width: 250}} />
-	                <Input type="text" label="Nafn samkvæmt rsk" placeholder="Rekstrarnafn" ref="namersk" style={{width: 250}} />
-	              </div>
+			<div>
+				<div>
+					<Tabs defaultActiveKey={1}>
+			    	<Tab eventKey={1} title="Fyrirtæki">
 
-	              <div style={{display: 'flex', flexDirection: 'row'}}>
-	                <Input type="text" label="Kennitala" placeholder="Kennitala" ref="ssn" style={{width: 250}} />
-	                <Input type="text" label="Heimilisfang" placeholder="Heimilisfang" ref="address" style={{width: 250}} />
-	                <Input type="text" label="Póstnúmer" placeholder="Póstnúmer" ref="postalCode" style={{width: 120}} />
-	              </div>
+							<div style={{paddingTop: '10px'}}>
+								<div style={{display: 'flex', flexDirection: 'row',}}>
+									<Input type="text" label="Nafn" placeholder="Nafn" value={company.name} ref="name" style={{width: 250}} />
+									<Input type="text" label="Nafn samkvæmt rsk" placeholder="Rekstrarnafn" ref="namersk" style={{width: 250}} />
+								</div>
 
-	              <div style={{display: 'flex', flexDirection: 'row'}}>
-	                <Input type="text" label="Sími" placeholder="Sími" ref="phone" style={{width: 250}} />
-	                <Input type="text" label="Netfang" placeholder="Netfang" ref="email" style={{width: 250}} />
-	                <Input type="text" label="Tengill" placeholder="Tengill" ref="link" style={{width: 250}} />
-	              </div>
-	            </div>
-	          </Tab>
-	          <Tab eventKey={2} title="Verk">
-	          	<div style={{display: 'flex', flexDirection: 'row', paddingTop: '10px'}}>
-	          		<Input type="select" label="Sölumaður" ref="salesman">
-			      		{salesmen}
-			      	</Input>
-		          	<Input type="select" label="Flokkur" ref="category">
-			      		{categories}
-			      	</Input>
-			      	<Input type="select" label="Staða" ref="status">
-			      		{statuses}
-			      	</Input>
+								<div style={{display: 'flex', flexDirection: 'row'}}>
+									<Input type="text" label="Kennitala" value={company.ssn} placeholder="Kennitala" ref="ssn" style={{width: 250}} />
+									<Input type="text" label="Heimilisfang" value={company.address} placeholder="Heimilisfang" ref="address" style={{width: 250}} />
+									<Input type="text" label="Póstnúmer" value={company.postalCode} placeholder="Póstnúmer" ref="postalCode" style={{width: 120}} />
+								</div>
 
-			      	<div style={{paddingTop: '22px'}}>
-				      	<Button
-		              onClick={e => this.createSale(e)}
-		              bsStyle="primary" style={{height:'35px'}}>
-		              Skrá sölu
-		            </Button>
-	            </div>
-		      	</div>
+								<div style={{display: 'flex', flexDirection: 'row'}}>
+									<Input type="text" label="Sími" placeholder="Sími" value={company.phone} ref="phone" style={{width: 250}} />
+									<Input type="text" label="Netfang" placeholder="Netfang" value={company.email} ref="email" style={{width: 250}} />
+									<Input type="text" label="Tengill" placeholder="Tengill" ref="link" style={{width: 250}} />
+								</div>
+							</div>
 
-		      	<div>
-			    		{sales}
-			    	</div>
+			      </Tab>
+			      <Tab eventKey={2} title="Verk">
 
-	        </Tab>	          
-  			</Tabs>
+							<div style={{paddingTop: '10px'}}>
+								<Input type="select" ref="salesman" label="Sölumaður" onChange={this.changeSalesman} style={{width: 250}}>
+									{salesmen}
+								</Input>
+							</div>
+							<div>
+								{categoriesBySalesman}
+							</div>
+			      </Tab>
+
+		  		</Tabs>
+				</div>
+				<div>
+					<Button
+						onClick={e => this.update(e)}
+						bsStyle="primary" style={{height:'35px'}}>
+						Uppfæra
+					</Button>
+				</div>
+			</div>
+
 		);
 	}
 }

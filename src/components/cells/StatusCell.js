@@ -35,13 +35,6 @@ class StatusCell extends Component {
           <title>{category.name} - {salesman.name} - {status.name}</title>
         </rect>
         );
-
-      /*cx = cx + 15;
-      return (
-        <circle cx={cx} cy="8" r="6" stroke="black" strokeWidth="1" fill={status.color}>
-          <title>{category.name} - {salesman.name} - {status.name}</title>
-        </circle>
-      );*/
     });
 
     return(

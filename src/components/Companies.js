@@ -4,6 +4,7 @@ import {Table, Column, Cell} from 'fixed-data-table';
 import { connect } from 'react-redux';
 import TextCell from './cells/TextCell';
 import TextFilter from './cells/TextFilter';
+import SalesmanFilter from './cells/SalesmanFilter';
 import SalesmenCell from './cells/SalesmenCell';
 import StatusCell from './cells/StatusCell';
 
@@ -31,6 +32,10 @@ class Companies extends Component {
     this.props.filter(e.target.name, e.target.value);
   };
 
+  filter = (name, value) => {
+    this.props.filter(name, value);
+  };
+
   onClick = (company) => {
     this.props.onClick(company);
   };
@@ -48,7 +53,7 @@ class Companies extends Component {
            height={600}
            {...this.props}>
            <Column
-             header="Sölumenn"
+             header={<SalesmanFilter label="Sölumaður" column="salesman" filter={this.filter} />}
              cell={props => (<SalesmenCell {...props} />)}
              fixed={true}
              width={160}

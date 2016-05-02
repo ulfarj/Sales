@@ -28,6 +28,7 @@ app.use(function(req, res, next) {
     next();
 });
 
+//52.49.234.50
 var url = 'mongodb://localhost:27017/ssdb';
 
 app.get('/categories', function (req, res) {
@@ -105,6 +106,16 @@ app.post('/companies', function (req, res) {
 						findParams.sales = { $elemMatch: { categoryId: {$in: req.body.categories}}};
 				}
 
+        console.log(req.body.salesmen);
+        
+        if(req.body.salesmen) {
+						findParams.sales = { $elemMatch: { salesmanId: {$in: req.body.salesmen}}};
+				}
+
+        if(req.body.statuses) {
+						findParams.sales = { $elemMatch: { statusId: {$in: req.body.statuses}}};
+				}
+
         var collection = db.collection('companies');
 
         collection.find(findParams).toArray(function(err, docs) {
@@ -116,6 +127,8 @@ app.post('/companies', function (req, res) {
 app.post('/company', function(req, res) {
 
   MongoClient.connect(url, function(err, db) {
+
+    var id = req.params.id;
 
     try{
       db.collection("companies").insertOne({
@@ -138,6 +151,37 @@ app.post('/company', function(req, res) {
 
   });
 });
+
+app.post('/updateCompany', function (req, res) {
+
+    MongoClient.connect(url, function(err, db) {
+
+      try{
+        db.collection("companies").update(
+         { _id: req.body.id },
+         { $set:
+            {
+              "ssn": req.body.ssn,
+              "name": req.body.name,
+              "address": req.body.address,
+              "postalCode": req.body.postalCode,
+              "phone": req.body.phone,
+              "email": req.body.email,
+              "comment": req.body.comment,
+              "sales": req.body.sales
+            }
+         }
+        )
+        res.jsonp({status: 'success'});
+     }
+     catch(e) {
+       console.log(e);
+       res.jsonp({status: 'error', error: e});
+     }
+
+    });
+});
+
 
 
 http.createServer(app).listen(3030, function () {

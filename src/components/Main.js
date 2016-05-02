@@ -11,7 +11,7 @@ import Companies from './Companies';
 import CreateCompany from './CreateCompany';
 import EditCompany from './EditCompany';
 import Categories from './Categories';
-
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 const styles = {
   input: {
@@ -48,6 +48,7 @@ class Main extends Component {
   	}
 
     componentWillMount(){
+      injectTapEventPlugin();
       const { dispatch } = this.props;
        dispatch(fetchCategoriesIfNeeded());
        dispatch(fetchSalesmenIfNeeded());
