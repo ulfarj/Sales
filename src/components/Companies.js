@@ -50,7 +50,11 @@ class Companies extends Component {
   };
 
   onClick = (company) => {
-    this.props.onClick(company);
+    this.props.onClick(company, 1);
+  };
+
+  onClickStatus = (company) => {
+    this.props.onClick(company, 2);
   };
 
   render() {
@@ -73,7 +77,7 @@ class Companies extends Component {
             />
             <Column
               header={<StatusFilter label="Staða" column="status" filter={this.filter} />}
-              cell={props => (<StatusCell {...props} />)}
+              cell={props => (<StatusCell {...props} onClick={this.onClickStatus} />)}
               fixed={true}
               width={140}
              />

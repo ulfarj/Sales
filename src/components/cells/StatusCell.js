@@ -1,10 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import { Input } from 'react-bootstrap';
-import {Table, Column, Cell} from 'fixed-data-table';
+import { Input, Button, Glyphicon } from 'react-bootstrap';
+import {Table, Column, Cell } from 'fixed-data-table';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
 class StatusCell extends Component {
+
+  onClick = () => {
+    const { companies, rowIndex} = this.props;
+    this.props.onClick(companies[rowIndex]);    
+  };
 
   render() {
 
@@ -52,9 +57,16 @@ class StatusCell extends Component {
 
     return(
       <Cell>
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+        <div>
         <svg width="100" height="16">
           {statusIcons}
         </svg>
+        </div>
+        <div>
+          <Button bsSize="small" onClick={this.onClick} style={{border: '0'}}><Glyphicon style={{height: '5px'}} glyph="chevron-up" /></Button>
+        </div>
+        </div>
       </Cell>
     );
   }

@@ -41,7 +41,8 @@ class Main extends Component {
         showSelectCategories: false,
         showCreateCompanyModal: false,
         showEditCompanyModal: false,
-        company: ''
+        company: '',
+        editTab: 2
       }
 
       this.filter = _.debounce(this.filter, 300);
@@ -66,9 +67,10 @@ class Main extends Component {
       dispatch(fetchCompanies(filter));
     };
 
-    editCompany = (company) => {
+    editCompany = (company, activeTab) => {
       this.setState({showEditCompanyModal: true});
       this.setState({company: company});
+      this.setState({editTab: activeTab});
     };
 
     onCreateCompany = () => {
@@ -127,7 +129,7 @@ class Main extends Component {
                     <Modal.Title>Verk</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    <EditCompany company={this.state.company} onUpdate={this.onUpdateCompany}/>
+                    <EditCompany activeTab={this.state.editTab} company={this.state.company} onUpdate={this.onUpdateCompany}/>
                   </Modal.Body>
                 </Modal>
               </div>

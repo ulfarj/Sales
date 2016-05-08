@@ -15,7 +15,7 @@ class EditCompany extends React.Component {
 			 salesmanId: '',
 			 statusId: '',
 			 sales: [],
-			 company: {}
+			 company: {},
 		 }
 	 }
 
@@ -145,7 +145,7 @@ class EditCompany extends React.Component {
 		return(
 			<div>
 				<div>
-					<Tabs defaultActiveKey={1}>
+					<Tabs defaultActiveKey={this.props.activeTab}>
 			    	<Tab eventKey={1} title="Fyrirtæki">
 
 							<div style={{paddingTop: '10px'}}>
@@ -197,17 +197,19 @@ EditCompany.propTypes = {
   statuses: PropTypes.array.isRequired,
 	loaded: PropTypes.bool,
 	filter: PropTypes.array,
+	activeTab: PropTypes.int,
   dispatch: PropTypes.func.isRequired
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   let categories = state.categories.items;
   let salesmen = state.salesmen.items;
   let statuses = state.statuses.items;
 	let loaded = state.company.loaded;
 	let filter = state.companies.filter;
+	let activeTab = ownProps.activeTab;
 
-  return { categories, salesmen, statuses, loaded, filter }
+  return { categories, salesmen, statuses, loaded, filter, activeTab }
 }
 
 export default connect(mapStateToProps)(EditCompany);
