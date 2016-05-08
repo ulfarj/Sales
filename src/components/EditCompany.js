@@ -14,7 +14,8 @@ class EditCompany extends React.Component {
 		 this.state = {
 			 salesmanId: '',
 			 statusId: '',
-			 sales: []
+			 sales: [],
+			 company: {}
 		 }
 	 }
 
@@ -26,6 +27,7 @@ class EditCompany extends React.Component {
 		this.setState({sales: company.sales});
 		this.setState({statusId: status._id});
 		this.setState({salesmanId: salesmen[0]._id});
+		this.setState({company: company});
 	}
 
 	update() {
@@ -85,18 +87,17 @@ class EditCompany extends React.Component {
 		this.setState({sales: sales});
 	};
 
-/*
-	componentDidUpdate = (object prevProps, object prevState) => {
-		const { dispatch, loaded, filter } = this.props;
+	onChange = (e, field) => {
+		const { company } = this.state;
+		company[field] = e.target.value;
 
-		if(loaded) {
-			dispatch(fetchCompanies(filter));
-		}
-	};*/
+		this.setState({company: company});
+	};
 
 	render() {
 
-		const { companyId, company } = this.props;
+		const { companyId } = this.props;
+		const { company } = this.state;
 
 		let salesmen = this.props.salesmen.map(salesman => {
 			return (<option key={salesman._id} value={salesman._id}>{salesman.name}</option>);
@@ -149,20 +150,20 @@ class EditCompany extends React.Component {
 
 							<div style={{paddingTop: '10px'}}>
 								<div style={{display: 'flex', flexDirection: 'row',}}>
-									<Input type="text" label="Nafn" placeholder="Nafn" value={company.name} ref="name" style={{width: 250}} />
+									<Input type="text" label="Nafn" placeholder="Nafn" onChange={e => this.onChange(e, 'name')} value={company.name} ref="name" style={{width: 250}} />
 									<Input type="text" label="Nafn samkvæmt rsk" placeholder="Rekstrarnafn" ref="namersk" style={{width: 250}} />
 								</div>
 
 								<div style={{display: 'flex', flexDirection: 'row'}}>
-									<Input type="text" label="Kennitala" value={company.ssn} placeholder="Kennitala" ref="ssn" style={{width: 250}} />
-									<Input type="text" label="Heimilisfang" value={company.address} placeholder="Heimilisfang" ref="address" style={{width: 250}} />
-									<Input type="text" label="Póstnúmer" value={company.postalCode} placeholder="Póstnúmer" ref="postalCode" style={{width: 120}} />
+									<Input type="text" label="Kennitala" onChange={e => this.onChange(e, 'ssn')} value={company.ssn} placeholder="Kennitala" ref="ssn" style={{width: 250}} />
+									<Input type="text" label="Heimilisfang" onChange={e => this.onChange(e, 'address')} value={company.address} placeholder="Heimilisfang" ref="address" style={{width: 250}} />
+									<Input type="text" label="Póstnúmer" onChange={e => this.onChange(e, 'postalCode')} value={company.postalCode} placeholder="Póstnúmer" ref="postalCode" style={{width: 120}} />
 								</div>
 
 								<div style={{display: 'flex', flexDirection: 'row'}}>
-									<Input type="text" label="Sími" placeholder="Sími" value={company.phone} ref="phone" style={{width: 250}} />
-									<Input type="text" label="Netfang" placeholder="Netfang" value={company.email} ref="email" style={{width: 250}} />
-									<Input type="text" label="Tengill" placeholder="Tengill" ref="link" style={{width: 250}} />
+									<Input type="text" label="Sími" placeholder="Sími" onChange={e => this.onChange(e, 'phone')} value={company.phone} ref="phone" style={{width: 250}} />
+									<Input type="text" label="Netfang" placeholder="Netfang" onChange={e => this.onChange(e, 'email')} onChange={e => this.onChange(e, 'email')} value={company.email} ref="email" style={{width: 250}} />
+									<Input type="text" label="Tengill" placeholder="Tengill" onChange={e => this.onChange(e, 'link')} ref="link" style={{width: 250}} />
 								</div>
 							</div>
 

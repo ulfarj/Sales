@@ -29,7 +29,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-//52.49.234.50
 var url = 'mongodb://localhost:27017/ssdb';
 
 app.get('/categories', function (req, res) {
