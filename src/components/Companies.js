@@ -8,6 +8,7 @@ import SalesmanFilter from './cells/SalesmanFilter';
 import StatusFilter from './cells/StatusFilter';
 import SalesmenCell from './cells/SalesmenCell';
 import StatusCell from './cells/StatusCell';
+import { fetchCompanies } from '../actions/companies';
 
 import 'fixed-data-table/dist/fixed-data-table.min.css';
 
@@ -28,6 +29,17 @@ class Companies extends Component {
        filter: {},
      }
   }
+
+  componentWillMount = () => {
+    const { dispatch, statuses, salesmen, categories } = this.props;
+
+    var filter = {};
+    filter['statuses'] = statuses;
+    filter['salesmen'] = salesmen;
+    filter['categories'] = categories;
+
+    dispatch(fetchCompanies(filter));
+  };
 
   filterRow = (e) => {
     this.props.filter(e.target.name, e.target.value);
@@ -114,11 +126,27 @@ class Companies extends Component {
 }
 
 Companies.propTypes = {
+  statuses: PropTypes.array.isRequired,
+  salesmen: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  return {  }
+
+  let statuses = state.statuses.items.map(status => {
+      return status._id;
+  });
+
+  let salesmen = state.salesmen.items.map(salesman => {
+      return salesman._id;
+  });
+
+  let categories = state.categories.items.map(category => {
+      return category._id;
+  });
+
+  return { statuses, salesmen, categories  }
 }
 
 export default connect(mapStateToProps)(Companies);

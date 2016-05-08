@@ -37,6 +37,7 @@ class StatusFilter extends Component {
     });
 
     this.setState({statuses: statuses});
+    this.props.filter('statuses', statuses);
   };
 
   changeStatus = (e) => {

@@ -50,16 +50,20 @@ class Main extends Component {
     componentWillMount(){
       injectTapEventPlugin();
       const { dispatch } = this.props;
-       dispatch(fetchCategoriesIfNeeded());
-       dispatch(fetchSalesmenIfNeeded());
-       dispatch(fetchStatusesIfNeeded());
-       dispatch(fetchCompanies({}));
+      dispatch(fetchCategoriesIfNeeded());
+      dispatch(fetchSalesmenIfNeeded());
+      dispatch(fetchStatusesIfNeeded());
+      //dispatch(fetchCompanies({}));
+    }
+
+    componentDidMount(){
+      console.log('done');
     }
 
     filter = (name, value) => {
       var filter = this.props.filter;
       filter[name] = value;
-
+      
       const { dispatch } = this.props;
       dispatch(fetchCompanies(filter));
     };

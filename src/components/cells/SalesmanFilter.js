@@ -36,8 +36,9 @@ class SalesmanFilter extends Component {
     let salesmen = this.props.salesmen.map(salesman => {
         return salesman._id;
     });
-
+    
     this.setState({salesmen: salesmen});
+    this.props.filter('salesmen', salesmen);
   };
 
   changeSalesman = (e) => {
@@ -56,7 +57,6 @@ class SalesmanFilter extends Component {
 
   setSalesmen = (salesmen) => {
     this.setState({salesmen, salesmen});
-    //var filter = this.state.filter;
     this.props.filter('salesmen', salesmen);
   };
 

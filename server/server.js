@@ -102,26 +102,28 @@ app.post('/companies', function (req, res) {
            findParams.comment = new RegExp(req.body.comment, 'i');
         }
 
-        if(req.body.categories && req.body.salesmen && req.body.statuses) {
-
-						findParams.sales = {
+				  findParams.sales = {
               $elemMatch: {
                 categoryId: {$in: req.body.categories},
                 statusId: {$in: req.body.statuses},
                 salesmanId: {$in: req.body.salesmen}
               }
             };
-				}
+
+
+
 
         /*if(req.body.salesmen) {
 						findParams.sales = { $elemMatch: { salesmanId: {$in: req.body.salesmen}}};
 				}*/
 
-        var collection = db.collection('companies');
+        if(req.body.categories && req.body.salesmen && req.body.statuses) {
+          var collection = db.collection('companies');
 
-        collection.find(findParams).toArray(function(err, docs) {
-            res.jsonp(docs);
-        });
+          collection.find(findParams).toArray(function(err, docs) {
+              res.jsonp(docs);
+          });
+        }
     });
 });
 
