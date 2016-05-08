@@ -3,6 +3,7 @@ import {Table, Input, Fade, Button, Well, ButtonToolbar, Overlay, Popover, Panel
 	Grid, Row, Col, Tabs, Tab} from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import { updateCompany } from '../actions/company';
 import ToggleDisplay from 'react-toggle-display';
 
 class EditCompany extends React.Component {
@@ -27,6 +28,19 @@ class EditCompany extends React.Component {
 	}
 
 	update() {
+		const { dispatch, companyId } = this.props;
+
+		dispatch(updateCompany(
+			this.props.company._id,
+			this.refs.ssn.getValue(),
+      this.refs.name.getValue(),
+      this.refs.address.getValue(),
+      this.refs.postalCode.getValue(),
+      this.refs.phone.getValue(),
+      this.refs.email.getValue(),
+      '',
+			this.state.sales
+		))
 	};
 
 	changeCategory = (e) => {

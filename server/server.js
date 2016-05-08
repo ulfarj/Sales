@@ -6,6 +6,7 @@ var url  = require('url');
 var _ = require('lodash');
 
 var MongoClient = require('mongodb').MongoClient;
+var ObjectID = require('mongodb').ObjectID
 
 var app = express();
 
@@ -102,20 +103,13 @@ app.post('/companies', function (req, res) {
            findParams.comment = new RegExp(req.body.comment, 'i');
         }
 
-				  findParams.sales = {
-              $elemMatch: {
-                categoryId: {$in: req.body.categories},
-                statusId: {$in: req.body.statuses},
-                salesmanId: {$in: req.body.salesmen}
-              }
-            };
-
-
-
-
-        /*if(req.body.salesmen) {
-						findParams.sales = { $elemMatch: { salesmanId: {$in: req.body.salesmen}}};
-				}*/
+				findParams.sales = {
+          $elemMatch: {
+            categoryId: {$in: req.body.categories},
+            statusId: {$in: req.body.statuses},
+            salesmanId: {$in: req.body.salesmen}
+          }
+        };
 
         if(req.body.categories && req.body.salesmen && req.body.statuses) {
           var collection = db.collection('companies');
@@ -160,21 +154,20 @@ app.post('/updateCompany', function (req, res) {
     MongoClient.connect(url, function(err, db) {
 
       try{
+
         db.collection("companies").update(
-         { _id: req.body.id },
-         { $set:
-            {
-              "ssn": req.body.ssn,
-              "name": req.body.name,
-              "address": req.body.address,
-              "postalCode": req.body.postalCode,
-              "phone": req.body.phone,
-              "email": req.body.email,
-              "comment": req.body.comment,
-              "sales": req.body.sales
-            }
-         }
-        )
+         { _id: ObjectID(req.body.id) },
+         {
+           "ssn": req.body.ssn,
+           "name": req.body.name,
+           "address": req.body.address,
+           "postalCode": req.body.postalCode,
+           "phone": req.body.phone,
+           "email": req.body.email,
+           "comment": req.body.comment,
+           "sales": req.body.sales
+         });
+
         res.jsonp({status: 'success'});
      }
      catch(e) {

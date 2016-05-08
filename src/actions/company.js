@@ -35,7 +35,7 @@ function updateSuccess(){
   }
 }
 
-function updateFailer(error){
+function updateFailure(error){
   return {
     type: types.UPDATE_COMPANY_FAILURE,
     error: error
@@ -105,15 +105,15 @@ export function updateCompany(id, ssn, name, address, postalCode, phone, email, 
   }
 
   return dispatch => {
-    dispatch(createCompanyRequest(company))
+    dispatch(updateCompanyRequest(company))
     return fetch(`http://localhost:3030/updateCompany/`, config)
       .then(response => response.json())
       .then(function(response) {
 
         if(response.error){
-          dispatch(createFailure(response.error));
+          dispatch(updateFailure(response.error));
         } else {
-          dispatch(createSuccess(company));
+          dispatch(updateSuccess(company));
         }
       });
   }
