@@ -19,19 +19,19 @@ class StatusCell extends Component {
       let category = _.find(this.props.categories, ['_id', sale.categoryId]);
       let status = _.find(this.props.statuses, ['_id', sale.statusId]);
       let salesman = _.find(this.props.salesmen, ['_id', sale.salesmanId]);
-
+      
       x = x + 15;
       if(selected)
       {
         return (
-          <rect width="12" height="12" x={x} y="3" stroke="black" strokeWidth="1" fill={sale.color}>
+          <rect width="12" height="12" x={x} y="3" stroke="black" strokeWidth="1" fill={status.color}>
             <title>{category.name} - {salesman.name} - {status.name}</title>
           </rect>
           );
       }
 
       return (
-        <rect width="12" height="12" x={x} y="3" rx={8} ry={8} stroke="black" strokeWidth="1" fill={sale.color}>
+        <rect width="12" height="12" x={x} y="3" rx={8} ry={8} stroke="black" strokeWidth="1" fill={status.color}>
           <title>{category.name} - {salesman.name} - {status.name}</title>
         </rect>
         );

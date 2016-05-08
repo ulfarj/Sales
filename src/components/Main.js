@@ -67,22 +67,17 @@ class Main extends Component {
     };
 
     editCompany = (company) => {
-
       this.setState({showEditCompanyModal: true});
       this.setState({company: company});
     };
 
     onCreateCompany = () => {
-      //const { dispatch } = this.props;
-      //dispatch(fetchCompanies());
       this.setState({showCreateCompanyModal: false});
     };
 
     onUpdateCompany = () => {
       this.setState({showEditCompanyModal: false});
     };
-
-
 
   	render() {
 

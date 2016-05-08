@@ -19,13 +19,7 @@ class Categories extends Component {
         return category._id;
     });
 
-    //const {dispatch} = this.props;
-    //var filter = {};
-    //filter['categories'] = categories;
-    //dispatch(setFilter(filter));
-
-    this.setState({categories: categories});
-    this.props.filter('categories', categories);
+    this.setState({categories: categories});    
   };
 
   changeCategory = (e) => {
