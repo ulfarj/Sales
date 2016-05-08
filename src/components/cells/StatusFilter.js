@@ -24,7 +24,6 @@ class StatusFilter extends Component {
     super(props);
 
     this.state = {
-      filter: {},
       statuses: [],
       open: false,
     };
@@ -36,10 +35,6 @@ class StatusFilter extends Component {
     let statuses = this.props.statuses.map(status => {
         return status._id;
     });
-
-    var filter = {};
-    filter['statuses'] = statuses;
-    dispatch(setFilter(filter));
 
     this.setState({statuses: statuses});
   };
@@ -60,7 +55,6 @@ class StatusFilter extends Component {
 
   setStatuses = (statuses) => {
     this.setState({statuses, statuses});
-    var filter = this.state.filter;
     this.props.filter('statuses', statuses);
   };
 

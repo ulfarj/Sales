@@ -37,10 +37,6 @@ class SalesmanFilter extends Component {
         return salesman._id;
     });
 
-    var filter = {};
-    filter['salesmen'] = salesmen;
-    dispatch(setFilter(filter));
-
     this.setState({salesmen: salesmen});
   };
 
@@ -60,7 +56,7 @@ class SalesmanFilter extends Component {
 
   setSalesmen = (salesmen) => {
     this.setState({salesmen, salesmen});
-    var filter = this.state.filter;
+    //var filter = this.state.filter;
     this.props.filter('salesmen', salesmen);
   };
 
