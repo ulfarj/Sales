@@ -53,17 +53,15 @@ class Main extends Component {
       dispatch(fetchCategoriesIfNeeded());
       dispatch(fetchSalesmenIfNeeded());
       dispatch(fetchStatusesIfNeeded());
-      //dispatch(fetchCompanies({}));
     }
 
     componentDidMount(){
-      console.log('done');
     }
 
     filter = (name, value) => {
       var filter = this.props.filter;
       filter[name] = value;
-      
+
       const { dispatch } = this.props;
       dispatch(fetchCompanies(filter));
     };
@@ -75,10 +73,16 @@ class Main extends Component {
     };
 
     onCreateCompany = () => {
-      const { dispatch } = this.props;
-      dispatch(fetchCompanies());
+      //const { dispatch } = this.props;
+      //dispatch(fetchCompanies());
       this.setState({showCreateCompanyModal: false});
     };
+
+    onUpdateCompany = () => {
+      this.setState({showEditCompanyModal: false});
+    };
+
+
 
   	render() {
 
@@ -128,7 +132,7 @@ class Main extends Component {
                     <Modal.Title>Verk</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    <EditCompany company={this.state.company}/>
+                    <EditCompany company={this.state.company} onUpdate={this.onUpdateCompany}/>
                   </Modal.Body>
                 </Modal>
               </div>

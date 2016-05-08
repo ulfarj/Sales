@@ -1,6 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
-import * as types from '../constants/ActionTypes'
+import * as types from '../constants/ActionTypes';
+import { fetchCompanies } from './companies';
+
 
 function createCompanyRequest(company) {
   return {
@@ -65,7 +67,7 @@ export function createCompany(ssn, name, address, postalCode, phone, email, comm
     body: JSON.stringify(company)
   }
 
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(createCompanyRequest(company))
     return fetch(`http://localhost:3030/company/`, config)
       .then(response => response.json())
@@ -75,6 +77,10 @@ export function createCompany(ssn, name, address, postalCode, phone, email, comm
           dispatch(createFailure(response.error));
         } else {
           dispatch(createSuccess(company));
+
+          console.log(getState().companies);
+
+          dispatch(fetchCompanies(getState().companies.filter))
         }
       });
   }
@@ -104,7 +110,7 @@ export function updateCompany(id, ssn, name, address, postalCode, phone, email, 
     body: JSON.stringify(company)
   }
 
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(updateCompanyRequest(company))
     return fetch(`http://localhost:3030/updateCompany/`, config)
       .then(response => response.json())
@@ -114,6 +120,7 @@ export function updateCompany(id, ssn, name, address, postalCode, phone, email, 
           dispatch(updateFailure(response.error));
         } else {
           dispatch(updateSuccess(company));
+          dispatch(fetchCompanies(getState().companies.filter))
         }
       });
   }

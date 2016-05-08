@@ -19,9 +19,6 @@ function receiveCompanies(json) {
 
 export function fetchCompanies(filter) {
 
-  console.log('filter');
-  console.log(filter);
-
   let config = {
 		method: 'POST',
 		headers: {

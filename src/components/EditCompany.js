@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { updateCompany } from '../actions/company';
 import ToggleDisplay from 'react-toggle-display';
+import { fetchCompanies } from '../actions/companies';
 
 class EditCompany extends React.Component {
 
@@ -41,6 +42,8 @@ class EditCompany extends React.Component {
       '',
 			this.state.sales
 		))
+
+		this.props.onUpdate();
 	};
 
 	changeCategory = (e) => {
@@ -82,6 +85,14 @@ class EditCompany extends React.Component {
 		this.setState({sales: sales});
 	};
 
+/*
+	componentDidUpdate = (object prevProps, object prevState) => {
+		const { dispatch, loaded, filter } = this.props;
+
+		if(loaded) {
+			dispatch(fetchCompanies(filter));
+		}
+	};*/
 
 	render() {
 
@@ -183,15 +194,19 @@ EditCompany.propTypes = {
   categories: PropTypes.array.isRequired,
   salesmen: PropTypes.array.isRequired,
   statuses: PropTypes.array.isRequired,
+	loaded: PropTypes.bool,
+	filter: PropTypes.array,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  var categories = state.categories.items;
-  var salesmen = state.salesmen.items;
-  var statuses = state.statuses.items;
+  let categories = state.categories.items;
+  let salesmen = state.salesmen.items;
+  let statuses = state.statuses.items;
+	let loaded = state.company.loaded;
+	let filter = state.companies.filter;
 
-  return { categories, salesmen, statuses}
+  return { categories, salesmen, statuses, loaded, filter }
 }
 
 export default connect(mapStateToProps)(EditCompany);
