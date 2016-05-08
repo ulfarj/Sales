@@ -32,7 +32,7 @@ class EditCompany extends React.Component {
 	changeCategory = (e) => {
 
 		var sales = this.state.sales;
-		/*
+
 		var sale = {
 			'statusId': this.state.statusId,
 			'categoryId': e.target.value,
@@ -45,13 +45,13 @@ class EditCompany extends React.Component {
 		else{
 			var index = _.findIndex(sales, ['categoryId', sale.categoryId]);
 			sales.splice(index, 1);
-		}*/
+		}
 
 		this.setState({sales: sales});
 	};
 
 	changeSalesman = (e, categoryId) => {
-		let index = _.findIndex(this.state.sales, ['categoryId', category._id]);
+		let index = _.findIndex(this.state.sales, ['categoryId', categoryId]);
 		let sales = this.state.sales;
 
 		sales[index].salesmanId = e.target.value;
@@ -60,7 +60,7 @@ class EditCompany extends React.Component {
 	};
 
 	changeStatus = (e, categoryId) => {
-		let index = _.findIndex(this.state.sales, ['categoryId', category._id]);
+		let index = _.findIndex(this.state.sales, ['categoryId', categoryId]);
 		let sales = this.state.sales;
 
 		sales[index].statusId = e.target.value;
