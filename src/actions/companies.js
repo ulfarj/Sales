@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
-import * as types from '../constants/ActionTypes'
+import * as types from '../constants/ActionTypes';
+import webconfig from 'config';
 
 function requestCompanies(filter) {
   return {
@@ -30,7 +31,7 @@ export function fetchCompanies(filter) {
 
   return dispatch => {
     dispatch(requestCompanies(filter))
-    return fetch(`http://localhost:3030/companies/`, config)
+    return fetch(webconfig.apiUrl+'/companies/', config)
       .then(response => response.json())
       .then(json => dispatch(receiveCompanies(json)))
   }

@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import * as types from '../constants/ActionTypes';
 import { fetchCompanies } from './companies';
-
+import webconfig from 'config';
 
 function createCompanyRequest(company) {
   return {
@@ -69,7 +69,7 @@ export function createCompany(ssn, name, address, postalCode, phone, email, comm
 
   return (dispatch, getState) => {
     dispatch(createCompanyRequest(company))
-    return fetch(`http://localhost:3030/company/`, config)
+    return fetch(webconfig.apiUrl+'/company/', config)
       .then(response => response.json())
       .then(function(response) {
 
@@ -87,7 +87,7 @@ export function createCompany(ssn, name, address, postalCode, phone, email, comm
 }
 
 
-export function updateCompany(id, ssn, name, address, postalCode, phone, email, comment, sales) {
+export function updateCompany(id, ssn, name, address, postalCode, phone, email) {
 
   var company = {
     "id": id,
@@ -97,8 +97,6 @@ export function updateCompany(id, ssn, name, address, postalCode, phone, email, 
     "postalCode": postalCode,
     "phone": phone,
     "email": email,
-    "comment": comment,
-    "sales": sales
   };
 
   let config = {
@@ -112,7 +110,7 @@ export function updateCompany(id, ssn, name, address, postalCode, phone, email, 
 
   return (dispatch, getState) => {
     dispatch(updateCompanyRequest(company))
-    return fetch(`http://localhost:3030/updateCompany/`, config)
+    return fetch(webconfig.apiUrl+'/updateCompany/', config)
       .then(response => response.json())
       .then(function(response) {
 
@@ -164,7 +162,7 @@ export function addComment(id, comment) {
 
   return (dispatch, getState) => {
     dispatch(addCommentRequest(comment))
-    return fetch(`http://localhost:3030/addComment/`, config)
+    return fetch(webconfig.apiUrl+'/addComment/', config)
       .then(response => response.json())
       .then(function(response) {
 

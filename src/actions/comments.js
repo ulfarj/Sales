@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
-import * as types from '../constants/ActionTypes'
+import * as types from '../constants/ActionTypes';
+import webconfig from 'config';
 
 function requestComments(companyId) {
   return {
@@ -21,7 +22,7 @@ export function fetchComments(companyId) {
 
   return dispatch => {
     dispatch(requestComments(companyId))
-    return fetch(`http://localhost:3030/comments/`+companyId)
+    return fetch(webconfig.apiUrl+'/comments/'+companyId)
       .then(response => response.json())
       .then(json => dispatch(receiveComments(json)))
   }

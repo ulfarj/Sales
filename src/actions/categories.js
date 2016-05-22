@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
-import * as types from '../constants/ActionTypes'
+import * as types from '../constants/ActionTypes';
+import webconfig from 'config';
 
 function requestCategories() {
   return {
@@ -35,7 +36,7 @@ function shouldFetchCategories(state) {
 function fetchCategories() {
   return dispatch => {
     dispatch(requestCategories())
-    return fetch(`http://localhost:3030/categories`)
+    return fetch(webconfig.apiUrl+'/categories')
       .then(response => response.json())
       .then(json => dispatch(receiveCategories(json)))
   }

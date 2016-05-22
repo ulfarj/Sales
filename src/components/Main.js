@@ -166,11 +166,11 @@ class Main extends Component {
 
 Main.propTypes = {
   companiesCount: PropTypes.number.isRequired,
-  categories: PropTypes.array.isRequired,
-  salesmen: PropTypes.array.isRequired,
-  statuses: PropTypes.array.isRequired,
+  categories: PropTypes.array,
+  salesmen: PropTypes.array,
+  statuses: PropTypes.array,
   loaded: PropTypes.bool.isRequired,
-  filter: PropTypes.array.isRequired,
+  filter: PropTypes.object,
   dispatch: PropTypes.func.isRequired
 }
 

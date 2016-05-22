@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
-import * as types from '../constants/ActionTypes'
+import * as types from '../constants/ActionTypes';
+import webconfig from 'config';
 
 function requestStatuses() {
   return {
@@ -33,7 +34,7 @@ function shouldFetchStatuses(state) {
 function fetchStatuses() {
   return dispatch => {
     dispatch(requestStatuses())
-    return fetch(`http://localhost:3030/statuses`)
+    return fetch(webconfig.apiUrl+'/statuses')
       .then(response => response.json())
       .then(json => dispatch(receivesStatuses(json)))
   }

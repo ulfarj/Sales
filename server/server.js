@@ -79,6 +79,16 @@ app.get('/comments/:id', function (req, res) {
     });
 });
 
+app.get('/sales/:id', function (req, res) {
+
+    MongoClient.connect(url, function(err, db) {
+        var collection = db.collection('companies');
+        collection.find({_id: ObjectID(req.params.id)}).toArray(function(err, docs) {
+            res.jsonp(docs[0].sales);
+        });
+    });
+});
+
 app.post('/companies', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
@@ -129,13 +139,11 @@ app.post('/companies', function (req, res) {
           findParams.sales = { $eq: [] }
         }
 
-        //if(req.body.categories && req.body.salesmen && req.body.statuses) {
-          var collection = db.collection('companies');
+        var collection = db.collection('companies');
+        collection.find(findParams).toArray(function(err, docs) {
+          res.jsonp(docs);
+        });
 
-          collection.find(findParams).toArray(function(err, docs) {
-              res.jsonp(docs);
-          });
-        //}
     });
 });
 
@@ -171,19 +179,19 @@ app.post('/updateCompany', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
-      try{
-
+      try{        
         db.collection("companies").update(
          { _id: ObjectID(req.body.id) },
          {
-           "ssn": req.body.ssn,
-           "name": req.body.name,
-           "address": req.body.address,
-           "postalCode": req.body.postalCode,
-           "phone": req.body.phone,
-           "email": req.body.email,
-           "comment": req.body.comment,
-           "sales": req.body.sales
+           $set:
+           {
+             "ssn": req.body.ssn,
+             "name": req.body.name,
+             "address": req.body.address,
+             "postalCode": req.body.postalCode,
+             "phone": req.body.phone,
+             "email": req.body.email,
+           }
          });
 
         res.jsonp({status: 'success'});
@@ -227,6 +235,71 @@ app.post('/addComment', function (req, res) {
     });
 });
 
+app.post('/addSale', function (req, res) {
+
+    MongoClient.connect(url, function(err, db) {
+
+      try{
+        db.collection("companies").update(
+         { _id: ObjectID(req.body.id) },
+         { "$push":
+             {"sales": req.body.sale}
+         });
+         res.jsonp({status: 'success'});
+     }
+     catch(e) {
+       console.log(e);
+       res.jsonp({status: 'error', error: e});
+     }
+
+    });
+});
+
+app.post('/deleteSale', function (req, res) {
+
+    MongoClient.connect(url, function(err, db) {
+
+      try{
+        db.collection("companies").update(
+         { _id: ObjectID(req.body.id) },
+         { "$pull":
+             {"sales": {'categoryId': req.body.categoryId}}
+         });
+
+         res.jsonp({status: 'success'});
+     }
+     catch(e) {
+       console.log(e);
+       res.jsonp({status: 'error', error: e});
+     }
+
+    });
+});
+
+app.post('/updateSale', function (req, res) {
+
+  MongoClient.connect(url, function(err, db) {
+
+    try{
+      db.collection("companies").update(
+       {
+         "_id": ObjectID(req.body.id),
+         "sales.categoryId": req.body.categoryId
+       },
+       { "$set":
+           {"sales.$": req.body.sale}
+       });
+
+       res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+
+  });
+
+});
 
 
 http.createServer(app).listen(3030, function () {

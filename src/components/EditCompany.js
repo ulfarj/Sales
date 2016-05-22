@@ -7,7 +7,9 @@ import { updateCompany } from '../actions/company';
 import ToggleDisplay from 'react-toggle-display';
 import { fetchCompanies } from '../actions/companies';
 import { fetchComments } from '../actions/comments';
+import { addSale, deleteSale, fetchSales } from '../actions/sales';
 import moment from 'moment';
+import Sales from './Sales';
 
 class EditCompany extends React.Component {
 
@@ -16,27 +18,22 @@ class EditCompany extends React.Component {
 		 this.state = {
 			 salesmanId: '',
 			 statusId: '',
-			 sales: [],
 			 company: {},
 
 		 }
 	 }
 
 	componentWillMount(){
-		const {dispatch, salesmen, statuses, company, companyId} = this.props;
+		const {dispatch, salesmen, statuses, company} = this.props;
 
-		var status = _.find(statuses, { 'name': 'Enginn staða' });
-
-		this.setState({sales: company.sales});
-		this.setState({statusId: status._id});
-		this.setState({salesmanId: salesmen[0]._id});
 		this.setState({company: company});
 
 		dispatch(fetchComments(company._id));
+		dispatch(fetchSales(company._id));
 	}
 
-	update() {
-		const { dispatch, companyId } = this.props;
+	updateCompany = () => {
+		const { dispatch } = this.props;
 
 		dispatch(updateCompany(
 			this.props.company._id,
@@ -46,50 +43,9 @@ class EditCompany extends React.Component {
       this.refs.postalCode.getValue(),
       this.refs.phone.getValue(),
       this.refs.email.getValue(),
-      '',
-			this.state.sales
 		))
 
 		this.props.onUpdate();
-	};
-
-	changeCategory = (e) => {
-
-		var sales = this.state.sales;
-
-		var sale = {
-			'statusId': this.state.statusId,
-			'categoryId': e.target.value,
-			'salesmanId': this.state.salesmanId,
-		};
-
-		if(e.target.checked) {
-			sales.push(sale);
-		}
-		else{
-			var index = _.findIndex(sales, ['categoryId', sale.categoryId]);
-			sales.splice(index, 1);
-		}
-
-		this.setState({sales: sales});
-	};
-
-	changeSalesman = (e, categoryId) => {
-		let index = _.findIndex(this.state.sales, ['categoryId', categoryId]);
-		let sales = this.state.sales;
-
-		sales[index].salesmanId = e.target.value;
-
-		this.setState({sales: sales});
-	};
-
-	changeStatus = (e, categoryId) => {
-		let index = _.findIndex(this.state.sales, ['categoryId', categoryId]);
-		let sales = this.state.sales;
-
-		sales[index].statusId = e.target.value;
-
-		this.setState({sales: sales});
 	};
 
 	onChange = (e, field) => {
@@ -101,19 +57,9 @@ class EditCompany extends React.Component {
 
 	render() {
 
-		const { companyId } = this.props;
 		const { company } = this.state;
 
-		let salesmen = this.props.salesmen.map(salesman => {
-			return (<option key={salesman._id} value={salesman._id}>{salesman.name}</option>);
-		});
-
-		let statuses = this.props.statuses.map(status => {
-			return (
-					<option key={status._id} value={status._id}>{status.name}</option>
-				);
-		});
-
+/*
     let categories = this.props.categories.map(category => {
 
       let index = _.findIndex(this.state.sales, ['categoryId', category._id]);
@@ -139,13 +85,13 @@ class EditCompany extends React.Component {
 						</Input>
 					</td>
 					<td>
-						<Input type="select"  onChange={e => this.changeSalesman(e, category._id)} disabled={!checked} value={salesmanId} style={{width: 250}}>
+						<Input type="select" onChange={e => this.changeSalesman(e, category._id)} disabled={!checked} value={salesmanId} style={{width: 250}}>
 							{salesmen}
 						</Input>
 					</td>
         </tr>
       );
-    });
+    });*/
 
 		let sortedComments = _.sortBy( this.props.comments, function(o) { return o.created; }).reverse();
 		let comments = sortedComments.map(comment => {
@@ -181,20 +127,24 @@ class EditCompany extends React.Component {
 									<Input type="text" label="Tengill" placeholder="Tengill" onChange={e => this.onChange(e, 'link')} ref="link" style={{width: 250}} />
 								</div>
 							</div>
-
+							<div>
+								<Button
+									onClick={e => this.updateCompany(e)}
+									bsStyle="primary" style={{height:'35px'}}>
+									Uppfæra
+								</Button>
+							</div>
 			      </Tab>
 			      <Tab eventKey={2} title="Verk">
 							<div style={{paddingTop: '10px'}}>
-								<table>
-									{categories}
-								</table>
+								<Sales items={this.props.sales} company={this.props.company} />
 							</div>
 			      </Tab>
 						<Tab eventKey={3} title="Athugasemdir">
-							<Table style={{padding: '20px;'}}>
+							<Table style={{padding: '20px'}}>
 								<thead>
 									<tr>
-										<th style={{width: '50px;'}}>Dagsetning</th>
+										<th style={{width: '50px'}}>Dagsetning</th>
 										<th>Athugasemd</th>
 									</tr>
 								</thead>
@@ -206,13 +156,7 @@ class EditCompany extends React.Component {
 
 		  		</Tabs>
 				</div>
-				<div>
-					<Button
-						onClick={e => this.update(e)}
-						bsStyle="primary" style={{height:'35px'}}>
-						Uppfæra
-					</Button>
-				</div>
+
 			</div>
 
 		);
@@ -227,6 +171,7 @@ EditCompany.propTypes = {
 	loaded: PropTypes.bool,
 	filter: PropTypes.array,
 	activeTab: PropTypes.int,
+	sales: PropTypes.array,
   dispatch: PropTypes.func.isRequired
 }
 
@@ -238,13 +183,17 @@ function mapStateToProps(state, ownProps) {
 	let filter = state.companies.filter;
 	let activeTab = ownProps.activeTab;
 	let comments = [];
+	let sales = [];
 
-	if(state.comments && state.comments.loaded)
-	{
+	if(state.comments && state.comments.loaded) {
 			comments = state.comments.items;
 	}
 
-  return { categories, salesmen, statuses, loaded, filter, activeTab, comments }
+	if(state.sales && state.sales.loaded) {
+			sales = state.sales.items;
+	}
+
+  return { categories, salesmen, statuses, loaded, filter, activeTab, comments, sales }
 }
 
 export default connect(mapStateToProps)(EditCompany);
