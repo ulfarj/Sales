@@ -40,7 +40,7 @@ function fetchSalesmen() {
 }
 
 export function fetchSalesmenIfNeeded() {
-  
+
    return (dispatch, getState) => {
     if (shouldFetchSalesmen(getState())) {
         return dispatch(fetchSalesmen())

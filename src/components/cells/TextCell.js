@@ -9,7 +9,7 @@ class TextCell extends Component {
 
     if(this.props.onClick) {
       const { companies, rowIndex} = this.props;
-      this.props.onClick(companies[rowIndex]);
+      this.props.onClick(companies[rowIndex], 1);
     }
 
   };

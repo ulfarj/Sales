@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { updateCompany } from '../actions/company';
 import ToggleDisplay from 'react-toggle-display';
 import { fetchCompanies } from '../actions/companies';
+import { fetchComments } from '../actions/comments';
+import moment from 'moment';
 
 class EditCompany extends React.Component {
 
@@ -16,11 +18,12 @@ class EditCompany extends React.Component {
 			 statusId: '',
 			 sales: [],
 			 company: {},
+
 		 }
 	 }
 
 	componentWillMount(){
-		const {salesmen, statuses, company} = this.props;
+		const {dispatch, salesmen, statuses, company, companyId} = this.props;
 
 		var status = _.find(statuses, { 'name': 'Enginn staða' });
 
@@ -28,6 +31,8 @@ class EditCompany extends React.Component {
 		this.setState({statusId: status._id});
 		this.setState({salesmanId: salesmen[0]._id});
 		this.setState({company: company});
+
+		dispatch(fetchComments(company._id));
 	}
 
 	update() {
@@ -142,6 +147,16 @@ class EditCompany extends React.Component {
       );
     });
 
+		let sortedComments = _.sortBy( this.props.comments, function(o) { return o.created; }).reverse();
+		let comments = sortedComments.map(comment => {
+			return (
+				<tr>
+					<td>{moment(comment.created).format('DD.MM.YYYY')}</td>
+					<td>{comment.comment}</td>
+				</tr>
+			)
+		});
+
 		return(
 			<div>
 				<div>
@@ -175,6 +190,19 @@ class EditCompany extends React.Component {
 								</table>
 							</div>
 			      </Tab>
+						<Tab eventKey={3} title="Athugasemdir">
+							<Table style={{padding: '20px;'}}>
+								<thead>
+									<tr>
+										<th style={{width: '50px;'}}>Dagsetning</th>
+										<th>Athugasemd</th>
+									</tr>
+								</thead>
+								<tbody>
+									{comments}
+								</tbody>
+							</Table>
+						</Tab>
 
 		  		</Tabs>
 				</div>
@@ -195,6 +223,7 @@ EditCompany.propTypes = {
   categories: PropTypes.array.isRequired,
   salesmen: PropTypes.array.isRequired,
   statuses: PropTypes.array.isRequired,
+	comments: PropTypes.array,
 	loaded: PropTypes.bool,
 	filter: PropTypes.array,
 	activeTab: PropTypes.int,
@@ -205,11 +234,17 @@ function mapStateToProps(state, ownProps) {
   let categories = state.categories.items;
   let salesmen = state.salesmen.items;
   let statuses = state.statuses.items;
-	let loaded = state.company.loaded;
+	let loaded = state.company.loaded && state.comments.loaded;
 	let filter = state.companies.filter;
 	let activeTab = ownProps.activeTab;
+	let comments = [];
 
-  return { categories, salesmen, statuses, loaded, filter, activeTab }
+	if(state.comments && state.comments.loaded)
+	{
+			comments = state.comments.items;
+	}
+
+  return { categories, salesmen, statuses, loaded, filter, activeTab, comments }
 }
 
 export default connect(mapStateToProps)(EditCompany);

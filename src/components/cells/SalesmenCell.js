@@ -12,7 +12,8 @@ class SalesmenCell extends Component {
     if(!loaded) {return(<Cell></Cell>);}
 
     let salesmen = companies[rowIndex]['sales'].map(sale => {
-      return _.find(this.props.salesmen, ['_id', sale.salesmanId]).name;
+      let salesman = _.find(this.props.salesmen, ['_id', sale.salesmanId]);
+      return salesman ? salesman.name : '';
     });
 
     salesmen = _.uniq(salesmen);

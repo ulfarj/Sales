@@ -125,3 +125,56 @@ export function updateCompany(id, ssn, name, address, postalCode, phone, email, 
       });
   }
 }
+
+function addCommentRequest(comment) {
+  return {
+    type: types.ADD_COMMENT_REQUEST,
+    comment: comment
+  }
+}
+
+function addCommentSuccess(){
+  return {
+    type: types.ADD_COMMENT_SUCCESS
+  }
+}
+
+function addCommentFailure(error){
+  return {
+    type: types.ADD_COMMENT_FAILURE,
+    error: error
+  }
+}
+
+export function addComment(id, comment) {
+
+  var body = {
+    "id": id,
+    "comment": comment
+  };
+
+  let config = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify(body)
+  }
+
+  return (dispatch, getState) => {
+    dispatch(addCommentRequest(comment))
+    return fetch(`http://localhost:3030/addComment/`, config)
+      .then(response => response.json())
+      .then(function(response) {
+
+        if(response.error){
+          dispatch(addCommentFailure(response.error));
+        } else {
+          dispatch(addCommentSuccess(comment));
+          dispatch(fetchCompanies(getState().companies.filter))
+        }
+      });
+  }
+
+}

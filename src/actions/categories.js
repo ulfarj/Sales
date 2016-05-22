@@ -30,6 +30,8 @@ function shouldFetchCategories(state) {
   return categories.didInvalidate
 }
 
+//82.221.102.173
+
 function fetchCategories() {
   return dispatch => {
     dispatch(requestCategories())
@@ -39,7 +41,7 @@ function fetchCategories() {
   }
 }
 
-export function fetchCategoriesIfNeeded() {  
+export function fetchCategoriesIfNeeded() {
    return (dispatch, getState) => {
     if (shouldFetchCategories(getState())) {
         return dispatch(fetchCategories())

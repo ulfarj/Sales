@@ -40,7 +40,8 @@ class CreateCompany extends React.Component {
   };
 
   getSales = () => {
-    const statusId = '56b6196af7ec61807b2fdffb';
+     const statusId = '56b6196af7ec61807b2fdffb';
+    //const statusId = '5730d726cf9c62d5409eba72';
 
     let sales = [];
     this.state.categories.map(function(category){
@@ -71,8 +72,8 @@ class CreateCompany extends React.Component {
       categories.push(category);
     }
     else{
-      var index = _.findIndex(categories, ['categoryId', sale.categoryId]);
-      categories.splice(index, 1);      
+      var index = _.findIndex(categories, ['categoryId', e.target.value]);
+      categories.splice(index, 1);
     }
 
     this.setState({categories: categories});

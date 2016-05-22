@@ -3,6 +3,7 @@ import { Input } from 'react-bootstrap';
 import {Table, Column, Cell} from 'fixed-data-table';
 import { connect } from 'react-redux';
 import TextCell from './cells/TextCell';
+import EditCell from './cells/EditCell';
 import TextFilter from './cells/TextFilter';
 import SalesmanFilter from './cells/SalesmanFilter';
 import StatusFilter from './cells/StatusFilter';
@@ -49,12 +50,8 @@ class Companies extends Component {
     this.props.filter(name, value);
   };
 
-  onClick = (company) => {
-    this.props.onClick(company, 1);
-  };
-
-  onClickStatus = (company) => {
-    this.props.onClick(company, 2);
+  onClick = (company, tab) => {
+    this.props.onClick(company, tab);
   };
 
   render() {
@@ -77,7 +74,7 @@ class Companies extends Component {
             />
             <Column
               header={<StatusFilter label="Staða" column="status" filter={this.filter} />}
-              cell={props => (<StatusCell {...props} onClick={this.onClickStatus} />)}
+              cell={props => (<StatusCell {...props} onClick={this.onClick} />)}
               fixed={true}
               width={140}
              />
@@ -119,7 +116,7 @@ class Companies extends Component {
               />
             <Column
               header={<TextFilter label="Athugasemd" column="comment" filter={this.filterRow} />}
-              cell={props => (<TextCell {...props} column="comment" />)}
+              cell={props => (<EditCell style={{padding: '0'}} {...props} column="comment" onClick={this.onClick} />)}
               fixed={true}
               width={160}
               />

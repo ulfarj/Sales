@@ -64,6 +64,21 @@ app.get('/statuses', function (req, res) {
     });
 });
 
+app.get('/comments/:id', function (req, res) {
+
+    MongoClient.connect(url, function(err, db) {
+        var collection = db.collection('comments');
+
+        var findParams = {};
+
+        findParams.companyId = new RegExp(req.params.id, 'i');
+
+        collection.find(findParams).toArray(function(err, docs) {
+            res.jsonp(docs);
+        });
+    });
+});
+
 app.post('/companies', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
@@ -102,21 +117,25 @@ app.post('/companies', function (req, res) {
            findParams.comment = new RegExp(req.body.comment, 'i');
         }
 
-				findParams.sales = {
-          $elemMatch: {
-            categoryId: {$in: req.body.categories},
-            statusId: {$in: req.body.statuses},
-            salesmanId: {$in: req.body.salesmen}
-          }
-        };
+        if(req.body.categories.length > 0) {
+  				findParams.sales = {
+            $elemMatch: {
+              categoryId: {$in: req.body.categories},
+              statusId: {$in: req.body.statuses},
+              salesmanId: {$in: req.body.salesmen}
+            }
+          };
+        } else {
+          findParams.sales = { $eq: [] }
+        }
 
-        if(req.body.categories && req.body.salesmen && req.body.statuses) {
+        //if(req.body.categories && req.body.salesmen && req.body.statuses) {
           var collection = db.collection('companies');
 
           collection.find(findParams).toArray(function(err, docs) {
               res.jsonp(docs);
           });
-        }
+        //}
     });
 });
 
@@ -166,6 +185,37 @@ app.post('/updateCompany', function (req, res) {
            "comment": req.body.comment,
            "sales": req.body.sales
          });
+
+        res.jsonp({status: 'success'});
+     }
+     catch(e) {
+       console.log(e);
+       res.jsonp({status: 'error', error: e});
+     }
+
+    });
+});
+
+app.post('/addComment', function (req, res) {
+
+    MongoClient.connect(url, function(err, db) {
+
+      try{
+
+        db.collection("companies").update(
+         { _id: ObjectID(req.body.id) },
+         {
+           $set:
+           {
+             "comment": req.body.comment
+           }
+         });
+
+        db.collection("comments").insert({
+          "companyId": req.body.id,
+          "created": new Date(),
+          "comment": req.body.comment
+        });
 
         res.jsonp({status: 'success'});
      }

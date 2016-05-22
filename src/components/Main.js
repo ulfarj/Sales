@@ -97,7 +97,7 @@ class Main extends Component {
                 <Button
                   bsStyle="primary"
                   onClick={e => this.setState({showSelectCategories: !this.state.showSelectCategories})}>
-                    Velja flokka
+                    Velja verk
                 </Button>
               </div>
 

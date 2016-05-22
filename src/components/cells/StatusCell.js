@@ -8,7 +8,7 @@ class StatusCell extends Component {
 
   onClick = () => {
     const { companies, rowIndex} = this.props;
-    this.props.onClick(companies[rowIndex]);    
+    this.props.onClick(companies[rowIndex], 2);
   };
 
   render() {
@@ -17,7 +17,12 @@ class StatusCell extends Component {
 
     if(!loaded) {return(<Cell></Cell>);}
 
+    if(companies[rowIndex].sales.length < 1){
+        return(<Cell></Cell>);
+    }
+
     let sales = companies[rowIndex].sales.map(sale => {
+
       let selected = _.indexOf(filter.categories, sale.categoryId) > -1;
       let category = _.find(this.props.categories, ['_id', sale.categoryId]);
       let status = _.find(this.props.statuses, ['_id', sale.statusId]);
@@ -79,7 +84,7 @@ StatusCell.propTypes = {
   statuses: PropTypes.array.isRequired,
   salesmen: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
-  filter: PropTypes.array.isRequired,
+  filter: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 

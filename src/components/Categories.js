@@ -19,7 +19,7 @@ class Categories extends Component {
         return category._id;
     });
 
-    this.setState({categories: categories});    
+    this.setState({categories: categories});
   };
 
   changeCategory = (e) => {
@@ -82,7 +82,7 @@ class Categories extends Component {
           <Col>
             <Input
               type="checkbox"
-              label='Sýna alla flokka'
+              label='Sýna öll verk'
               value='showall'
               checked={this.state.showAllCategories}
               onClick={e => this.toggleAllCategories(e)} />
