@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import ToggleDisplay from 'react-toggle-display';
 import { createCompany } from '../actions/company';
+import webconfig from 'config';
 
 
 class CreateCompany extends React.Component {
@@ -40,15 +41,16 @@ class CreateCompany extends React.Component {
   };
 
   getSales = () => {
-     const statusId = '56b6196af7ec61807b2fdffb';
+     //const statusId = '56b6196af7ec61807b2fdffb';
     //const statusId = '5730d726cf9c62d5409eba72';
+    //const statusId = webconfig.statusId;
 
     let sales = [];
     this.state.categories.map(function(category){
       sales.push({
         "categoryId": category.categoryId,
         "salesmanId": category.salesmanId,
-        "statusId": statusId
+        "statusId": webconfig.statusId
       });
     }.bind(this));
 

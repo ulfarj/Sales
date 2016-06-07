@@ -10,7 +10,8 @@ class Categories extends Component {
      this.state = {
        filter: {},
        categories: [],
-       showAllCategories: true
+       showAllCategories: true,
+       showNoSaleCompanies: true
      }
   }
 
@@ -48,6 +49,10 @@ class Categories extends Component {
        categories = this.props.categories.map(category => {
         return category._id;
       });
+      this.setShowNoSaleCompanies(true);
+    }
+    else{
+      this.setShowNoSaleCompanies(false);
     }
 
     this.setCategories(categories);
@@ -58,6 +63,16 @@ class Categories extends Component {
     this.setState({categories, categories});
     var filter = this.state.filter;
     this.props.filter('categories', categories);
+  };
+
+  showNoSaleCompanies = () => {
+    this.setShowNoSaleCompanies(!this.state.showNoSaleCompanies)
+  };
+
+  setShowNoSaleCompanies = (showNoSaleCompanies) => {
+    let filter = this.state.filter;
+    this.setState({showNoSaleCompanies: showNoSaleCompanies});
+    this.props.filter('nosale', showNoSaleCompanies);
   };
 
   render() {
@@ -82,10 +97,17 @@ class Categories extends Component {
           <Col>
             <Input
               type="checkbox"
-              label='Sýna öll verk'
+              label='Sýna allt'
               value='showall'
               checked={this.state.showAllCategories}
               onClick={e => this.toggleAllCategories(e)} />
+            <Input
+              type="checkbox"
+              label="Án verks"
+              value="nosale"
+              checked={this.state.showNoSaleCompanies}
+              onClick={this.showNoSaleCompanies}
+              />
           </Col>
           {categories}
         </Row>

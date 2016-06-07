@@ -34,10 +34,19 @@ class Companies extends Component {
   componentWillMount = () => {
     const { dispatch, statuses, salesmen, categories } = this.props;
 
-    var filter = {};
+    let filter = {};
     filter['statuses'] = statuses;
     filter['salesmen'] = salesmen;
     filter['categories'] = categories;
+
+    let sorting = {
+      'column': 'name',
+      'order': 'asc'
+    };
+
+    filter['sorting'] = sorting;
+
+    filter['nosale'] = true;
 
     dispatch(fetchCompanies(filter));
   };
@@ -50,13 +59,34 @@ class Companies extends Component {
     this.props.filter(name, value);
   };
 
+  onSort = (column) => {
+
+    let order = 'asc';
+    if(this.props.sorting.column === column && this.props.sorting.order === 'asc'){
+      order = 'desc';
+    }
+
+    let sorting = {
+      'column': column,
+      'order': order
+    };
+
+    this.props.filter('sorting', sorting);
+  };
+
   onClick = (company, tab) => {
     this.props.onClick(company, tab);
   };
 
+  sortIcon = (column) => {
+    const { sorting } = this.props;
+    return sorting.column === column ? (sorting.order === 'desc' ? '↓' : '↑') : '';
+  };
+
+
   render() {
 
-    const { rowCount } = this.props;
+    const { rowCount, sorting } = this.props;
 
     return(
         <Table
@@ -79,43 +109,43 @@ class Companies extends Component {
               width={140}
              />
            <Column
-             header={<TextFilter label="Nafn" column="name" filter={this.filterRow} />}
+             header={<TextFilter label="Nafn" column="name" filter={this.filterRow} sorting={this.sortIcon('name')} onSort={this.onSort} />}
              cell={props => (<TextCell {...props} column="name" onClick={this.onClick} />)}
              fixed={true}
              width={160}
             />
             <Column
-              header={<TextFilter label="Kennitala" column="ssn" filter={this.filterRow} />}
+              header={<TextFilter label="Kennitala" column="ssn" filter={this.filterRow} sorting={this.sortIcon('ssn')} onSort={this.onSort} /> }
               cell={props => (<TextCell {...props} column="ssn" />)}
               fixed={true}
               width={120}
              />
              <Column
-               header={<TextFilter label="Heimilisfang" column="address" filter={this.filterRow} />}
+               header={<TextFilter label="Heimilisfang" column="address" filter={this.filterRow} sorting={this.sortIcon('address')} onSort={this.onSort} /> }
                cell={props => (<TextCell {...props} column="address" />)}
                fixed={true}
                width={160}
               />
             <Column
-              header={<TextFilter label="Póst nr" column="postalCode" filter={this.filterRow} />}
+              header={<TextFilter label="Póst nr" column="postalCode" filter={this.filterRow} sorting={this.sortIcon('postalCode')} onSort={this.onSort} /> }
               cell={props => (<TextCell {...props} column="postalCode" />)}
               fixed={true}
               width={80}
               />
             <Column
-              header={<TextFilter label="Sími" column="phone" filter={this.filterRow} />}
+              header={<TextFilter label="Sími" column="phone" filter={this.filterRow} sorting={this.sortIcon('phone')} onSort={this.onSort} />}
               cell={props => (<TextCell {...props} column="phone" />)}
               fixed={true}
               width={100}
               />
             <Column
-              header={<TextFilter label="Netfang" column="email" filter={this.filterRow} />}
+              header={<TextFilter label="Netfang" column="email" filter={this.filterRow} sorting={this.sortIcon('email')} onSort={this.onSort} />}
               cell={props => (<TextCell {...props} column="email" />)}
               fixed={true}
               width={120}
               />
             <Column
-              header={<TextFilter label="Athugasemd" column="comment" filter={this.filterRow} />}
+              header={<TextFilter label="Athugasemd" column="comment" filter={this.filterRow} sorting={this.sortIcon('comment')} onSort={this.onSort} />}
               cell={props => (<EditCell style={{padding: '0'}} {...props} column="comment" onClick={this.onClick} />)}
               fixed={true}
               width={160}
@@ -130,6 +160,7 @@ Companies.propTypes = {
   statuses: PropTypes.array.isRequired,
   salesmen: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
+  sorting: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
@@ -147,7 +178,13 @@ function mapStateToProps(state) {
       return category._id;
   });
 
-  return { statuses, salesmen, categories  }
+  let sorting = {};
+
+  if(state.companies.filter) {
+    sorting = state.companies.filter.sorting;
+  }
+
+  return { statuses, salesmen, categories, sorting  }
 }
 
 export default connect(mapStateToProps)(Companies);

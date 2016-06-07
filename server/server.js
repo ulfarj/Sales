@@ -127,7 +127,39 @@ app.post('/companies', function (req, res) {
            findParams.comment = new RegExp(req.body.comment, 'i');
         }
 
-        if(req.body.categories.length > 0) {
+        //console.log(req.body.nosale);
+
+        if(req.body.nosale)
+        {
+          findParams.$and =
+          [{
+            $or: [
+              {
+                sales: { $eq: [] }
+              },
+              {
+                sales: {
+                  $elemMatch: {
+                    categoryId: {$in: req.body.categories},
+                    statusId: {$in: req.body.statuses},
+                    salesmanId: {$in: req.body.salesmen}
+                  }
+                }
+              }
+            ]
+          }];
+        }
+        else {
+            findParams.sales = {
+              $elemMatch: {
+                categoryId: {$in: req.body.categories},
+                statusId: {$in: req.body.statuses},
+                salesmanId: {$in: req.body.salesmen}
+              }
+            };
+        }
+
+        /*if(req.body.categories.length > 0) {
   				findParams.sales = {
             $elemMatch: {
               categoryId: {$in: req.body.categories},
@@ -135,12 +167,54 @@ app.post('/companies', function (req, res) {
               salesmanId: {$in: req.body.salesmen}
             }
           };
-        } else {
-          findParams.sales = { $eq: [] }
+        }*/
+        //else {
+          //findParams.sales = { $eq: [] }
+        //}
+
+        var sortColumn = req.body.sorting.column;
+        var sortOrder = req.body.sorting.order === "asc" ? 1 : -1;
+
+        var sort = {'_id': sortOrder};
+        if(sortColumn === "name"){
+          sort = {'name': sortOrder};
+        }
+        if(sortColumn === "ssn"){
+          sort = {'ssn': sortOrder};
+        }
+        if(sortColumn === "phone"){
+          sort = {'phone': sortOrder};
+        }
+        if(sortColumn === "address"){
+          sort = {'address': sortOrder};
+        }
+        if(sortColumn === "postalCode"){
+          sort = {'postalCode': sortOrder};
+        }
+        if(sortColumn === "email"){
+          sort = {'email': sortOrder};
+        }
+        if(sortColumn === "comment"){
+          sort = {'comment': sortOrder};
         }
 
+/*
+        var xxx = {
+          $and : [{
+            $or: [
+              {
+                sales: { $eq: [] }
+              },
+              {
+                sales: { $elemMatch: {categoryId: {$in: req.body.categories}}}
+              }
+            ]
+
+          }]
+        };*/
+
         var collection = db.collection('companies');
-        collection.find(findParams).toArray(function(err, docs) {
+        collection.find(findParams).sort(sort).toArray(function(err, docs) {
           res.jsonp(docs);
         });
 
@@ -179,7 +253,7 @@ app.post('/updateCompany', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
-      try{        
+      try{
         db.collection("companies").update(
          { _id: ObjectID(req.body.id) },
          {
