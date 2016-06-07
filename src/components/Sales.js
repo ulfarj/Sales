@@ -91,12 +91,12 @@ class Sales extends React.Component {
 
 			return(
 				<tr>
+					<td>{_.find(this.props.categories, ['_id', sale.categoryId]).name}</td>
 					<td>
 						<Input type="select" onChange={e => this.changeSalesman(e, sale.categoryId)} value={sale.salesmanId} style={{width: '150px'}}>
 							{salesmen}
 						</Input>
 					</td>
-					<td>{_.find(this.props.categories, ['_id', sale.categoryId]).name}</td>
 					<td>
 						<Input type="select" onChange={e => this.changeStatus(e, sale.categoryId)} value={sale.statusId} style={{width: '150px'}}>
 							{statuses}
@@ -121,19 +121,22 @@ class Sales extends React.Component {
 		});
 
     return (
-      <Table style={{padding: '20px;'}}>
+      <Table style={{padding: '20px;'}} striped bordered>
         <thead>
+					<th>
+						<div style={{fontSize: '14px', paddingBottom: '10px'}}>Verk</div>
+						<Input type="select" style={{width: '150px'}} ref="category" >
+							{categories}
+						</Input>
+					</th>
           <th>
+						<div style={{fontSize: '14px', paddingBottom: '10px'}}>Sölumaður</div>
             <Input type="select" style={{width: '150px'}} ref="salesman">
               {salesmen}
             </Input>
           </th>
           <th>
-            <Input type="select" style={{width: '150px'}} ref="category" >
-              {categories}
-            </Input>
-          </th>
-          <th>
+						<div style={{fontSize: '14px', paddingBottom: '10px'}}>Staða</div>
             <Input type="select" style={{width: '150px'}} ref="status">
               {statuses}
             </Input>
