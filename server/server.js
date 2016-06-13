@@ -159,40 +159,37 @@ app.post('/companies', function (req, res) {
             };
         }
 
-        var sortColumn = req.body.sorting.column;
-        var sortOrder = req.body.sorting.order === "asc" ? 1 : -1;
-
-        var sort = {'_id': sortOrder};
-        if(sortColumn === "name"){
-          sort = {'name': sortOrder};
-        }
-        if(sortColumn === "ssn"){
-          sort = {'ssn': sortOrder};
-        }
-        if(sortColumn === "phone"){
-          sort = {'phone': sortOrder};
-        }
-        if(sortColumn === "address"){
-          sort = {'address': sortOrder};
-        }
-        if(sortColumn === "postalCode"){
-          sort = {'postalCode': sortOrder};
-        }
-        if(sortColumn === "email"){
-          sort = {'email': sortOrder};
-        }
-        if(sortColumn === "comment"){
-          sort = {'comment': sortOrder};
-        }
-
         var collection = db.collection('companies');
-        collection.find(findParams).sort(sort).toArray(function(err, docs) {
-          console.log(docs);
-          res.jsonp(docs);
+        collection.find(findParams).toArray(function(err, docs) {
+          var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
+          res.jsonp(companies);
         });
 
     });
 });
+
+var sortByProperty = function (property, order) {
+    if(order === 'asc') {
+      return function (a, b) {
+          return a[property].localeCompare(b[property], 'is');
+      };
+    }else {
+      return function (a, b) {
+          return b[property].localeCompare(a[property], 'is');
+      };
+    }
+};
+
+/*
+var sortByProperty = function (property) {
+    return function (x, y) {
+        return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
+    };
+};
+
+function sortLocale(a,b) {
+  return a.localeCompare(b, 'is');
+}*/
 
 app.post('/company', function(req, res) {
 

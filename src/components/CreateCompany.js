@@ -29,7 +29,7 @@ class CreateCompany extends React.Component {
     var digitRegex = new RegExp(/^\d+$/);
     if(userId.length === 10 && digitRegex.test(userId)){
 
-    	if((parseInt(userId.charAt(9)) === 9 || parseInt(userId.charAt(9)) === 0)) {
+    	if((parseInt(userId.charAt(9)) === 8 || parseInt(userId.charAt(9)) === 9 || parseInt(userId.charAt(9)) === 0)) {
     		var total =
     		(parseInt(userId.charAt(0)) * 3) +
     		(parseInt(userId.charAt(1)) * 2) +
