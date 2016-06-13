@@ -23,17 +23,44 @@ class CreateCompany extends React.Component {
     this.setState({salesman: salesmen[0]._id});
   }
 
+  validateUserId = (userId) => {
+
+    var valid = false;
+    var digitRegex = new RegExp(/^\d+$/);
+    if(userId.length === 10 && digitRegex.test(userId)){
+
+    	if((parseInt(userId.charAt(9)) === 9 || parseInt(userId.charAt(9)) === 0)) {
+    		var total =
+    		(parseInt(userId.charAt(0)) * 3) +
+    		(parseInt(userId.charAt(1)) * 2) +
+    		(parseInt(userId.charAt(2)) * 7) +
+    		(parseInt(userId.charAt(3)) * 6) +
+    		(parseInt(userId.charAt(4)) * 5) +
+    		(parseInt(userId.charAt(5)) * 4) +
+    		(parseInt(userId.charAt(6)) * 3) +
+    		(parseInt(userId.charAt(7)) * 2);
+
+    		var checkDigit = 11 - (total % 11);
+    		if(parseInt(userId.charAt(8)) === checkDigit) {
+    			valid = true;
+    		}
+      }
+    }
+    return valid;
+  }
+
   createCompany = (e) => {
 
     const { dispatch } = this.props;
 
-    if(this.refs.ssn.getValue().length === 0) {
-      this.setState({ssnerror: true});
+    let userId = this.refs.ssn.getValue();
+    if(userId.indexOf('-') > '-1'){
+    	userId = userId.replace('-','');
     }
-    else
-    {
+
+    if(this.validateUserId(userId)){
       dispatch(createCompany(
-        this.refs.ssn.getValue(),
+        userId,
         this.refs.name.getValue(),
         this.refs.address.getValue(),
         this.refs.postalCode.getValue(),
@@ -42,9 +69,12 @@ class CreateCompany extends React.Component {
         this.refs.comment.getValue(),
         this.getSales(),
       ));
-
       this.props.onCreate();
     }
+    else {
+      this.setState({ssnerror: true});
+    }
+
   };
 
   checkError = () => {
@@ -52,9 +82,6 @@ class CreateCompany extends React.Component {
   };
 
   getSales = () => {
-     //const statusId = '56b6196af7ec61807b2fdffb';
-    //const statusId = '5730d726cf9c62d5409eba72';
-    //const statusId = webconfig.statusId;
 
     let sales = [];
     this.state.categories.map(function(category){
