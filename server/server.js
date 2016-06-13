@@ -95,6 +95,7 @@ app.post('/companies', function (req, res) {
 
         var findParams = {};
 
+
         if(req.body.name) {
            findParams.name = new RegExp(req.body.name, 'i');
         }
@@ -127,7 +128,6 @@ app.post('/companies', function (req, res) {
            findParams.comment = new RegExp(req.body.comment, 'i');
         }
 
-        //console.log(req.body.nosale);
 
         if(req.body.nosale)
         {
@@ -159,19 +159,6 @@ app.post('/companies', function (req, res) {
             };
         }
 
-        /*if(req.body.categories.length > 0) {
-  				findParams.sales = {
-            $elemMatch: {
-              categoryId: {$in: req.body.categories},
-              statusId: {$in: req.body.statuses},
-              salesmanId: {$in: req.body.salesmen}
-            }
-          };
-        }*/
-        //else {
-          //findParams.sales = { $eq: [] }
-        //}
-
         var sortColumn = req.body.sorting.column;
         var sortOrder = req.body.sorting.order === "asc" ? 1 : -1;
 
@@ -198,23 +185,9 @@ app.post('/companies', function (req, res) {
           sort = {'comment': sortOrder};
         }
 
-/*
-        var xxx = {
-          $and : [{
-            $or: [
-              {
-                sales: { $eq: [] }
-              },
-              {
-                sales: { $elemMatch: {categoryId: {$in: req.body.categories}}}
-              }
-            ]
-
-          }]
-        };*/
-
         var collection = db.collection('companies');
         collection.find(findParams).sort(sort).toArray(function(err, docs) {
+          console.log(docs);
           res.jsonp(docs);
         });
 
@@ -228,7 +201,8 @@ app.post('/company', function(req, res) {
     var id = req.params.id;
 
     try{
-      db.collection("companies").insertOne({
+      db.collection("companies").insertOne(
+        {
           "ssn": req.body.ssn,
           "name": req.body.name,
           "address": req.body.address,
@@ -237,7 +211,18 @@ app.post('/company', function(req, res) {
           "email": req.body.email,
           "comment": req.body.comment,
           "sales": req.body.sales
-      });
+        },
+        function (err, result){
+
+          for (var i = 0; i < req.body.sales.length; i++) {
+              insertSale(
+                result.insertedId,
+                req.body.sales[i].categoryId,
+                req.body.sales[i].salesmanId,
+                req.body.sales[i].statusId
+              );
+          }
+       });
 
       res.jsonp({status: 'success'});
    }
@@ -319,6 +304,14 @@ app.post('/addSale', function (req, res) {
          { "$push":
              {"sales": req.body.sale}
          });
+
+         insertSale(
+           ObjectID(req.body.id),
+           req.body.sale.categoryId,
+           req.body.sale.salesmanId,
+           req.body.sale.statusId
+         );
+
          res.jsonp({status: 'success'});
      }
      catch(e) {
@@ -339,6 +332,13 @@ app.post('/deleteSale', function (req, res) {
          { "$pull":
              {"sales": {'categoryId': req.body.categoryId}}
          });
+
+         insertSale(
+           ObjectID(req.body.id),
+           req.body.categoryId,
+           '',
+           ''
+         );
 
          res.jsonp({status: 'success'});
      }
@@ -364,6 +364,13 @@ app.post('/updateSale', function (req, res) {
            {"sales.$": req.body.sale}
        });
 
+       insertSale(
+         ObjectID(req.body.id),
+         req.body.sale.categoryId,
+         req.body.sale.salesmanId,
+         req.body.sale.statusId
+       );
+
        res.jsonp({status: 'success'});
    }
    catch(e) {
@@ -374,6 +381,19 @@ app.post('/updateSale', function (req, res) {
   });
 
 });
+
+function insertSale(companyId, categoryId, salesmanId, statusId) {
+
+  MongoClient.connect(url, function(err, db) {
+    db.collection("sales").insertOne({
+        "companyId": companyId,
+        "categoryId": categoryId,
+        "salesmanId": salesmanId,
+        "statusId": statusId,
+        "created": new Date()
+     });
+   });
+}
 
 
 http.createServer(app).listen(3030, function () {

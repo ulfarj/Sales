@@ -49,24 +49,21 @@ class Categories extends Component {
        categories = this.props.categories.map(category => {
         return category._id;
       });
-      this.setShowNoSaleCompanies(true);
-    }
-    else{
-      this.setShowNoSaleCompanies(false);
     }
 
-    this.setCategories(categories);
+    this.setState({categories, categories});
+    this.setState({showNoSaleCompanies: showAllCategories});
+    this.props.updateAll(categories, showAllCategories);
   };
 
   setCategories = (categories) => {
-
     this.setState({categories, categories});
     var filter = this.state.filter;
     this.props.filter('categories', categories);
   };
 
   showNoSaleCompanies = () => {
-    this.setShowNoSaleCompanies(!this.state.showNoSaleCompanies)
+    this.setShowNoSaleCompanies(!this.state.showNoSaleCompanies);
   };
 
   setShowNoSaleCompanies = (showNoSaleCompanies) => {

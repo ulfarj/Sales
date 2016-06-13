@@ -59,6 +59,15 @@ class Main extends Component {
     componentDidMount(){
     }
 
+    updateAllCategories = (categories, nosale) => {
+      let filter = this.props.filter;
+      filter['categories'] = categories;
+      filter['nosale'] = nosale;
+
+      const { dispatch } = this.props;
+      dispatch(fetchCompanies(filter));
+    };
+
     filter = (name, value) => {
       var filter = this.props.filter;
       filter[name] = value;
@@ -148,7 +157,7 @@ class Main extends Component {
                 <Panel
                   collapsible
                   expanded={this.state.showSelectCategories}>
-                    <Categories filter={this.filter} />
+                    <Categories filter={this.filter} updateAll={this.updateAllCategories}/>
                 </Panel>
               </div>
            </div>

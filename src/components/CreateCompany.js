@@ -13,7 +13,8 @@ class CreateCompany extends React.Component {
      super(props);
      this.state = {
        salesman: '',
-       categories: []
+       categories: [],
+       ssnerror: false
      }
    }
 
@@ -26,18 +27,28 @@ class CreateCompany extends React.Component {
 
     const { dispatch } = this.props;
 
-    dispatch(createCompany(
-      this.refs.ssn.getValue(),
-      this.refs.name.getValue(),
-      this.refs.address.getValue(),
-      this.refs.postalCode.getValue(),
-      this.refs.phone.getValue(),
-      this.refs.email.getValue(),
-      this.refs.comment.getValue(),
-      this.getSales(),
-    ));
+    if(this.refs.ssn.getValue().length === 0) {
+      this.setState({ssnerror: true});
+    }
+    else
+    {
+      dispatch(createCompany(
+        this.refs.ssn.getValue(),
+        this.refs.name.getValue(),
+        this.refs.address.getValue(),
+        this.refs.postalCode.getValue(),
+        this.refs.phone.getValue(),
+        this.refs.email.getValue(),
+        this.refs.comment.getValue(),
+        this.getSales(),
+      ));
 
-    this.props.onCreate();
+      this.props.onCreate();
+    }
+  };
+
+  checkError = () => {
+    this.setState({ssnerror: this.refs.ssn.getValue().length === 0});
   };
 
   getSales = () => {
@@ -146,7 +157,7 @@ class CreateCompany extends React.Component {
            </div>
 
            <div style={{display: 'flex', flexDirection: 'row'}}>
-            <Input type="text" label="Kennitala" placeholder="Kennitala" ref="ssn" style={{width: 250}} />
+            <Input type="text" label="Kennitala" placeholder="Kennitala" ref="ssn" onChange={this.checkError} bsStyle={this.state.ssnerror ? 'error' : ''} style={{width: 250}} />
             <Input type="text" label="Heimilisfang" placeholder="Heimilisfang" ref="address" style={{width: 250}} />
             <Input type="text" label="Póstnúmer" placeholder="Póstnúmer" ref="postalCode" style={{width: 120}} />
            </div>

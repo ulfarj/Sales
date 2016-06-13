@@ -36,9 +36,9 @@ class SalesmanFilter extends Component {
     let salesmen = this.props.salesmen.map(salesman => {
         return salesman._id;
     });
-    
+
     this.setState({salesmen: salesmen});
-    this.props.filter('salesmen', salesmen);
+    //this.props.filter('salesmen', salesmen);
   };
 
   changeSalesman = (e) => {
@@ -99,7 +99,7 @@ class SalesmanFilter extends Component {
             <Button
               bsStyle="secondary"
               onClick={this.handleTouchTap}>
-                Sölumaður
+                SM
             </Button>
           </div>
 

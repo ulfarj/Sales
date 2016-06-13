@@ -93,14 +93,14 @@ class Companies extends Component {
            rowHeight={30}
            headerHeight={80}
            rowsCount={rowCount}
-           width={1200}
+           width={1165}
            height={600}
            {...this.props}>
            <Column
-             header={<SalesmanFilter label="Sölumaður" column="salesman" filter={this.filter} />}
+             header={<SalesmanFilter label="SM" column="salesman" filter={this.filter} />}
              cell={props => (<SalesmenCell {...props} />)}
              fixed={true}
-             width={160}
+             width={140}
             />
             <Column
               header={<StatusFilter label="Staða" column="status" filter={this.filter} />}
@@ -127,10 +127,10 @@ class Companies extends Component {
                width={160}
               />
             <Column
-              header={<TextFilter label="Póst nr" column="postalCode" filter={this.filterRow} sorting={this.sortIcon('postalCode')} onSort={this.onSort} /> }
+              header={<TextFilter label="Pnr" column="postalCode" filter={this.filterRow} sorting={this.sortIcon('postalCode')} onSort={this.onSort} /> }
               cell={props => (<TextCell {...props} column="postalCode" />)}
               fixed={true}
-              width={80}
+              width={65}
               />
             <Column
               header={<TextFilter label="Sími" column="phone" filter={this.filterRow} sorting={this.sortIcon('phone')} onSort={this.onSort} />}
