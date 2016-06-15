@@ -87,7 +87,7 @@ export function createCompany(ssn, name, address, postalCode, phone, email, comm
 }
 
 
-export function updateCompany(id, ssn, name, address, postalCode, phone, email) {
+export function updateCompany(id, ssn, name, address, postalCode, phone, email, legal, dontcontact) {
 
   var company = {
     "id": id,
@@ -97,6 +97,8 @@ export function updateCompany(id, ssn, name, address, postalCode, phone, email) 
     "postalCode": postalCode,
     "phone": phone,
     "email": email,
+    "legal": legal,
+    "dontcontact": dontcontact
   };
 
   let config = {

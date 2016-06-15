@@ -247,6 +247,8 @@ app.post('/updateCompany', function (req, res) {
              "postalCode": req.body.postalCode,
              "phone": req.body.phone,
              "email": req.body.email,
+             "legal": req.body.legal,
+             "dontcontact": req.body.dontcontact
            }
          });
 
