@@ -95,20 +95,20 @@ class Companies extends Component {
            rowHeight={30}
            headerHeight={80}
            rowsCount={rowCount}
-           width={1155}
+           width={1145}
            height={600}
            {...this.props}>
            <Column
              header={<Cell></Cell>}
              cell={props => (<SignCell {...props} />)}
              fixed={true}
-             width={50}
+             width={60}
             />
            <Column
              header={<SalesmanFilter label="SM" column="salesman" filter={this.filter} />}
              cell={props => (<SalesmenCell {...props} />)}
              fixed={true}
-             width={80}
+             width={60}
             />
             <Column
               header={<StatusFilter label="Staða" column="status" filter={this.filter} />}

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Input } from 'react-bootstrap';
 import {Table, Column, Cell} from 'fixed-data-table';
 import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 
 class SalesmenCell extends Component {
 
@@ -21,18 +22,32 @@ class SalesmenCell extends Component {
     if(salesmen.length > 1){
 
       let tooltip = salesmen.map(salesman => {
+          return ' '+salesman;        
           return(
             <span>{salesman}</span>
           );
       });
 
+
       return(
-        <Cell>* {salesmen.length} Sölumenn</Cell>
+        <Cell title={tooltip}>* {salesmen.length} Sölumenn</Cell>
+      );
+    }
+
+    let salesman = salesmen[0];
+    if(salesman && salesman.length > 0) {
+
+      return (
+        <div>
+          <Cell title={salesman}>{salesman.replace(/[^A-Z]/g, '')}</Cell>
+        </div>
       );
     }
 
     return(
-      <Cell>{salesmen[0]}</Cell>
+      <div>
+        <Cell></Cell>
+      </div>
     );
   }
 
