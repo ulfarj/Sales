@@ -176,5 +176,26 @@ export function addComment(id, comment) {
         }
       });
   }
+}
 
+
+export function deleteCompany(id) {
+
+  var company = {
+    "id": id
+  };
+
+  return (dispatch, getState) => {
+    dispatch(updateCompanyRequest(company))
+    return fetch(webconfig.apiUrl+'/deleteCompany/'+id)
+      .then(response => response.json())
+      .then(function(response) {
+        if(response.error){
+          dispatch(updateFailure(response.error));
+        } else {
+          dispatch(updateSuccess(company));
+          dispatch(fetchCompanies(getState().companies.filter))
+        }
+      });
+  }
 }

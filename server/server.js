@@ -62,7 +62,6 @@ app.post('/authenticate', function(req, res) {
             var token = jwt.sign(user, 'weirdoes', {
               expiresIn: "20d"
             });
-
             // return the information including token as JSON
             res.json({
               ok: true,
@@ -175,7 +174,6 @@ app.post('/companies', function (req, res) {
            findParams.comment = new RegExp(req.body.comment, 'i');
         }
 
-
         if(req.body.nosale)
         {
           findParams.$and =
@@ -206,6 +204,9 @@ app.post('/companies', function (req, res) {
             };
         }
 
+        //findParams.$and = {deleted: { $exists: false }};
+        findParams.deleted = { $exists: false };
+
         var collection = db.collection('companies');
         collection.find(findParams).toArray(function(err, docs) {
           var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
@@ -226,17 +227,6 @@ var sortByProperty = function (property, order) {
       };
     }
 };
-
-/*
-var sortByProperty = function (property) {
-    return function (x, y) {
-        return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
-    };
-};
-
-function sortLocale(a,b) {
-  return a.localeCompare(b, 'is');
-}*/
 
 app.post('/company', function(req, res) {
 
@@ -307,6 +297,30 @@ app.post('/updateCompany', function (req, res) {
      }
 
     });
+});
+
+
+app.get('/deleteCompany/:id', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+
+    try{
+      db.collection("companies").update(
+       { _id: ObjectID(req.params.id) },
+       {
+         $set:
+         {
+           "deleted": true
+         }
+       });
+
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+
+  });
 });
 
 app.post('/addComment', function (req, res) {
