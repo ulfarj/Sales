@@ -4,6 +4,9 @@ import {Table, Column, Cell} from 'fixed-data-table';
 import { connect } from 'react-redux';
 import TextCell from './cells/TextCell';
 import EditCell from './cells/EditCell';
+import PhoneCell from './cells/PhoneCell';
+import SsnCell from './cells/SsnCell';
+import SignCell from './cells/SignCell';
 import TextFilter from './cells/TextFilter';
 import SalesmanFilter from './cells/SalesmanFilter';
 import StatusFilter from './cells/StatusFilter';
@@ -85,7 +88,6 @@ class Companies extends Component {
 
 
   render() {
-
     const { rowCount, sorting } = this.props;
 
     return(
@@ -93,14 +95,20 @@ class Companies extends Component {
            rowHeight={30}
            headerHeight={80}
            rowsCount={rowCount}
-           width={1165}
+           width={1155}
            height={600}
            {...this.props}>
+           <Column
+             header={<Cell></Cell>}
+             cell={props => (<SignCell {...props} />)}
+             fixed={true}
+             width={50}
+            />
            <Column
              header={<SalesmanFilter label="SM" column="salesman" filter={this.filter} />}
              cell={props => (<SalesmenCell {...props} />)}
              fixed={true}
-             width={140}
+             width={80}
             />
             <Column
               header={<StatusFilter label="Staða" column="status" filter={this.filter} />}
@@ -116,7 +124,7 @@ class Companies extends Component {
             />
             <Column
               header={<TextFilter label="Kennitala" column="ssn" filter={this.filterRow} sorting={this.sortIcon('ssn')} onSort={this.onSort} /> }
-              cell={props => (<TextCell {...props} column="ssn" />)}
+              cell={props => (<SsnCell {...props} column="ssn" />)}
               fixed={true}
               width={120}
              />
@@ -134,7 +142,7 @@ class Companies extends Component {
               />
             <Column
               header={<TextFilter label="Sími" column="phone" filter={this.filterRow} sorting={this.sortIcon('phone')} onSort={this.onSort} />}
-              cell={props => (<TextCell {...props} column="phone" />)}
+              cell={props => (<PhoneCell {...props} column="phone" />)}
               fixed={true}
               width={100}
               />

@@ -12,8 +12,6 @@ function requestCompanies(filter) {
 
 function receiveCompanies(json) {
 
-  console.log(json);
-
   return {
     type: types.RECEIVE_COMPANIES,
     items: json,

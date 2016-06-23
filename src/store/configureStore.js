@@ -6,11 +6,11 @@ import { createHistory } from 'history';
 import { reduxReactRouter } from 'redux-router';
 
 export default function configureStore(initialState) {
-  const store = createStore(  		  
-  	rootReducer, 
-  	initialState,  	  	 
+  const store = createStore(
+  	rootReducer,
+  	initialState,
   	applyMiddleware(thunkMiddleware, createLogger()),
-  	reduxReactRouter({createHistory}),    	
+  	reduxReactRouter({createHistory}),
   	);
 
   return store;
