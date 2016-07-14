@@ -4,11 +4,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var url  = require('url');
 var _ = require('lodash');
-var jwt    = require('jsonwebtoken');
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID
-
 
 var app = express();
 
@@ -16,13 +14,8 @@ app.use(function(req,res,next){
     next();
 });
 
-app.use( bodyParser.json({limit: '50mb'}) );
-app.use(bodyParser.urlencoded({
-  limit: '50mb',
-  extended: true,
-  parameterLimit:50000
-}));
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(function(req, res, next) {
     if (req.headers.origin) {
@@ -37,106 +30,6 @@ app.use(function(req, res, next) {
 });
 
 var url = 'mongodb://localhost:27017/ssdb';
-
-
-app.post('/createSalesman', function(req, res) {
-
-  console.log(req.body.name);
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("salesmen").insertOne(
-        {"name": req.body.name}
-       );
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-  });
-});
-
-app.post('/createCategory', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("categories").insertOne(
-        {"name": req.body.name}
-       );
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-  });
-});
-
-app.post('/createStatus', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("statuses").insertOne(
-        {"name": req.body.name},
-        {"color": req.body.color}
-       );
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-  });
-});
-
-
-
-
-app.post('/authenticate', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-      var collection = db.collection('users');
-
-      console.log(req.body.username);
-      // find the user
-      collection.findOne({
-        username: req.body.username
-      }, function(err, user) {
-
-        if (err) throw err;
-
-        if(err) {
-          res.status(500).json({error: "Internal server error"});
-        }
-
-        if (!user) {
-          res.status(500).json({error: "Authentication failed. User not found."});
-          //res.json({ ok: false, message: 'Authentication failed. User not found.' });
-        } else if (user) {
-          // check if password matches
-          if (user.password != req.body.password) {
-            res.status(500).json({error: "Authentication failed. Wrong password."});
-          } else {
-            // if user is found and password is right
-            // create a token
-            var token = jwt.sign(user, 'weirdoes', {
-              expiresIn: "20d"
-            });
-            // return the information including token as JSON
-            res.json({
-              ok: true,
-              access_token: token,
-              userName: user.username
-            });
-          }
-
-        }
-      });
-  });
-});
-
-
 
 app.get('/categories', function (req, res) {
 
@@ -234,6 +127,7 @@ app.post('/companies', function (req, res) {
            findParams.comment = new RegExp(req.body.comment, 'i');
         }
 
+
         if(req.body.nosale)
         {
           findParams.$and =
@@ -264,12 +158,8 @@ app.post('/companies', function (req, res) {
             };
         }
 
-        //findParams.$and = {deleted: { $exists: false }};
-        findParams.deleted = { $exists: false };
-
         var collection = db.collection('companies');
         collection.find(findParams).toArray(function(err, docs) {
-          //console.log(docs);
           var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
           res.jsonp(companies);
         });
@@ -288,6 +178,17 @@ var sortByProperty = function (property, order) {
       };
     }
 };
+
+/*
+var sortByProperty = function (property) {
+    return function (x, y) {
+        return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
+    };
+};
+
+function sortLocale(a,b) {
+  return a.localeCompare(b, 'is');
+}*/
 
 app.post('/company', function(req, res) {
 
@@ -329,24 +230,6 @@ app.post('/company', function(req, res) {
   });
 });
 
-
-app.post('/importcompanies', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("companies").insert(req.body.companies);
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-
-  });
-});
-
-
-
 app.post('/updateCompany', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
@@ -376,30 +259,6 @@ app.post('/updateCompany', function (req, res) {
      }
 
     });
-});
-
-
-app.get('/deleteCompany/:id', function (req, res) {
-  MongoClient.connect(url, function(err, db) {
-
-    try{
-      db.collection("companies").update(
-       { _id: ObjectID(req.params.id) },
-       {
-         $set:
-         {
-           "deleted": true
-         }
-       });
-
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-
-  });
 });
 
 app.post('/addComment', function (req, res) {

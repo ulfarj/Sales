@@ -4,11 +4,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var url  = require('url');
 var _ = require('lodash');
-var jwt    = require('jsonwebtoken');
+//var jwt    = require('jsonwebtoken');
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID
-
 
 var app = express();
 
@@ -16,13 +15,8 @@ app.use(function(req,res,next){
     next();
 });
 
-app.use( bodyParser.json({limit: '50mb'}) );
-app.use(bodyParser.urlencoded({
-  limit: '50mb',
-  extended: true,
-  parameterLimit:50000
-}));
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(function(req, res, next) {
     if (req.headers.origin) {
@@ -38,62 +32,7 @@ app.use(function(req, res, next) {
 
 var url = 'mongodb://localhost:27017/ssdb';
 
-
-app.post('/createSalesman', function(req, res) {
-
-  console.log(req.body.name);
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("salesmen").insertOne(
-        {"name": req.body.name}
-       );
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-  });
-});
-
-app.post('/createCategory', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("categories").insertOne(
-        {"name": req.body.name}
-       );
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-  });
-});
-
-app.post('/createStatus', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("statuses").insertOne(
-        {"name": req.body.name},
-        {"color": req.body.color}
-       );
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-  });
-});
-
-
-
-
-app.post('/authenticate', function(req, res) {
+/*app.post('/authenticate', function(req, res) {
 
   MongoClient.connect(url, function(err, db) {
       var collection = db.collection('users');
@@ -133,9 +72,10 @@ app.post('/authenticate', function(req, res) {
 
         }
       });
+
   });
 });
-
+*/
 
 
 app.get('/categories', function (req, res) {
@@ -269,7 +209,6 @@ app.post('/companies', function (req, res) {
 
         var collection = db.collection('companies');
         collection.find(findParams).toArray(function(err, docs) {
-          //console.log(docs);
           var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
           res.jsonp(companies);
         });
@@ -328,24 +267,6 @@ app.post('/company', function(req, res) {
 
   });
 });
-
-
-app.post('/importcompanies', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("companies").insert(req.body.companies);
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-
-  });
-});
-
-
 
 app.post('/updateCompany', function (req, res) {
 

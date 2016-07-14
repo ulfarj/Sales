@@ -4,6 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var url  = require('url');
 var _ = require('lodash');
+//var jwt    = require('jsonwebtoken');
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID
@@ -14,8 +15,12 @@ app.use(function(req,res,next){
     next();
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json({limit: '50mb'}) );
+app.use(bodyParser.urlencoded({
+  limit: '50mb',
+  extended: true,
+  parameterLimit:50000
+}));
 
 app.use(function(req, res, next) {
     if (req.headers.origin) {
@@ -30,6 +35,67 @@ app.use(function(req, res, next) {
 });
 
 var url = 'mongodb://localhost:27017/ssdb';
+
+app.post('/importcompanies', function(req, res) {
+
+  MongoClient.connect(url, function(err, db) {
+    try{
+      db.collection("companies").insert(req.body.companies);
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+
+  });
+});
+
+/*app.post('/authenticate', function(req, res) {
+
+  MongoClient.connect(url, function(err, db) {
+      var collection = db.collection('users');
+
+      console.log(req.body.username);
+      // find the user
+      collection.findOne({
+        username: req.body.username
+      }, function(err, user) {
+
+        if (err) throw err;
+
+        if(err) {
+          res.status(500).json({error: "Internal server error"});
+        }
+
+        if (!user) {
+          res.status(500).json({error: "Authentication failed. User not found."});
+          //res.json({ ok: false, message: 'Authentication failed. User not found.' });
+        } else if (user) {
+          // check if password matches
+          if (user.password != req.body.password) {
+            res.status(500).json({error: "Authentication failed. Wrong password."});
+          } else {
+            // if user is found and password is right
+            // create a token
+            var token = jwt.sign(user, 'weirdoes', {
+              expiresIn: "20d"
+            });
+            // return the information including token as JSON
+            res.json({
+              ok: true,
+              access_token: token,
+              userName: user.username
+            });
+          }
+
+        }
+      });
+
+  });
+});
+*/
+
 
 app.get('/categories', function (req, res) {
 
@@ -95,7 +161,6 @@ app.post('/companies', function (req, res) {
 
         var findParams = {};
 
-
         if(req.body.name) {
            findParams.name = new RegExp(req.body.name, 'i');
         }
@@ -128,7 +193,6 @@ app.post('/companies', function (req, res) {
            findParams.comment = new RegExp(req.body.comment, 'i');
         }
 
-/*
         if(req.body.nosale)
         {
           findParams.$and =
@@ -158,41 +222,30 @@ app.post('/companies', function (req, res) {
               }
             };
         }
-*/
-        var sortColumn = req.body.sorting.column;
-        var sortOrder = req.body.sorting.order === "asc" ? 1 : -1;
 
-        var sort = {'_id': sortOrder};
-        if(sortColumn === "name"){
-          sort = {'name': sortOrder};
-        }
-        if(sortColumn === "ssn"){
-          sort = {'ssn': sortOrder};
-        }
-        if(sortColumn === "phone"){
-          sort = {'phone': sortOrder};
-        }
-        if(sortColumn === "address"){
-          sort = {'address': sortOrder};
-        }
-        if(sortColumn === "postalCode"){
-          sort = {'postalCode': sortOrder};
-        }
-        if(sortColumn === "email"){
-          sort = {'email': sortOrder};
-        }
-        if(sortColumn === "comment"){
-          sort = {'comment': sortOrder};
-        }
+        //findParams.$and = {deleted: { $exists: false }};
+        findParams.deleted = { $exists: false };
 
         var collection = db.collection('companies');
-        collection.find(findParams).sort(sort).toArray(function(err, docs) {
-          console.log(docs);
-          res.jsonp(docs);
+        collection.find(findParams).toArray(function(err, docs) {
+          var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
+          res.jsonp(companies);
         });
 
     });
 });
+
+var sortByProperty = function (property, order) {
+    if(order === 'asc') {
+      return function (a, b) {
+          return a[property].localeCompare(b[property], 'is');
+      };
+    }else {
+      return function (a, b) {
+          return b[property].localeCompare(a[property], 'is');
+      };
+    }
+};
 
 app.post('/company', function(req, res) {
 
@@ -250,6 +303,8 @@ app.post('/updateCompany', function (req, res) {
              "postalCode": req.body.postalCode,
              "phone": req.body.phone,
              "email": req.body.email,
+             "legal": req.body.legal,
+             "dontcontact": req.body.dontcontact
            }
          });
 
@@ -261,6 +316,30 @@ app.post('/updateCompany', function (req, res) {
      }
 
     });
+});
+
+
+app.get('/deleteCompany/:id', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+
+    try{
+      db.collection("companies").update(
+       { _id: ObjectID(req.params.id) },
+       {
+         $set:
+         {
+           "deleted": true
+         }
+       });
+
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+
+  });
 });
 
 app.post('/addComment', function (req, res) {

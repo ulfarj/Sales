@@ -4,6 +4,8 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import App from './src/containers/app';
 import Main from './src/components/main';
 import Login from './src/components/login';
+import ImportCompanies from './src/containers/ImportCompanies';
+import Admin from './src/containers/Admin';
 
 class Routes extends React.Component {
 
@@ -15,6 +17,8 @@ class Routes extends React.Component {
         <Route path="/" component={App}>
           <IndexRoute component={Main}/>
           <Route path="login" component={Login} />
+          <Route path="ImportCompanies" component={ImportCompanies} />
+          <Route path="Admin" component={Admin} />
         </Route>
       </Router>
     );

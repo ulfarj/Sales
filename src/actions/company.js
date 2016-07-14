@@ -77,12 +77,27 @@ export function createCompany(ssn, name, address, postalCode, phone, email, comm
           dispatch(createFailure(response.error));
         } else {
           dispatch(createSuccess(company));
-
-          console.log(getState().companies);
-
           dispatch(fetchCompanies(getState().companies.filter))
         }
       });
+  }
+}
+
+
+export function importCompanies(companies) {
+
+  let config = {
+		method: 'POST',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify({"companies": companies})
+  }
+
+  return (dispatch, getState) => {
+    //dispatch(createCompanyRequest(company))
+    fetch(webconfig.apiUrl+'/importcompanies/', config);
   }
 }
 

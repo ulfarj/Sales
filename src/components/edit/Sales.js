@@ -19,7 +19,7 @@ class Sales extends React.Component {
 	componentWillMount(){
     const {salesmen, statuses, company} = this.props;
 
-    var statusId = _.find(statuses, { 'name': 'Enginn staða' });
+    var statusId = _.find(statuses, { 'name': 'Engin staða' });
 
     this.setState({sales: company.sales});
     this.setState({statusId: statusId});

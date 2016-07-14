@@ -48,3 +48,12 @@ export function fetchSalesmenIfNeeded() {
     }
   }
 }
+
+export function fetchCurrentSalesmen() {
+  return dispatch => {
+    dispatch(requestSalesmen())
+    return fetch(webconfig.apiUrl+'/salesmen')
+      .then(response => response.json())
+      .then(json => dispatch(receiveSalesmen(json)))
+  }
+}
