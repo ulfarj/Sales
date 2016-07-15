@@ -47,3 +47,12 @@ export function fetchStatusesIfNeeded() {
     }
   }
 }
+
+export function fetchCurrentStatuses() {
+  return dispatch => {
+    dispatch(requestStatuses())
+    return fetch(webconfig.apiUrl+'/statuses')
+      .then(response => response.json())
+      .then(json => dispatch(receivesStatuses(json)))
+  }
+}

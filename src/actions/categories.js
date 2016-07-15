@@ -58,3 +58,12 @@ export function fetchCurrentCategories() {
       .then(json => dispatch(receiveCategories(json)))
   }
 }
+
+export function fetchCurrentCategories() {
+  return dispatch => {
+    dispatch(requestCategories())
+    return fetch(webconfig.apiUrl+'/categories')
+      .then(response => response.json())
+      .then(json => dispatch(receiveCategories(json)))
+  }
+}

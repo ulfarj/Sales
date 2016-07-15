@@ -41,8 +41,6 @@ var url = 'mongodb://localhost:27017/ssdb';
 
 app.post('/createSalesman', function(req, res) {
 
-  console.log(req.body.name);
-
   MongoClient.connect(url, function(err, db) {
     try{
       db.collection("salesmen").insertOne(
@@ -78,8 +76,7 @@ app.post('/createStatus', function(req, res) {
   MongoClient.connect(url, function(err, db) {
     try{
       db.collection("statuses").insertOne(
-        {"name": req.body.name},
-        {"color": req.body.color}
+        {"name": req.body.name, "color": req.body.color}
        );
       res.jsonp({status: 'success'});
    }
@@ -90,8 +87,74 @@ app.post('/createStatus', function(req, res) {
   });
 });
 
+app.get('/deleteSalesman/:id', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
 
+    try{
+      db.collection("salesmen").update(
+       { _id: ObjectID(req.params.id) },
+       {
+         $set:
+         {
+           "deleted": true
+         }
+       });
 
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+
+  });
+});
+
+app.get('/deleteStatus/:id', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+
+    try{
+      db.collection("statuses").update(
+       { _id: ObjectID(req.params.id) },
+       {
+         $set:
+         {
+           "deleted": true
+         }
+       });
+
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+
+  });
+});
+
+app.get('/deleteCategory/:id', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+
+    try{
+      db.collection("categories").update(
+       { _id: ObjectID(req.params.id) },
+       {
+         $set:
+         {
+           "deleted": true
+         }
+       });
+
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+
+  });
+});
 
 app.post('/authenticate', function(req, res) {
 
@@ -142,8 +205,10 @@ app.get('/categories', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
         var collection = db.collection('categories');
+        var findParams = {};
+        findParams.deleted = { $exists: false };
 
-        collection.find({}).toArray(function(err, docs) {
+        collection.find(findParams).toArray(function(err, docs) {
             res.jsonp(docs);
         });
     });
@@ -153,8 +218,10 @@ app.get('/salesmen', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
         var collection = db.collection('salesmen');
+        var findParams = {};
+        findParams.deleted = { $exists: false };
 
-        collection.find({}).toArray(function(err, docs) {
+        collection.find(findParams).toArray(function(err, docs) {
             res.jsonp(docs);
         });
     });
@@ -164,8 +231,10 @@ app.get('/statuses', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
         var collection = db.collection('statuses');
+        var findParams = {};
+        findParams.deleted = { $exists: false };
 
-        collection.find({}).toArray(function(err, docs) {
+        collection.find(findParams).toArray(function(err, docs) {
             res.jsonp(docs);
         });
     });

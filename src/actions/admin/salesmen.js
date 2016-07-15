@@ -49,3 +49,41 @@ export function createSalesman(name) {
       });
   }
 }
+
+function deleteSalesmanRequest(salesman) {
+  return {
+    type: types.DELETE_SALESMAN_REQUEST,
+    salesman: salesman
+  }
+}
+
+function deleteSalesmanSuccess(){
+  return {
+    type: types.DELETE_SALESMAN_SUCCESS
+  }
+}
+
+function deleteSalesmanFailure(error){
+  return {
+    type: types.DELETE_SALESMAN_FAILURE,
+    error: error
+  }
+}
+
+
+export function deleteSalesman(id) {
+
+  return (dispatch, getState) => {
+    dispatch(deleteSalesmanRequest(id))
+    return fetch(webconfig.apiUrl+'/deleteSalesman/'+id)
+      .then(response => response.json())
+      .then(function(response) {
+        if(response.error){
+          dispatch(deleteSalesmanFailure(response.error));
+        } else {
+          dispatch(deleteSalesmanSuccess());
+          dispatch(fetchCurrentSalesmen());
+        }
+      });
+  }
+}
