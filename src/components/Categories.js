@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Grid, Row, Col, Input } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setFilter } from '../actions/companies';
+import _ from 'lodash';
 
 class Categories extends Component {
 
@@ -120,8 +121,7 @@ Categories.propTypes = {
 }
 
 function mapStateToProps(state) {
-  var categories = state.categories.items;
-
+  let categories =  _.sortBy( state.categories.items, function(o) { return o.name; });
   return { categories }
 }
 
