@@ -43,8 +43,9 @@ class EditCompany extends React.Component {
       this.refs.phone.getValue(),
       this.refs.email.getValue(),
 			this.state.company.legal,
-			this.state.company.dontcontact
-		))
+			this.state.company.dontcontact,
+			this.refs.contact.getValue(),
+		));
 
 		this.props.onUpdate();
 	};
@@ -102,7 +103,7 @@ class EditCompany extends React.Component {
 								<div style={{display: 'flex', flexDirection: 'row'}}>
 									<Input type="text" label="Sími" placeholder="Sími" onChange={e => this.onChange(e, 'phone')} value={company.phone} ref="phone" style={{width: 250}} />
 									<Input type="text" label="Netfang" placeholder="Netfang" onChange={e => this.onChange(e, 'email')} onChange={e => this.onChange(e, 'email')} value={company.email} ref="email" style={{width: 250}} />
-									<Input type="text" label="Tengill" placeholder="Tengill" onChange={e => this.onChange(e, 'link')} ref="link" style={{width: 250}} />
+									<Input type="text" label="Tengill" placeholder="Tengill" onChange={e => this.onChange(e, 'contact')} value={company.contact} ref="contact" style={{width: 250}} />
 								</div>
 								<div>
 								<Input

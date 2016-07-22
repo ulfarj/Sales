@@ -95,7 +95,7 @@ class Companies extends Component {
            rowHeight={30}
            headerHeight={80}
            rowsCount={rowCount}
-           width={1145}
+           width={1265}
            height={600}
            {...this.props}>
            <Column
@@ -149,6 +149,12 @@ class Companies extends Component {
             <Column
               header={<TextFilter label="Netfang" column="email" filter={this.filterRow} sorting={this.sortIcon('email')} onSort={this.onSort} />}
               cell={props => (<TextCell {...props} column="email" />)}
+              fixed={true}
+              width={120}
+              />
+            <Column
+              header={<TextFilter label="Tengill" column="contact" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
+              cell={props => (<TextCell {...props} column="contact" />)}
               fixed={true}
               width={120}
               />

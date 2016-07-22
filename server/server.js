@@ -303,6 +303,10 @@ app.post('/companies', function (req, res) {
            findParams.comment = new RegExp(req.body.comment, 'i');
         }
 
+        if(req.body.contact) {
+           findParams.contact = new RegExp(req.body.contact, 'i');
+        }
+
         if(req.body.nosale)
         {
           findParams.$and =
@@ -433,7 +437,8 @@ app.post('/updateCompany', function (req, res) {
              "phone": req.body.phone,
              "email": req.body.email,
              "legal": req.body.legal,
-             "dontcontact": req.body.dontcontact
+             "dontcontact": req.body.dontcontact,
+             "contact": req.body.contact
            }
          });
 

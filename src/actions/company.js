@@ -102,7 +102,7 @@ export function importCompanies(companies) {
 }
 
 
-export function updateCompany(id, ssn, name, address, postalCode, phone, email, legal, dontcontact) {
+export function updateCompany(id, ssn, name, address, postalCode, phone, email, legal, dontcontact, contact) {
 
   var company = {
     "id": id,
@@ -113,7 +113,8 @@ export function updateCompany(id, ssn, name, address, postalCode, phone, email, 
     "phone": phone,
     "email": email,
     "legal": legal,
-    "dontcontact": dontcontact
+    "dontcontact": dontcontact,
+    "contact": contact
   };
 
   let config = {
