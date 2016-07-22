@@ -26,6 +26,7 @@ class StatusFilter extends Component {
     this.state = {
       statuses: [],
       open: false,
+      showAll: true,
     };
   }
 
@@ -57,6 +58,22 @@ class StatusFilter extends Component {
   setStatuses = (statuses) => {
     this.setState({statuses, statuses});
     this.props.filter('statuses', statuses);
+  };
+
+  toggleAll = (e) => {
+
+    var showAll = !this.state.showAll;
+
+    let statuses = [];
+
+    if(showAll){
+       statuses = this.props.statuses.map(status => {
+        return status._id;
+      });
+    }
+
+    this.setState({showAll: showAll});
+    this.setStatuses(statuses);
   };
 
   handleTouchTap = (event) => {
@@ -111,7 +128,13 @@ class StatusFilter extends Component {
             onRequestClose={this.handleRequestClose}
           >
              <div style={{padding: '10px'}}>
-             {statuses}
+              <Input
+                type="checkbox"
+                label='Sýna allt'
+                value='showall'
+                checked={this.state.showAll}
+                onClick={e => this.toggleAll(e)} />
+              {statuses}
             </div>
           </Popover>
           </div>

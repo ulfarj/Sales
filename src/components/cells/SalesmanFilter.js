@@ -27,6 +27,7 @@ class SalesmanFilter extends Component {
       filter: {},
       salesmen: [],
       open: false,
+      showAll: true,
     };
   }
 
@@ -58,6 +59,23 @@ class SalesmanFilter extends Component {
   setSalesmen = (salesmen) => {
     this.setState({salesmen, salesmen});
     this.props.filter('salesmen', salesmen);
+  };
+
+
+  toggleAll = (e) => {
+
+    var showAll = !this.state.showAll;
+
+    let salesmen = [];
+
+    if(showAll){
+       salesmen = this.props.salesmen.map(salesman => {
+        return salesman._id;
+      });
+    }
+
+    this.setState({showAll: showAll});
+    this.setSalesmen(salesmen);
   };
 
   handleTouchTap = (event) => {
@@ -112,7 +130,13 @@ class SalesmanFilter extends Component {
             onRequestClose={this.handleRequestClose}
           >
              <div style={{padding: '10px'}}>
-             {salesmen}
+               <Input
+                 type="checkbox"
+                 label='Sýna allt'
+                 value='showall'
+                 checked={this.state.showAll}
+                 onClick={e => this.toggleAll(e)} />
+               {salesmen}
             </div>
           </Popover>
           </div>

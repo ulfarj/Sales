@@ -112,7 +112,6 @@ class Categories extends Component {
       </Grid>
     )
   }
-
 }
 
 Categories.propTypes = {
