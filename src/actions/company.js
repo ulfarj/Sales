@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import * as types from '../constants/ActionTypes';
-import { fetchCompanies } from './companies';
+import { fetchCompanies, updateCompanyItem } from './companies';
 import webconfig from 'config';
 
 function createCompanyRequest(company) {
@@ -136,7 +136,8 @@ export function updateCompany(id, ssn, name, address, postalCode, phone, email, 
           dispatch(updateFailure(response.error));
         } else {
           dispatch(updateSuccess(company));
-          dispatch(fetchCompanies(getState().companies.filter))
+          dispatch(updateCompanyItem(company));
+    //      dispatch(fetchCompanies(getState().companies.filter))
         }
       });
   }

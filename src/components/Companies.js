@@ -83,6 +83,7 @@ class Companies extends Component {
 
   sortIcon = (column) => {
     const { sorting } = this.props;
+    //console.log(sorting);
     return sorting.column === column ? (sorting.order === 'desc' ? '↓' : '↑') : '';
   };
 

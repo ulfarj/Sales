@@ -44,3 +44,21 @@ export function setFilter(filter) {
     filter: filter
   }
 }
+
+export function updateCompanyItem(company) {
+
+  return (dispatch, getState) => {
+    let items = getState().companies.items;
+    let index = _.findIndex(items, ['_id', company.id]);
+
+    dispatch(updateCompanyItems(index, company));
+  }
+}
+
+export function updateCompanyItems(index, company) {
+  return {
+    type: types.UPDATE_COMPANY_ITEM,
+    index: index,
+    company: company
+  }
+}
