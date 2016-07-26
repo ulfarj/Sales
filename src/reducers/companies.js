@@ -1,5 +1,6 @@
 import {
-  REQUEST_COMPANIES, RECEIVE_COMPANIES, SET_FILTER, UPDATE_COMPANY_ITEM,
+  REQUEST_COMPANIES, RECEIVE_COMPANIES, SET_FILTER,
+  UPDATE_COMPANY_ITEM, UPDATE_COMPANY_ITEM_SALES,
 } from '../constants/ActionTypes';
 import update from 'react-addons-update';
 
@@ -38,6 +39,14 @@ export default function companies(state = {}, action) {
          },
        })
      })
+     case UPDATE_COMPANY_ITEM_SALES:
+       return Object.assign({}, state, {
+        items: update(state.items, {
+          [action.index]: {
+            sales: { $set: action.sales },
+          },
+        })
+      })
     default:
       return state
   }

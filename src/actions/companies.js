@@ -45,6 +45,14 @@ export function setFilter(filter) {
   }
 }
 
+export function updateCompanyItems(index, company) {
+  return {
+    type: types.UPDATE_COMPANY_ITEM,
+    index: index,
+    company: company
+  }
+}
+
 export function updateCompanyItem(company) {
 
   return (dispatch, getState) => {
@@ -55,10 +63,20 @@ export function updateCompanyItem(company) {
   }
 }
 
-export function updateCompanyItems(index, company) {
+export function updateCompanyItemSales(index, sales) {
   return {
-    type: types.UPDATE_COMPANY_ITEM,
+    type: types.UPDATE_COMPANY_ITEM_SALES,
     index: index,
-    company: company
+    sales: sales
+  }
+}
+
+export function updateCompanySales(companyId, sales) {
+
+  return (dispatch, getState) => {
+    let items = getState().companies.items;
+    let index = _.findIndex(items, ['_id', companyId]);
+
+    dispatch(updateCompanyItemSales(index, sales));
   }
 }

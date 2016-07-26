@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import * as types from '../constants/ActionTypes';
-import { fetchCompanies } from './companies';
+import { fetchCompanies, updateCompanySales } from './companies';
 import webconfig from 'config';
 
 function requestSales(companyId) {
@@ -25,7 +25,8 @@ export function fetchSales(companyId) {
     return fetch(webconfig.apiUrl+'/sales/'+companyId)
       .then(response => response.json())
       .then(json => {
-        dispatch(receiveSales(json))
+        dispatch(receiveSales(json));
+        dispatch(updateCompanySales(companyId, json));
       })
   }
 }
@@ -78,7 +79,7 @@ export function addSale(id, sale) {
         }
       })
       .then(function(response) {
-        dispatch(fetchCompanies(getState().companies.filter));
+        //dispatch(fetchCompanies(getState().companies.filter));
       })
       .then(function(response) {
         dispatch(fetchSales(id));
@@ -134,7 +135,7 @@ export function deleteSale(id, categoryId) {
         }
       })
       .then(function(response) {
-        dispatch(fetchCompanies(getState().companies.filter));
+        //dispatch(fetchCompanies(getState().companies.filter));
       })
       .then(function(response) {
         dispatch(fetchSales(id));
@@ -192,7 +193,7 @@ export function updateSale(id, categoryId, sale) {
         }
       })
       .then(function(response) {
-        dispatch(fetchCompanies(getState().companies.filter));
+        //dispatch(fetchCompanies(getState().companies.filter));
       })
       .then(function(response) {
         dispatch(fetchSales(id));
