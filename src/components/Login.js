@@ -42,7 +42,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  userId: PropTypes.string.isRequired,
+  userId: PropTypes.string,
   dispatch: PropTypes.func.isRequired
 }
 

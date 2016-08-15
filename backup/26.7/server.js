@@ -4,8 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var url  = require('url');
 var _ = require('lodash');
-var jwt = require('jsonwebtoken');
-var moment = require('moment');
+//var jwt    = require('jsonwebtoken');
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID
@@ -16,7 +15,7 @@ app.use(function(req,res,next){
     next();
 });
 
-app.use( bodyParser.json({limit: '50mb'}) );
+app.use(bodyParser.json({limit: '50mb'}) );
 app.use(bodyParser.urlencoded({
   limit: '50mb',
   extended: true,
@@ -37,10 +36,27 @@ app.use(function(req, res, next) {
 
 var url = 'mongodb://localhost:27017/ssdb';
 
-app.post('/authenticate', function(req, res) {
+app.post('/importcompanies', function(req, res) {
+
+  MongoClient.connect(url, function(err, db) {
+    try{
+      db.collection("companies").insert(req.body.companies);
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+
+  });
+});
+
+/*app.post('/authenticate', function(req, res) {
 
   MongoClient.connect(url, function(err, db) {
       var collection = db.collection('users');
+
+      console.log(req.body.username);
       // find the user
       collection.findOne({
         username: req.body.username
@@ -65,149 +81,28 @@ app.post('/authenticate', function(req, res) {
             var token = jwt.sign(user, 'weirdoes', {
               expiresIn: "20d"
             });
-
-            var expirationDate = moment().add(19,'d').toDate();
-
-            console.log(expirationDate)
             // return the information including token as JSON
             res.json({
               ok: true,
               access_token: token,
-              userName: user.username,
-              expires: expirationDate
+              userName: user.username
             });
           }
 
         }
       });
-  });
-});
-
-app.post('/createSalesman', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("salesmen").insertOne(
-        {"name": req.body.name}
-       );
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-  });
-});
-
-app.post('/createCategory', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("categories").insertOne(
-        {"name": req.body.name}
-       );
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-  });
-});
-
-app.post('/createStatus', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("statuses").insertOne(
-        {"name": req.body.name, "color": req.body.color}
-       );
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-  });
-});
-
-app.get('/deleteSalesman/:id', function (req, res) {
-  MongoClient.connect(url, function(err, db) {
-
-    try{
-      db.collection("salesmen").update(
-       { _id: ObjectID(req.params.id) },
-       {
-         $set:
-         {
-           "deleted": true
-         }
-       });
-
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
 
   });
 });
+*/
 
-app.get('/deleteStatus/:id', function (req, res) {
-  MongoClient.connect(url, function(err, db) {
-
-    try{
-      db.collection("statuses").update(
-       { _id: ObjectID(req.params.id) },
-       {
-         $set:
-         {
-           "deleted": true
-         }
-       });
-
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-
-  });
-});
-
-app.get('/deleteCategory/:id', function (req, res) {
-  MongoClient.connect(url, function(err, db) {
-
-    try{
-      db.collection("categories").update(
-       { _id: ObjectID(req.params.id) },
-       {
-         $set:
-         {
-           "deleted": true
-         }
-       });
-
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-
-  });
-});
 
 app.get('/categories', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
         var collection = db.collection('categories');
-        var findParams = {};
-        findParams.deleted = { $exists: false };
 
-        collection.find(findParams).toArray(function(err, docs) {
+        collection.find({}).toArray(function(err, docs) {
             res.jsonp(docs);
         });
     });
@@ -217,10 +112,8 @@ app.get('/salesmen', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
         var collection = db.collection('salesmen');
-        var findParams = {};
-        findParams.deleted = { $exists: false };
 
-        collection.find(findParams).toArray(function(err, docs) {
+        collection.find({}).toArray(function(err, docs) {
             res.jsonp(docs);
         });
     });
@@ -230,10 +123,8 @@ app.get('/statuses', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
         var collection = db.collection('statuses');
-        var findParams = {};
-        findParams.deleted = { $exists: false };
 
-        collection.find(findParams).toArray(function(err, docs) {
+        collection.find({}).toArray(function(err, docs) {
             res.jsonp(docs);
         });
     });
@@ -302,10 +193,6 @@ app.post('/companies', function (req, res) {
            findParams.comment = new RegExp(req.body.comment, 'i');
         }
 
-        if(req.body.contact) {
-           findParams.contact = new RegExp(req.body.contact, 'i');
-        }
-
         if(req.body.nosale)
         {
           findParams.$and =
@@ -341,7 +228,6 @@ app.post('/companies', function (req, res) {
 
         var collection = db.collection('companies');
         collection.find(findParams).toArray(function(err, docs) {
-          //console.log(docs);
           var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
           res.jsonp(companies);
         });
@@ -401,24 +287,6 @@ app.post('/company', function(req, res) {
   });
 });
 
-
-app.post('/importcompanies', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("companies").insert(req.body.companies);
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-
-  });
-});
-
-
-
 app.post('/updateCompany', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
@@ -436,8 +304,7 @@ app.post('/updateCompany', function (req, res) {
              "phone": req.body.phone,
              "email": req.body.email,
              "legal": req.body.legal,
-             "dontcontact": req.body.dontcontact,
-             "contact": req.body.contact
+             "dontcontact": req.body.dontcontact
            }
          });
 

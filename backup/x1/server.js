@@ -4,8 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var url  = require('url');
 var _ = require('lodash');
-var jwt = require('jsonwebtoken');
-var moment = require('moment');
+//var jwt    = require('jsonwebtoken');
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID
@@ -37,10 +36,13 @@ app.use(function(req, res, next) {
 
 var url = 'mongodb://localhost:27017/ssdb';
 
+/*
 app.post('/authenticate', function(req, res) {
 
   MongoClient.connect(url, function(err, db) {
       var collection = db.collection('users');
+
+      console.log(req.body.username);
       // find the user
       collection.findOne({
         username: req.body.username
@@ -65,23 +67,18 @@ app.post('/authenticate', function(req, res) {
             var token = jwt.sign(user, 'weirdoes', {
               expiresIn: "20d"
             });
-
-            var expirationDate = moment().add(19,'d').toDate();
-
-            console.log(expirationDate)
             // return the information including token as JSON
             res.json({
               ok: true,
               access_token: token,
-              userName: user.username,
-              expires: expirationDate
+              userName: user.username
             });
           }
 
         }
       });
   });
-});
+});*/
 
 app.post('/createSalesman', function(req, res) {
 

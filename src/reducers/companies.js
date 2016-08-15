@@ -17,6 +17,7 @@ export default function companies(state = {}, action) {
        return Object.assign({}, state, {
         isFetching: false,
         items: action.items,
+        //items: update(state.items, { $set: action.items}),
         lastUpdated: action.receivedAt,
         loaded: true
       })

@@ -23,11 +23,12 @@ function loginFailure(error) {
 	}
 }
 
-function loginSuccess(token, userId) {
+function loginSuccess(token, userId, expires) {
 	return {
 		type: types.LOGIN_SUCCESS,
 		token: token,
-    userId: userId
+    userId: userId,
+    expires: expires,
 	}
 }
 
@@ -54,25 +55,33 @@ export function loginUser(username, password) {
     dispatch(loginRequest({username: username, password: password}))
     return fetch(webconfig.apiUrl+'/authenticate', config)
     .then(response => {
-
-        console.log('response');
-        console.log(response);
-
         if(!response.ok) {
           throw Error(response.statusText);
         }
-
         return response.json();
     })
     .then(response => {
-      console.log(response);
-      sessionStorage.token = response.access_token;
-      sessionStorage.userId = response.userName;
-      dispatch(loginSuccess(response.access_token, response.userName));
-      //browserHistory.push('/application/'+sessionStorage.advertisementId);
+      localStorage.token = response.access_token;
+      localStorage.userId = response.userName;
+      localStorage.expires = response.expires;
+      dispatch(loginSuccess(response.access_token, response.userName, response.expires));
+      browserHistory.push('/');
     })
     .catch(error => {
       dispatch(loginFailure(error));
     })
   }
+}
+
+export function authenticated(user) {
+  return {
+    type: types.AUTHENTICATED,
+    user,
+  };
+}
+
+export function notAuthenticated() {
+  return {
+    type: types.NOT_AUTHENTICATED,
+  };
 }

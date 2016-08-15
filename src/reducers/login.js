@@ -1,32 +1,30 @@
 import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGIN_STEP,
   LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILURE,
-  LOGIN
+  LOGIN, AUTHENTICATED, NOT_AUTHENTICATED,
 } from '../constants/ActionTypes';
 
 export default function login(state = {}, action) {
   switch (action.type) {
     case LOGIN_REQUEST:
        return Object.assign({}, state, {
+        ...action,
         isFetching: true,
         isAuthenticated: false,
-        credentials: action.credentials,
         validationErrors: [],
         error: null
       })
     case LOGIN_SUCCESS:
        return Object.assign({}, state, {
+         ...action,
        	isFetching: false,
         isAuthenticated: true,
-        token: action.token,
-        userId: action.userId
       })
     case LOGIN_FAILURE:
        return Object.assign({}, state, {
+         ...action,
        	isFetching: false,
     		isAuthenticated: false,
-    		error: action.error,
-        validationErrors: action.validationErrors
       })
     case LOGOUT_REQUEST:
         return Object.assign({}, state, {
@@ -40,15 +38,26 @@ export default function login(state = {}, action) {
         })
     case LOGOUT_FAILURE:
         return Object.assign({}, state, {
+          ...action,
          	isFetching: false,
-      		error: action.error
-        })  
+        })
     case LOGIN:
         return Object.assign({}, state, {
-          token: action.token,
+          ...action,
           isAuthenticated: true,
-          userId: action.userId
         })
+    case AUTHENTICATED:
+        return {
+          ...state,
+          ...action,
+          isAuthenticated: true,
+        }
+    case NOT_AUTHENTICATED:
+        return {
+          ...state,
+          isAuthenticated: false,
+          user: null,
+        }
     default:
       return state
   }
