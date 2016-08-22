@@ -7,7 +7,7 @@ import Main from './src/components/main';
 import Login from './src/components/login';
 import ImportCompanies from './src/containers/ImportCompanies';
 import Admin from './src/containers/Admin';
-import { authenticated, notAuthenticated } from './src/actions/login';
+import { authenticated, notAuthenticated } from './src/actions/account';
 
 class Routes extends React.Component {
 

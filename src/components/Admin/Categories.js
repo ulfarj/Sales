@@ -37,7 +37,7 @@ class Categories extends Component {
     );
 
     return (
-      <div style={{width: '400px'}}>
+      <div style={{}}>
         <h3>Flokkar</h3>
         <Table>
           <tbody>
@@ -47,7 +47,7 @@ class Categories extends Component {
                 <Button
                   onClick={e => this.createCategory(e)}
                   bsStyle="primary" style={{height:'35px'}}>
-                  Stofna Flokk
+                  Stofna
                 </Button>
               </td>
               {categories}

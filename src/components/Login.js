@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Input, Button } from 'react-bootstrap';
-import { loginUser } from '../actions/login';
+import { loginUser } from '../actions/account';
 
 class Login extends Component {
 
@@ -47,8 +47,7 @@ Login.propTypes = {
 }
 
 function mapStateToProps(state) {
-  let userId = state.login.userId;
-
+  let userId = state.account.userId;
   return { userId }
 }
 

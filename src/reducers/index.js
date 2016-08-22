@@ -7,7 +7,8 @@ import statuses from './statuses';
 import company from './company';
 import comments from './comments';
 import sales from './sales';
-import login from './login';
+import account from './account';
+import users from './admin/users';
 
 export default combineReducers({
 	categories,
@@ -17,6 +18,7 @@ export default combineReducers({
 	company,
 	comments,
 	sales,
-	login,
+	account,
+	users,
 	routing: routerReducer,
 });

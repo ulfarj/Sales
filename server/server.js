@@ -67,8 +67,6 @@ app.post('/authenticate', function(req, res) {
             });
 
             var expirationDate = moment().add(19,'d').toDate();
-
-            console.log(expirationDate)
             // return the information including token as JSON
             res.json({
               ok: true,
@@ -80,6 +78,26 @@ app.post('/authenticate', function(req, res) {
 
         }
       });
+  });
+});
+
+app.post('/createUser', function(req, res) {
+
+  MongoClient.connect(url, function(err, db) {
+    try{
+      db.collection("users").insertOne(
+        {
+          "name": req.body.name,
+          "type": req.body.type,
+          "password": req.body.password,
+        }
+       );
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
   });
 });
 
@@ -198,6 +216,19 @@ app.get('/deleteCategory/:id', function (req, res) {
    }
 
   });
+});
+
+app.get('/users', function (req, res) {
+
+    MongoClient.connect(url, function(err, db) {
+        var collection = db.collection('users');
+        var findParams = {};
+        findParams.deleted = { $exists: false };
+
+        collection.find(findParams).toArray(function(err, docs) {
+            res.jsonp(docs);
+        });
+    });
 });
 
 app.get('/categories', function (req, res) {

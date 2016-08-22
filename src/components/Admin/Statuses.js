@@ -39,7 +39,7 @@ class Statuses extends Component {
     );
 
     return (
-      <div style={{width: '400px'}}>
+      <div style={{ }}>
         <h3>Stöður</h3>
         <Table>
           <tbody>
@@ -50,7 +50,7 @@ class Statuses extends Component {
                 <Button
                   onClick={e => this.createStatus(e)}
                   bsStyle="primary" style={{height:'35px'}}>
-                  Stofna Stöðu
+                  Stofna
                 </Button>
               </td>
               {statuses}

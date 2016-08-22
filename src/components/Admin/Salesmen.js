@@ -37,7 +37,7 @@ class Salesmen extends Component {
     );
 
     return (
-        <div style={{width: '400px'}}>
+        <div style={{}}>
           <h3>Sölumenn</h3>
           <Table>
             <tbody>
@@ -49,7 +49,7 @@ class Salesmen extends Component {
                   <Button
                     onClick={e => this.createSalesman(e)}
                     bsStyle="primary" style={{height:'35px'}}>
-                    Stofna Sölumann
+                    Stofna
                   </Button>
                 </td>
               </tr>
