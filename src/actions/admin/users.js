@@ -68,7 +68,7 @@ export function createUser(name, type, password) {
           dispatch(createUserFailure(response.error));
         } else {
           dispatch(createUserSuccess(name, type, password));
-          //dispatch(fetchCurrentCategories());
+          dispatch(fetchCurrentUsers());
         }
       });
   }
