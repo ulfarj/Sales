@@ -29,12 +29,12 @@ export default function company(state = {}, action) {
          status: action.status,
          loaded: false
         })
-    case CREATE_STATUS_SUCCESS:
+    case DELETE_STATUS_SUCCESS:
         return Object.assign({}, state, {
           isFetching: false,
           loaded: true
         })
-    case CREATE_STATUS_FAILURE:
+    case DELETE_STATUS_FAILURE:
         return Object.assign({}, state, {
           isFetching: false,
           loaded: true,

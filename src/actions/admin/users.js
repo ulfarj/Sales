@@ -73,3 +73,41 @@ export function createUser(name, type, password) {
       });
   }
 }
+
+function deleteUserRequest(user) {
+  return {
+    type: types.DELETE_USER_REQUEST,
+    user: user
+  }
+}
+
+function deleteUserSuccess(){
+  return {
+    type: types.DELETE_USER_SUCCESS
+  }
+}
+
+function deleteUserFailure(error){
+  return {
+    type: types.DELETE_USER_FAILURE,
+    error: error
+  }
+}
+
+
+export function deleteUser(id) {
+
+  return (dispatch, getState) => {
+    dispatch(deleteUserRequest(id))
+    return fetch(webconfig.apiUrl+'/deleteUser/'+id)
+      .then(response => response.json())
+      .then(function(response) {
+        if(response.error){
+          dispatch(deleteUserFailure(response.error));
+        } else {
+          dispatch(deleteUserSuccess());
+          dispatch(fetchCurrentUsers());
+        }
+      });
+  }
+}

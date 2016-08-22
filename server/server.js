@@ -149,6 +149,30 @@ app.post('/createStatus', function(req, res) {
   });
 });
 
+app.get('/deleteUser/:id', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+
+    try{
+      db.collection("users").update(
+       { _id: ObjectID(req.params.id) },
+       {
+         $set:
+         {
+           "deleted": true
+         }
+       });
+
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+
+  });
+});
+
+
 app.get('/deleteSalesman/:id', function (req, res) {
   MongoClient.connect(url, function(err, db) {
 

@@ -28,12 +28,12 @@ export default function company(state = {}, action) {
          category: action.category,
          loaded: false
         })
-    case CREATE_CATEGORY_SUCCESS:
+    case DELETE_CATEGORY_SUCCESS:
         return Object.assign({}, state, {
           isFetching: false,
           loaded: true
         })
-    case CREATE_CATEGORY_FAILURE:
+    case DELETE_CATEGORY_FAILURE:
         return Object.assign({}, state, {
           isFetching: false,
           loaded: true,

@@ -1,11 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { createUser } from '../../actions/admin/users';
+import { createUser, deleteUser } from '../../actions/admin/users';
 import _ from 'lodash';
 import { Table, Button, Input } from 'react-bootstrap';
 
 
 class Users extends Component {
+
+  deleteUser = (e, id) => {
+    const { dispatch } = this.props;
+    dispatch(deleteUser(id));
+  };
 
   createUser = (e) => {
     const { dispatch } = this.props;
@@ -34,13 +39,15 @@ class Users extends Component {
     let users = this.props.users.map(user =>
       <tr>
         <td>{user.name}</td>
-        <td>
-        {
-          this.getUserType(user.type)
-        }
-        </td>
+        <td>{this.getUserType(user.type)}</td>
         <td>{user.password}</td>
-        <td></td>
+        <td>
+          <Button
+            onClick={e => this.deleteUser(e, user._id)}
+            bsStyle="primary" style={{height:'35px'}}>
+            Eyða
+          </Button>
+        </td>
       </tr>
     );
 

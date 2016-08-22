@@ -30,6 +30,42 @@ export default function users(state = {}, action) {
         lastUpdated: action.receivedAt,
         loaded: true
       })
+    case CREATE_USER_REQUEST:
+       return Object.assign({}, state, {
+        isFetching: true,
+        name: action.name,
+        type: action.type,
+        password: action.password,
+        loaded: false
+      })
+    case CREATE_USER_SUCCESS:
+       return Object.assign({}, state, {
+        isFetching: false,
+        loaded: true
+       })
+    case CREATE_USER_FAILURE:
+       return Object.assign({}, state, {
+        isFetching: false,
+        loaded: true,
+        error: action.error
+       })
+    case DELETE_USER_REQUEST:
+       return Object.assign({}, state, {
+         isFetching: true,
+         user: action.user,
+         loaded: false
+       })
+    case DELETE_USER_SUCCESS:
+        return Object.assign({}, state, {
+          isFetching: false,
+          loaded: true
+        })
+    case DELETE_USER_FAILURE:
+        return Object.assign({}, state, {
+          isFetching: false,
+          loaded: true,
+          error: action.error
+        })
     default:
       return state
   }
