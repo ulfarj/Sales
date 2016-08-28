@@ -34,6 +34,7 @@ export default function users(state = {}, action) {
        return Object.assign({}, state, {
         isFetching: true,
         name: action.name,
+        username: action.username,
         type: action.type,
         password: action.password,
         loaded: false

@@ -15,9 +15,10 @@ class Users extends Component {
   createUser = (e) => {
     const { dispatch } = this.props;
     let name = this.refs.name.getValue();
+    let username = this.refs.username.getValue();
     let type = this.refs.type.getValue();
     let password = this.refs.password.getValue();
-    dispatch(createUser(name, type, password));
+    dispatch(createUser(name, username, type, password));
   };
 
   getUserType(type) {
@@ -39,8 +40,9 @@ class Users extends Component {
     let users = this.props.users.map(user =>
       <tr>
         <td>{user.name}</td>
+        <td>{user.username}</td>
         <td>{this.getUserType(user.type)}</td>
-        <td>{user.password}</td>
+        <td>****</td>
         <td>
           <Button
             onClick={e => this.deleteUser(e, user._id)}
@@ -58,6 +60,7 @@ class Users extends Component {
           <tbody>
             <tr>
               <td><Input type="text" ref="name" name="name" /></td>
+              <td><Input type="text" ref="username" name="username" /></td>
               <td>
                 <Input type="select" ref="type">
                   <option value="admin">Admin</option>

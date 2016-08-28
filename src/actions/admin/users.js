@@ -26,10 +26,11 @@ export function fetchCurrentUsers() {
   }
 }
 
-function createUserRequest(name, type, password) {
+function createUserRequest(name, username, type, password) {
   return {
     type: types.CREATE_USER_REQUEST,
     name,
+    username,
     type,
     password
   }
@@ -48,14 +49,14 @@ function createUserFailure(error){
   }
 }
 
-export function createUser(name, type, password) {
+export function createUser(name, username, type, password) {
   let config = {
 		method: 'POST',
 		headers: {
       'Accept': 'application/json',
       'Content-Type':'application/json'
     },
-    body: JSON.stringify({"name": name, "type": type, "password": password})
+    body: JSON.stringify({"name": name, "username": username, "type": type, "password": password})
   }
 
   return (dispatch, getState) => {
@@ -67,7 +68,7 @@ export function createUser(name, type, password) {
         if(response.error){
           dispatch(createUserFailure(response.error));
         } else {
-          dispatch(createUserSuccess(name, type, password));
+          dispatch(createUserSuccess(name, username, type, password));
           dispatch(fetchCurrentUsers());
         }
       });

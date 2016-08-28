@@ -88,6 +88,7 @@ app.post('/createUser', function(req, res) {
       db.collection("users").insertOne(
         {
           "name": req.body.name,
+          "username": req.body.username,
           "type": req.body.type,
           "password": req.body.password,
         }
