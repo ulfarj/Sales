@@ -22,7 +22,7 @@ class SalesmenCell extends Component {
     if(salesmen.length > 1){
 
       let tooltip = salesmen.map(salesman => {
-          return ' '+salesman;        
+          return ' '+salesman;
           return(
             <span>{salesman}</span>
           );
@@ -39,7 +39,7 @@ class SalesmenCell extends Component {
 
       return (
         <div>
-          <Cell title={salesman}>{salesman.replace(/[^A-Z]/g, '')}</Cell>
+          <Cell title={salesman}>{salesman.replace(/[^A-ZÀ-ÖØ-Þ]/g, '')}</Cell>
         </div>
       );
     }

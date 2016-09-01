@@ -29,6 +29,11 @@ class CreateCompany extends React.Component {
     var digitRegex = new RegExp(/^\d+$/);
     if(userId.length === 10 && digitRegex.test(userId)){
 
+      valid = true;
+      //let first = parseInt(userId.charAt(0)) - 4;
+      //userId = first.toString() + userId.substring(1,10);
+
+      /*
     	if((parseInt(userId.charAt(9)) === 8 || parseInt(userId.charAt(9)) === 9 || parseInt(userId.charAt(9)) === 0)) {
     		var total =
     		(parseInt(userId.charAt(0)) * 3) +
@@ -41,10 +46,11 @@ class CreateCompany extends React.Component {
     		(parseInt(userId.charAt(7)) * 2);
 
     		var checkDigit = 11 - (total % 11);
+
     		if(parseInt(userId.charAt(8)) === checkDigit) {
     			valid = true;
     		}
-      }
+      }*/
     }
     return valid;
   }

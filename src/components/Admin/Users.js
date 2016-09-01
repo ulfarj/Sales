@@ -17,8 +17,9 @@ class Users extends Component {
     let name = this.refs.name.getValue();
     let username = this.refs.username.getValue();
     let type = this.refs.type.getValue();
+    let salesman = this.refs.salesman.getValue();
     let password = this.refs.password.getValue();
-    dispatch(createUser(name, username, type, password));
+    dispatch(createUser(name, username, type, salesman, password));
   };
 
   getUserType(type) {
@@ -37,26 +38,47 @@ class Users extends Component {
   render() {
     const { dispatch } = this.props;
 
-    let users = this.props.users.map(user =>
-      <tr>
-        <td>{user.name}</td>
-        <td>{user.username}</td>
-        <td>{this.getUserType(user.type)}</td>
-        <td>****</td>
-        <td>
-          <Button
-            onClick={e => this.deleteUser(e, user._id)}
-            bsStyle="primary" style={{height:'35px'}}>
-            Eyða
-          </Button>
-        </td>
-      </tr>
+    let salesmen = this.props.salesmen.map(salesman =>
+      <option value={salesman._id}>{salesman.name}</option>
     );
+
+    let users = this.props.users.map(user => {
+      let salesman = '';
+      if(user.salesman) {
+        salesman = _.find(this.props.salesmen, ['_id', user.salesman]);
+      }
+
+      return(
+        <tr>
+          <td>{user.name}</td>
+          <td>{user.username}</td>
+          <td>{this.getUserType(user.type)}</td>
+          <td>{salesman.name}</td>
+          <td>****</td>
+          <td>
+            <Button
+              onClick={e => this.deleteUser(e, user._id)}
+              bsStyle="primary" style={{height:'35px'}}>
+              Eyða
+            </Button>
+          </td>
+        </tr>
+      );
+    });
 
     return (
       <div style={{ }}>
         <h3>Notendur</h3>
         <Table>
+          <thead>
+            <tr style={{fontWeight: 'bold'}}>
+              <td>Nafn</td>
+              <td>Notendanafn</td>
+              <td>Tegund</td>
+              <td>Tengdur við sölumann</td>
+              <td>Lykilorð</td>
+            </tr>
+          </thead>
           <tbody>
             <tr>
               <td><Input type="text" ref="name" name="name" /></td>
@@ -66,6 +88,12 @@ class Users extends Component {
                   <option value="admin">Admin</option>
                   <option value="supervisor">Yfirmaður</option>
                   <option value="salesman">Sölumaður</option>
+                </Input>
+              </td>
+              <td>
+                <Input type="select" ref="salesman">
+                  <option value="">Enginn</option>
+                  {salesmen}
                 </Input>
               </td>
               <td><Input type="password" ref="password" name="password" style={{ width: '60px'}} /></td>
@@ -87,7 +115,9 @@ class Users extends Component {
 
 function mapStateToProps(state) {
   var users = state.users.items;
-  return { users }
+  var salesmen = state.salesmen.items;
+
+  return { users, salesmen }
 }
 
 export default connect(mapStateToProps)(Users);

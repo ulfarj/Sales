@@ -18,7 +18,6 @@ class Routes extends React.Component {
       dispatch(notAuthenticated());
       replace({ pathname: '/login', state: { nextPathname: nextState.location.pathname } });
     } else {
-
       dispatch(authenticated({
         userName: localStorage.userName,
         token: localStorage.token,
@@ -28,15 +27,16 @@ class Routes extends React.Component {
 
   render() {
     const history = syncHistoryWithStore(browserHistory, this.props.store);
+    //onEnter={this.authenticate}
 
     return (
       <Router history={history}>
         <Route path="/" component={App}>
-          <IndexRoute component={Main} onEnter={this.authenticate} />
-          <Route path="Login" component={Login} />
+          <IndexRoute component={Main} />
           <Route path="ImportCompanies" component={ImportCompanies} />
           <Route path="Admin" component={Admin} />
         </Route>
+        <Route path="Login" component={Login} />
       </Router>
     );
   }

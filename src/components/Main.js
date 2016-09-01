@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from "react-dom";
-import {Table, Input, Fade, Button, Well, ButtonToolbar, Overlay, Popover, Panel, Modal, Grid, Row, Col} from 'react-bootstrap';
+import {Table, Input, Fade, Button, Well, ButtonToolbar, Overlay, Popover, Panel, Modal, Grid, Row, Col, Glyphicon} from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { fetchCategoriesIfNeeded } from '../actions/categories';
 import { fetchSalesmenIfNeeded } from '../actions/salesmen';
 import { fetchStatusesIfNeeded } from '../actions/statuses';
 import { fetchCompanies } from '../actions/companies';
+import { logoutUser } from '../actions/account';
 import Companies from './Companies';
 import CreateCompany from './CreateCompany';
 import EditCompany from './EditCompany';
@@ -90,6 +91,11 @@ class Main extends Component {
       this.setState({showEditCompanyModal: false});
     };
 
+    logoutUser = () => {
+      const { dispatch } = this.props;
+      dispatch(logoutUser());
+    };
+
   	render() {
 
       const { loaded, companiesCount } = this.props;
@@ -100,65 +106,73 @@ class Main extends Component {
 
   		return (
   			<div>
+          <div style={styles.headerArea}>
+            <div style={{width: 120}}>
+              <Button
+                bsStyle="primary"
+                onClick={e => this.setState({showSelectCategories: !this.state.showSelectCategories})}>
+                Velja verk
+              </Button>
+            </div>
 
-           <div style={styles.headerArea}>
-              <div style={{width: 120}}>
-                <Button
-                  bsStyle="primary"
-                  onClick={e => this.setState({showSelectCategories: !this.state.showSelectCategories})}>
-                    Velja verk
-                </Button>
-              </div>
-
-              <div style={{width: 100}}>
-                <Button
-                  onClick={e => this.setState({showCreateCompanyModal: true})}
-                  bsStyle="primary">
-                    Skrá fyrirtæki
-                </Button>
-                <Modal
-                  show={this.state.showCreateCompanyModal}
-                  onHide={e => this.setState({showCreateCompanyModal: false})}
-                  bsSize="lg">
-                  <Modal.Header closeButton>
-                    <Modal.Title>Skrá fyrirtæki</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <CreateCompany onCreate={this.onCreateCompany} />
-                  </Modal.Body>
-                </Modal>
-              </div>
-
-              <div>
-                <Modal
-                  show={this.state.showEditCompanyModal}
-                  onHide={e => this.setState({showEditCompanyModal: false})}
-                  bsSize="lg">
-                  <Modal.Header closeButton>
-                    <Modal.Title>Verk</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <EditCompany activeTab={this.state.editTab} company={this.state.company} onUpdate={this.onUpdateCompany}/>
-                  </Modal.Body>
-                </Modal>
-              </div>
-
-              <div style={{paddingLeft: '40', width: 300}}>
-                <label>
-                  <h4>
-                    Fjöldi færslna: {companiesCount}
-                  </h4>
-                </label>
-              </div>
-           </div>
+            <div style={{width: 100}}>
+              <Button
+                onClick={e => this.setState({showCreateCompanyModal: true})}
+                bsStyle="primary">
+                Skrá fyrirtæki
+              </Button>
+              <Modal
+                show={this.state.showCreateCompanyModal}
+                onHide={e => this.setState({showCreateCompanyModal: false})}
+                bsSize="lg">
+                <Modal.Header closeButton>
+                  <Modal.Title>Skrá fyrirtæki</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <CreateCompany onCreate={this.onCreateCompany} />
+                </Modal.Body>
+              </Modal>
+            </div>
 
             <div>
-              <div>
-                <Panel
-                  collapsible
-                  expanded={this.state.showSelectCategories}>
-                    <Categories filter={this.filter} updateAll={this.updateAllCategories}/>
-                </Panel>
+              <Modal
+                show={this.state.showEditCompanyModal}
+                onHide={e => this.setState({showEditCompanyModal: false})}
+                bsSize="lg">
+                <Modal.Header closeButton>
+                  <Modal.Title>Verk</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <EditCompany activeTab={this.state.editTab} company={this.state.company} onUpdate={this.onUpdateCompany}/>
+                </Modal.Body>
+              </Modal>
+            </div>
+            {/* Login
+              <div style={{paddingLeft: '40'}}>
+              <Button
+              bsStyle="primary"
+              onClick={e => this.logoutUser()}
+              >
+              Útskrá
+              </Button>
+            </div>*/}
+
+            <div style={{paddingLeft: '40', width: 300}}>
+              <label>
+                <h4>
+                  Fjöldi færslna: {companiesCount}
+                </h4>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <Panel
+                collapsible
+                expanded={this.state.showSelectCategories}>
+                <Categories filter={this.filter} updateAll={this.updateAllCategories}/>
+              </Panel>
               </div>
            </div>
 

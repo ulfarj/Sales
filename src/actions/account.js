@@ -62,8 +62,10 @@ export function loginUser(username, password) {
     })
     .then(response => {
       localStorage.token = response.access_token;
-      localStorage.userId = response.userName;
+      localStorage.userName = response.userName;
       localStorage.expires = response.expires;
+      localStorage.userType = response.userType;
+
       dispatch(loginSuccess(response.access_token, response.userName, response.expires));
       browserHistory.push('/');
     })
@@ -73,15 +75,68 @@ export function loginUser(username, password) {
   }
 }
 
-export function authenticated(user) {
+export function authenticated(userName, token) {
   return {
     type: types.AUTHENTICATED,
-    user,
+    userName,
+    token,
   };
 }
 
 export function notAuthenticated() {
   return {
     type: types.NOT_AUTHENTICATED,
+  };
+}
+
+
+function logoutRequest() {
+  return {
+    type: types.LOGOUT_REQUEST,
+  };
+}
+
+function logoutFailure(error) {
+  return {
+    type: types.LOGOUT_FAILURE,
+    error,
+  };
+}
+
+function logoutSuccess() {
+  return {
+    type: types.LOGOUT_SUCCESS,
+  };
+}
+
+export function logoutUser() {
+  /*const token = sessionStorage.getItem('token');
+  const config = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };*/
+
+  localStorage.clear();
+
+  return dispatch => {
+    dispatch(logoutRequest());
+    dispatch(logoutSuccess());
+    //browserHistory.push('/');
+
+    /* return fetch(`${apiUrl}/api/account/logout`, config)
+    .then(response => {
+      console.log(response);
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      dispatch(logoutSuccess());
+    })
+    .catch(error => {
+      dispatch(logoutFailure(error));
+    });*/
+
   };
 }

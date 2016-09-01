@@ -26,12 +26,13 @@ export function fetchCurrentUsers() {
   }
 }
 
-function createUserRequest(name, username, type, password) {
+function createUserRequest(name, username, type, salesman, password) {
   return {
     type: types.CREATE_USER_REQUEST,
     name,
     username,
     type,
+    salesman,
     password
   }
 }
@@ -49,18 +50,25 @@ function createUserFailure(error){
   }
 }
 
-export function createUser(name, username, type, password) {
+export function createUser(name, username, type, salesman, password) {
   let config = {
 		method: 'POST',
 		headers: {
       'Accept': 'application/json',
       'Content-Type':'application/json'
     },
-    body: JSON.stringify({"name": name, "username": username, "type": type, "password": password})
+    body: JSON.stringify(
+      {
+        "name": name,
+        "username": username,
+        "type": type,
+        "salesman": salesman,
+        "password": password,
+      })
   }
 
   return (dispatch, getState) => {
-    dispatch(createUserRequest(name, type, password))
+    dispatch(createUserRequest(name, type, salesman, password))
     return fetch(webconfig.apiUrl+'/createUser/', config)
       .then(response => response.json())
       .then(function(response) {
@@ -68,7 +76,7 @@ export function createUser(name, username, type, password) {
         if(response.error){
           dispatch(createUserFailure(response.error));
         } else {
-          dispatch(createUserSuccess(name, username, type, password));
+          dispatch(createUserSuccess(name, username, type, salesman, password));
           dispatch(fetchCurrentUsers());
         }
       });

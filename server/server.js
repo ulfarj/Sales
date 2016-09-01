@@ -6,6 +6,7 @@ var url  = require('url');
 var _ = require('lodash');
 var jwt = require('jsonwebtoken');
 var moment = require('moment');
+var passwordHash = require('password-hash');
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID
@@ -57,7 +58,7 @@ app.post('/authenticate', function(req, res) {
           //res.json({ ok: false, message: 'Authentication failed. User not found.' });
         } else if (user) {
           // check if password matches
-          if (user.password != req.body.password) {
+          if (!passwordHash.verify(req.body.password, user.password)) {
             res.status(500).json({error: "Authentication failed. Wrong password."});
           } else {
             // if user is found and password is right
@@ -72,10 +73,10 @@ app.post('/authenticate', function(req, res) {
               ok: true,
               access_token: token,
               userName: user.username,
+              userType: user.type,
               expires: expirationDate
             });
           }
-
         }
       });
   });
@@ -85,12 +86,16 @@ app.post('/createUser', function(req, res) {
 
   MongoClient.connect(url, function(err, db) {
     try{
+
+      var hashedPassword = passwordHash.generate(req.body.password);
+
       db.collection("users").insertOne(
         {
           "name": req.body.name,
           "username": req.body.username,
           "type": req.body.type,
-          "password": req.body.password,
+          "salesman": req.body.salesman,
+          "password": hashedPassword,
         }
        );
       res.jsonp({status: 'success'});

@@ -18,7 +18,7 @@ class Admin extends Component {
     dispatch(fetchCurrentCategories());
     dispatch(fetchCurrentSalesmen());
     dispatch(fetchCurrentStatuses());
-    dispatch(fetchCurrentUsers());
+    //dispatch(fetchCurrentUsers());
   }
 
   render() {
@@ -30,11 +30,13 @@ class Admin extends Component {
 
     return (
       <div>
-        <div style={{display: 'flex', flexDirection: 'row'}}>          
+        {/*<div>
+          <Users />
+        </div>*/}
+        <div style={{display: 'flex', flexDirection: 'row'}}>
           <Salesmen />
           <Categories />
           <Statuses />
-          <Users />
         </div>
       </div>
     );
@@ -45,7 +47,7 @@ function mapStateToProps(state) {
   var categories = state.categories.items;
   var salesmen = state.salesmen.items;
   var statuses = state.statuses.items;
-  var users = state.users.items;
+  //var users = state.users.items;
 
   let loaded = false;
 

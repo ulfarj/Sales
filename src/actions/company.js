@@ -189,7 +189,7 @@ export function addComment(id, comment) {
           dispatch(addCommentFailure(response.error));
         } else {
           dispatch(addCommentSuccess(comment));
-          dispatch(fetchCompanies(getState().companies.filter))
+          //dispatch(fetchCompanies(getState().companies.filter))
         }
       });
   }

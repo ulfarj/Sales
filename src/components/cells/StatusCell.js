@@ -21,12 +21,20 @@ class StatusCell extends Component {
         return(<Cell></Cell>);
     }
 
+    /*let userType = 'salesman';
+    let assigned = false;
+    let userSalesmanId = '57938ca0167658cc2d79c2f1';*/
+
     let sales = companies[rowIndex].sales.map(sale => {
 
       let selected = _.indexOf(filter.categories, sale.categoryId) > -1;
       let category = _.find(this.props.categories, ['_id', sale.categoryId]);
       let status = _.find(this.props.statuses, ['_id', sale.statusId]);
       let salesman = _.find(this.props.salesmen, ['_id', sale.salesmanId]);
+
+      /*if(salesman._id === userSalesmanId) {
+        assigned = true;
+      }*/
 
       return {
         'selected': selected,
@@ -63,14 +71,14 @@ class StatusCell extends Component {
     return(
       <Cell>
         <div style={{display: 'flex', flexDirection: 'row'}}>
-        <div>
-        <svg width="100" height="16">
-          {statusIcons}
-        </svg>
-        </div>
-        <div>
-          <Button bsSize="small" onClick={this.onClick} style={{border: '0'}}><Glyphicon style={{height: '5px'}} glyph="chevron-up" /></Button>
-        </div>
+          <div>
+            <svg width="100" height="16">
+              {statusIcons}
+            </svg>
+          </div>
+          <div>
+            <Button bsSize="small" onClick={this.onClick} style={{border: '0'}}><Glyphicon style={{height: '5px'}} glyph="chevron-up" /></Button>
+          </div>
         </div>
       </Cell>
     );

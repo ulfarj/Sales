@@ -3,12 +3,12 @@ import { Input, Button, Glyphicon } from 'react-bootstrap';
 import {Table, Column, Cell} from 'fixed-data-table';
 import { connect } from 'react-redux';
 import { addComment } from '../../actions/company';
+import { updateCompanyComment } from '../../actions/companies';
 
 const styles = {
   input: {
     border: '0',
     height: '20px',
-
   }
 };
 
@@ -16,18 +16,11 @@ class EditCell extends Component {
 
   constructor(props) {
      super(props);
-     this.state = {
-       comment: '',
-     }
    }
 
-  componentWillMount = () => {
-    const { companies, rowIndex, column } = this.props;
-    this.setState({comment: companies[rowIndex][column]});
-  };
-
   onClick = (e) => {
-    this.setState({comment: ''});
+    const { dispatch, companies, rowIndex, column } = this.props;
+    dispatch(updateCompanyComment(companies[rowIndex]._id, ''));
   };
 
   onClickIcon = () => {
@@ -36,11 +29,12 @@ class EditCell extends Component {
   };
 
   onChange = (e) => {
-    let comment = e.target.value;
-    this.setState({comment: comment});
+    const { dispatch, companies, rowIndex, column} = this.props;
+    dispatch(updateCompanyComment(companies[rowIndex]._id, e.target.value));
   };
 
   onKeyPress = (e) => {
+    console.log(e);
     if(e.key == 'Enter'){
       this.updateComment();
     }
@@ -48,9 +42,8 @@ class EditCell extends Component {
 
   updateComment = () => {
     const { dispatch, companies, rowIndex, column } = this.props;
-
     let id = companies[rowIndex]['_id'];
-    dispatch(addComment(id, this.state.comment));
+    dispatch(addComment(id, companies[rowIndex][column]));
   };
 
   render() {
@@ -61,16 +54,19 @@ class EditCell extends Component {
         return(<Cell></Cell>);
     }
 
+    let comment = companies[rowIndex][column];
+
     return(
       <Cell>
         <div style={{display: 'flex', flexDirection: 'row'}}>
           <Input
-           type="text"
-           style={styles.input}
-           value={this.state.comment}
-           onChange={this.onChange}
-           onKeyPress={this.onKeyPress}
-           onClick={this.onClick}
+            type="text"
+            style={styles.input}
+            value={comment}
+            onChange={this.onChange}
+            onKeyPress={this.onKeyPress}
+            onClick={this.onClick}
+            ref="xx"
           />
           <Glyphicon style={{cursor: 'pointer'}} glyph="chevron-up" onClick={this.onClickIcon} />
         </div>

@@ -80,3 +80,19 @@ export function updateCompanySales(companyId, sales) {
     dispatch(updateCompanyItemSales(index, sales));
   }
 }
+
+export function updateCompanyItemComment(index, comment) {
+  return {
+    type: types.UPDATE_COMPANY_ITEM_COMMENT,
+    index,
+    comment,
+  }
+}
+
+export function updateCompanyComment(companyId, comment){
+  return (dispatch, getState) => {
+    let items = getState().companies.items;
+    let index = _.findIndex(items, ['_id', companyId]);
+    dispatch(updateCompanyItemComment(index, comment));
+  }
+}

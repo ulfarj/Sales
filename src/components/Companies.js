@@ -54,6 +54,10 @@ class Companies extends Component {
     dispatch(fetchCompanies(filter));
   };
 
+  filterSsnRow = (e) => {
+    this.props.filter(e.target.name, e.target.value.replace('-',''));
+  };
+
   filterRow = (e) => {
     this.props.filter(e.target.name, e.target.value);
   };
@@ -93,44 +97,44 @@ class Companies extends Component {
 
     return(
         <Table
-           rowHeight={30}
-           headerHeight={80}
-           rowsCount={rowCount}
-           width={1265}
-           height={600}
-           {...this.props}>
-           <Column
-             header={<Cell></Cell>}
-             cell={props => (<SignCell {...props} />)}
-             fixed={true}
-             width={60}
-            />
-           <Column
-             header={<SalesmanFilter label="SM" column="salesman" filter={this.filter} />}
-             cell={props => (<SalesmenCell {...props} />)}
-             fixed={true}
-             width={60}
-            />
-            <Column
-              header={<StatusFilter label="Staða" column="status" filter={this.filter} />}
-              cell={props => (<StatusCell {...props} onClick={this.onClick} />)}
-              fixed={true}
-              width={140}
-             />
-           <Column
-             header={<TextFilter label="Nafn" column="name" filter={this.filterRow} sorting={this.sortIcon('name')} onSort={this.onSort} />}
-             cell={props => (<TextCell {...props} column="name" onClick={this.onClick} />)}
-             fixed={true}
-             width={160}
-            />
-            <Column
-              header={<TextFilter label="Kennitala" column="ssn" filter={this.filterRow} sorting={this.sortIcon('ssn')} onSort={this.onSort} /> }
-              cell={props => (<SsnCell {...props} column="ssn" />)}
-              fixed={true}
-              width={120}
-             />
-             <Column
-               header={<TextFilter label="Heimilisfang" column="address" filter={this.filterRow} sorting={this.sortIcon('address')} onSort={this.onSort} /> }
+          rowHeight={30}
+          headerHeight={80}
+          rowsCount={rowCount}
+          width={1265}
+          height={600}
+          {...this.props}>
+          <Column
+            header={<Cell></Cell>}
+            cell={props => (<SignCell {...props} />)}
+            fixed={true}
+            width={60}
+          />
+          <Column
+            header={<SalesmanFilter label="SM" column="salesman" filter={this.filter} />}
+            cell={props => (<SalesmenCell {...props} />)}
+            fixed={true}
+            width={60}
+          />
+          <Column
+            header={<StatusFilter label="Staða" column="status" filter={this.filter} />}
+            cell={props => (<StatusCell {...props} onClick={this.onClick} />)}
+            fixed={true}
+            width={140}
+          />
+          <Column
+            header={<TextFilter label="Nafn" column="name" filter={this.filterRow} sorting={this.sortIcon('name')} onSort={this.onSort} />}
+            cell={props => (<TextCell {...props} column="name" onClick={this.onClick} />)}
+            fixed={true}
+            width={160}
+          />
+          <Column
+            header={<TextFilter label="Kennitala" column="ssn" filter={this.filterSsnRow} sorting={this.sortIcon('ssn')} onSort={this.onSort} /> }
+            cell={props => (<SsnCell {...props} column="ssn" />)}
+            fixed={true}
+            width={120}
+          />
+          <Column
+            header={<TextFilter label="Heimilisfang" column="address" filter={this.filterRow} sorting={this.sortIcon('address')} onSort={this.onSort} /> }
                cell={props => (<TextCell {...props} column="address" />)}
                fixed={true}
                width={160}
