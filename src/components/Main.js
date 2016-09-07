@@ -173,15 +173,15 @@ class Main extends Component {
                 expanded={this.state.showSelectCategories}>
                 <Categories filter={this.filter} updateAll={this.updateAllCategories}/>
               </Panel>
-              </div>
-           </div>
+            </div>
+          </div>
 
-           <div style={styles.gridArea}>
-              <Companies
-                filter={this.filter}
-                rowCount={companiesCount}
-                onClick={this.editCompany} />
-           </div>
+          <div style={styles.gridArea}>
+            <Companies
+              filter={this.filter}
+              rowCount={companiesCount}
+              onClick={this.editCompany} />
+          </div>
         </div>
   		);
   	}

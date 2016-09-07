@@ -4,9 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var url  = require('url');
 var _ = require('lodash');
-var moment = require('moment');
-var passwordHash = require('password-hash');
-var jwt = require('jsonwebtoken');
+//var jwt    = require('jsonwebtoken');
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID
@@ -38,10 +36,13 @@ app.use(function(req, res, next) {
 
 var url = 'mongodb://localhost:27017/ssdb';
 
+/*
 app.post('/authenticate', function(req, res) {
 
   MongoClient.connect(url, function(err, db) {
       var collection = db.collection('users');
+
+      console.log(req.body.username);
       // find the user
       collection.findOne({
         username: req.body.username
@@ -58,7 +59,7 @@ app.post('/authenticate', function(req, res) {
           //res.json({ ok: false, message: 'Authentication failed. User not found.' });
         } else if (user) {
           // check if password matches
-          if (!passwordHash.verify(req.body.password, user.password)) {
+          if (user.password != req.body.password) {
             res.status(500).json({error: "Authentication failed. Wrong password."});
           } else {
             // if user is found and password is right
@@ -66,46 +67,18 @@ app.post('/authenticate', function(req, res) {
             var token = jwt.sign(user, 'weirdoes', {
               expiresIn: "20d"
             });
-
-            var expirationDate = moment().add(19,'d').toDate();
             // return the information including token as JSON
             res.json({
               ok: true,
               access_token: token,
-              userName: user.username,
-              userType: user.type,
-              expires: expirationDate
+              userName: user.username
             });
           }
+
         }
       });
   });
-});
-
-app.post('/createUser', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-
-      var hashedPassword = passwordHash.generate(req.body.password);
-
-      db.collection("users").insertOne(
-        {
-          "name": req.body.name,
-          "username": req.body.username,
-          "type": req.body.type,
-          "salesman": req.body.salesman,
-          "password": hashedPassword,
-        }
-       );
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-  });
-});
+});*/
 
 app.post('/createSalesman', function(req, res) {
 
@@ -154,30 +127,6 @@ app.post('/createStatus', function(req, res) {
    }
   });
 });
-
-app.get('/deleteUser/:id', function (req, res) {
-  MongoClient.connect(url, function(err, db) {
-
-    try{
-      db.collection("users").update(
-       { _id: ObjectID(req.params.id) },
-       {
-         $set:
-         {
-           "deleted": true
-         }
-       });
-
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-
-  });
-});
-
 
 app.get('/deleteSalesman/:id', function (req, res) {
   MongoClient.connect(url, function(err, db) {
@@ -246,19 +195,6 @@ app.get('/deleteCategory/:id', function (req, res) {
    }
 
   });
-});
-
-app.get('/users', function (req, res) {
-
-    MongoClient.connect(url, function(err, db) {
-        var collection = db.collection('users');
-        var findParams = {};
-        findParams.deleted = { $exists: false };
-
-        collection.find(findParams).toArray(function(err, docs) {
-            res.jsonp(docs);
-        });
-    });
 });
 
 app.get('/categories', function (req, res) {
@@ -404,8 +340,7 @@ app.post('/companies', function (req, res) {
         collection.find(findParams).toArray(function(err, docs) {
           //console.log(docs);
           var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
-
-          res.jsonp({companies: companies, requestAt: req.body.requestAt});
+          res.jsonp(companies);
         });
 
     });
@@ -439,7 +374,6 @@ app.post('/company', function(req, res) {
           "phone": req.body.phone,
           "email": req.body.email,
           "comment": req.body.comment,
-          "namersk": req.body.namersk,
           "sales": req.body.sales
         },
         function (err, result){
@@ -500,8 +434,7 @@ app.post('/updateCompany', function (req, res) {
              "email": req.body.email,
              "legal": req.body.legal,
              "dontcontact": req.body.dontcontact,
-             "contact": req.body.contact,
-             "namersk": req.body.namersk,
+             "contact": req.body.contact
            }
          });
 

@@ -11,7 +11,6 @@ function requestCompanies(filter) {
 }
 
 function receiveCompanies(json) {
-
   return {
     type: types.RECEIVE_COMPANIES,
     items: json,
@@ -20,6 +19,9 @@ function receiveCompanies(json) {
 }
 
 export function fetchCompanies(filter) {
+
+  let requestAt = Date.now().toString();
+  filter.requestAt = requestAt;
 
   let config = {
 		method: 'POST',
@@ -30,12 +32,18 @@ export function fetchCompanies(filter) {
     body: JSON.stringify(filter)
   }
 
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(requestCompanies(filter))
     return fetch(webconfig.apiUrl+'/companies/', config)
-      .then(response => response.json())
-      .then(json => dispatch(receiveCompanies(json)))
-  }
+      .then(response => {
+        return response.json()
+       })
+      .then(json => {
+        if(getState().companies.filter.requestAt === json.requestAt) {
+          dispatch(receiveCompanies(json.companies))
+        }
+      })
+    }
 }
 
 export function setFilter(filter) {

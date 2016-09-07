@@ -45,6 +45,7 @@ class EditCompany extends React.Component {
 			this.state.company.legal,
 			this.state.company.dontcontact,
 			this.refs.contact.getValue(),
+			this.refs.namersk.getValue(),
 		));
 
 		this.props.onUpdate();
@@ -91,7 +92,7 @@ class EditCompany extends React.Component {
 							<div style={{paddingTop: '10px'}}>
 								<div style={{display: 'flex', flexDirection: 'row',}}>
 									<Input type="text" label="Nafn" placeholder="Nafn" onChange={e => this.onChange(e, 'name')} value={company.name} ref="name" style={{width: 250}} />
-									<Input type="text" label="Nafn samkvæmt rsk" placeholder="Rekstrarnafn" ref="namersk" style={{width: 250}} />
+									<Input type="text" label="Nafn samkvæmt rsk" onChange={e => this.onChange(e, 'namersk')} value={company.namersk} placeholder="Rekstrarnafn" ref="namersk" style={{width: 250}} />
 								</div>
 
 								<div style={{display: 'flex', flexDirection: 'row'}}>

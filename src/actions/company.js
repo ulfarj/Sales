@@ -45,7 +45,7 @@ function updateFailure(error){
 }
 
 
-export function createCompany(ssn, name, address, postalCode, phone, email, comment, sales) {
+export function createCompany(ssn, name, address, postalCode, phone, email, comment, sales, namersk) {
 
   var company = {
     "ssn": ssn,
@@ -55,7 +55,8 @@ export function createCompany(ssn, name, address, postalCode, phone, email, comm
     "phone": phone,
     "email": email,
     "comment": comment,
-    "sales": sales
+    "sales": sales,
+    "namersk": namersk,
   };
 
   let config = {
@@ -102,7 +103,7 @@ export function importCompanies(companies) {
 }
 
 
-export function updateCompany(id, ssn, name, address, postalCode, phone, email, legal, dontcontact, contact) {
+export function updateCompany(id, ssn, name, address, postalCode, phone, email, legal, dontcontact, contact, namersk) {
 
   var company = {
     "id": id,
@@ -114,7 +115,8 @@ export function updateCompany(id, ssn, name, address, postalCode, phone, email, 
     "email": email,
     "legal": legal,
     "dontcontact": dontcontact,
-    "contact": contact
+    "contact": contact,
+    "namersk": namersk,
   };
 
   let config = {

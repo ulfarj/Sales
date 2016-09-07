@@ -74,6 +74,7 @@ class CreateCompany extends React.Component {
         this.refs.email.getValue(),
         this.refs.comment.getValue(),
         this.getSales(),
+        this.refs.namersk.getValue(),
       ));
       this.props.onCreate();
     }
@@ -151,11 +152,11 @@ class CreateCompany extends React.Component {
 
       return (
         <Col>
-             <Input
-              key={category._id}
-              type="checkbox"
-              label={category.name}
-              value={category._id}
+          <Input
+            key={category._id}
+            type="checkbox"
+            label={category.name}
+            value={category._id}
               checked={checked}
               disabled={disabled}
               onClick={this.changeCategory}  />
@@ -176,17 +177,17 @@ class CreateCompany extends React.Component {
 		return(
 			<div>
 
-          {categoriesBySalesman}
+        {categoriesBySalesman}
 
-          <div style={{display: 'flex', flexDirection: 'row',}}>
-            <Input type="select" ref="salesman" label="Sölumaður" onChange={this.changeSalesman} style={{width: 250}}>
-              {salesmen}
-            </Input>
-          </div>
+        <div style={{display: 'flex', flexDirection: 'row',}}>
+          <Input type="select" ref="salesman" label="Sölumaður" onChange={this.changeSalesman} style={{width: 250}}>
+            {salesmen}
+          </Input>
+        </div>
 
-				  <div style={{display: 'flex', flexDirection: 'row',}}>
-            <Input type="text" label="Nafn" placeholder="Nafn" ref="name" style={{width: 250}} />
-            <Input type="text" label="Nafn samkvæmt rsk" placeholder="Rekstrarnafn" ref="namersk" style={{width: 250}} />
+        <div style={{display: 'flex', flexDirection: 'row',}}>
+          <Input type="text" label="Nafn" placeholder="Nafn" ref="name" style={{width: 250}} />
+          <Input type="text" label="Nafn samkvæmt rsk" placeholder="Rekstrarnafn" ref="namersk" style={{width: 250}} />
            </div>
 
            <div style={{display: 'flex', flexDirection: 'row'}}>

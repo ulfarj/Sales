@@ -31,13 +31,15 @@ export default function companies(state = {}, action) {
        items: update(state.items, {
          [action.index]: {
            name: { $set: action.company.name },
+           namersk: { $set: action.company.namersk },
            address: { $set: action.company.address },
            contact: { $set: action.company.contact },
            email: { $set: action.company.email },
            legal: { $set: action.company.legal },
+           dontcontact: { $set: action.company.dontcontact },
            phone: { $set: action.company.phone },
            postalCode: { $set: action.company.postalCode },
-           ssn: { $set: action.company.ssn },
+           ssn: { $set: action.company.ssn },           
          },
        })
      })
