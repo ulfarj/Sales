@@ -13,6 +13,7 @@ import StatusFilter from './cells/StatusFilter';
 import SalesmenCell from './cells/SalesmenCell';
 import StatusCell from './cells/StatusCell';
 import { fetchCompanies } from '../actions/companies';
+import jwtDecode from 'jwt-decode';
 
 import 'fixed-data-table/dist/fixed-data-table.min.css';
 
@@ -54,6 +55,10 @@ class Companies extends Component {
     dispatch(fetchCompanies(filter));
   };
 
+  componentDidMount = () => {
+    //this.refs.dataTable.scrollToRow(200);
+  }
+
   filterSsnRow = (e) => {
     this.props.filter(e.target.name, e.target.value.replace('-',''));
   };
@@ -82,7 +87,19 @@ class Companies extends Component {
   };
 
   onClick = (company, tab) => {
-    this.props.onClick(company, tab);
+    const { salesmen } = this.props;
+    let token = jwtDecode(sessionStorage.token);
+    let assigned = (token.type !== "salesman" || company.sales.length === 0) ? true : false;
+
+    company.sales.map(sale => {
+      if(sale.salesmanId === token.salesman) {
+        assigned = true;
+      }
+    });
+
+    if(assigned) {
+      this.props.onClick(company, tab);
+    }
   };
 
   sortIcon = (column) => {
@@ -100,8 +117,9 @@ class Companies extends Component {
           rowHeight={30}
           headerHeight={80}
           rowsCount={rowCount}
-          width={1265}
+          width={1285}
           height={600}
+          ref="dataTable"
           {...this.props}>
           <Column
             header={<Cell></Cell>}
@@ -135,40 +153,40 @@ class Companies extends Component {
           />
           <Column
             header={<TextFilter label="Heimilisfang" column="address" filter={this.filterRow} sorting={this.sortIcon('address')} onSort={this.onSort} /> }
-               cell={props => (<TextCell {...props} column="address" />)}
-               fixed={true}
-               width={160}
-              />
-            <Column
-              header={<TextFilter label="Pnr" column="postalCode" filter={this.filterRow} sorting={this.sortIcon('postalCode')} onSort={this.onSort} /> }
-              cell={props => (<TextCell {...props} column="postalCode" />)}
-              fixed={true}
-              width={65}
-              />
-            <Column
-              header={<TextFilter label="Sími" column="phone" filter={this.filterRow} sorting={this.sortIcon('phone')} onSort={this.onSort} />}
-              cell={props => (<PhoneCell {...props} column="phone" />)}
-              fixed={true}
-              width={100}
-              />
-            <Column
-              header={<TextFilter label="Netfang" column="email" filter={this.filterRow} sorting={this.sortIcon('email')} onSort={this.onSort} />}
-              cell={props => (<TextCell {...props} column="email" />)}
-              fixed={true}
-              width={120}
-              />
-            <Column
-              header={<TextFilter label="Tengill" column="contact" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
-              cell={props => (<TextCell {...props} column="contact" />)}
-              fixed={true}
-              width={120}
-              />
-            <Column
-              header={<TextFilter label="Athugasemd" column="comment" filter={this.filterRow} sorting={this.sortIcon('comment')} onSort={this.onSort} />}
-              cell={props => (<EditCell style={{padding: '0'}} {...props} column="comment" onClick={this.onClick} />)}
-              fixed={true}
-              width={160}
-              />
+            cell={props => (<TextCell {...props} column="address" />)}
+            fixed={true}
+            width={160}
+          />
+          <Column
+            header={<TextFilter label="Pnr" column="postalCode" filter={this.filterRow} sorting={this.sortIcon('postalCode')} onSort={this.onSort} /> }
+            cell={props => (<TextCell {...props} column="postalCode" />)}
+            fixed={true}
+            width={65}
+          />
+          <Column
+            header={<TextFilter label="Sími" column="phone" filter={this.filterRow} sorting={this.sortIcon('phone')} onSort={this.onSort} />}
+            cell={props => (<PhoneCell {...props} column="phone" />)}
+            fixed={true}
+            width={100}
+          />
+          <Column
+            header={<TextFilter label="Netfang" column="email" filter={this.filterRow} sorting={this.sortIcon('email')} onSort={this.onSort} />}
+            cell={props => (<TextCell {...props} column="email" />)}
+            fixed={true}
+            width={120}
+          />
+          <Column
+            header={<TextFilter label="Tengill" column="contact" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
+            cell={props => (<TextCell {...props} column="contact" />)}
+            fixed={true}
+            width={120}
+          />
+          <Column
+            header={<TextFilter label="Athugasemd" column="comment" filter={this.filterRow} sorting={this.sortIcon('comment')} onSort={this.onSort} />}
+            cell={props => (<EditCell style={{padding: '0'}} {...props} column="comment" onClick={this.onClick} />)}
+            fixed={true}
+            width={180}
+          />
         </Table>
     )
   }

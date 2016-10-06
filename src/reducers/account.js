@@ -16,7 +16,9 @@ export default function login(state = {}, action) {
       })
     case LOGIN_SUCCESS:
        return Object.assign({}, state, {
-         ...action,
+        userId: action.userId,
+        token: action.token,
+        expires: action.expires,
        	isFetching: false,
         isAuthenticated: true,
       })
@@ -28,6 +30,7 @@ export default function login(state = {}, action) {
       })
     case LOGOUT_REQUEST:
         return Object.assign({}, state, {
+          credentials: action.credentials,
           isFetching: true,
         })
     case LOGOUT_SUCCESS:
@@ -38,25 +41,25 @@ export default function login(state = {}, action) {
         })
     case LOGOUT_FAILURE:
         return Object.assign({}, state, {
-          ...action,
          	isFetching: false,
+          isAuthenticated: false,
+          token: null,
         })
     case LOGIN:
         return Object.assign({}, state, {
-          ...action,
           isAuthenticated: true,
         })
     case AUTHENTICATED:
         return {
-          ...state,
-          ...action,
+          userName: action.userName,
+          token: action.token,
           isAuthenticated: true,
         }
     case NOT_AUTHENTICATED:
         return {
           ...state,
           isAuthenticated: false,
-          user: null,
+          token: null,
         }
     default:
       return state

@@ -3,6 +3,7 @@ import { Input, Button, Glyphicon } from 'react-bootstrap';
 import {Table, Column, Cell } from 'fixed-data-table';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import jwtDecode from 'jwt-decode';
 
 class StatusCell extends Component {
 
@@ -21,9 +22,8 @@ class StatusCell extends Component {
         return(<Cell></Cell>);
     }
 
-    /*let userType = 'salesman';
-    let assigned = false;
-    let userSalesmanId = '57938ca0167658cc2d79c2f1';*/
+    let token = jwtDecode(sessionStorage.token);
+    let assigned = (token.type !== "salesman") ? true : false;
 
     let sales = companies[rowIndex].sales.map(sale => {
 
@@ -32,9 +32,9 @@ class StatusCell extends Component {
       let status = _.find(this.props.statuses, ['_id', sale.statusId]);
       let salesman = _.find(this.props.salesmen, ['_id', sale.salesmanId]);
 
-      /*if(salesman._id === userSalesmanId) {
+      if(salesman._id === token.salesman) {
         assigned = true;
-      }*/
+      }
 
       return {
         'selected': selected,
@@ -77,7 +77,9 @@ class StatusCell extends Component {
             </svg>
           </div>
           <div>
-            <Button bsSize="small" onClick={this.onClick} style={{border: '0'}}><Glyphicon style={{height: '5px'}} glyph="chevron-up" /></Button>
+            {assigned &&
+              <Button bsSize="small" onClick={this.onClick} style={{border: '0'}}><Glyphicon style={{height: '5px'}} glyph="chevron-up" /></Button>
+            }
           </div>
         </div>
       </Cell>

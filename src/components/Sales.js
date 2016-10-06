@@ -9,6 +9,7 @@ import { fetchCompanies } from '../actions/companies';
 import { fetchComments } from '../actions/comments';
 import { addSale, deleteSale, updateSale, fetchSales } from '../actions/sales';
 import moment from 'moment';
+import jwtDecode from 'jwt-decode';
 
 class Sales extends React.Component {
 
@@ -67,14 +68,25 @@ class Sales extends React.Component {
 
   render(){
 
+		let token = jwtDecode(sessionStorage.token);
+    let supervisor = (token.type === "supervisor") ? true : false;
+
     let salesmen = this.props.salesmen.map(salesman => {
       return (<option key={salesman._id} value={salesman._id}>{salesman.name}</option>);
     });
 
-    let statuses = this.props.statuses.map(status => {
-      return (
-          <option key={status._id} value={status._id}>{status.name}</option>
-        );
+    let filteredStatuses = this.props.statuses.map(status => {
+			if(!(supervisor && status.name === "Já")) {
+	      return (
+	          <option key={status._id} value={status._id}>{status.name}</option>
+	        );
+			}
+    });
+
+		let statuses = this.props.statuses.map(status => {
+	    return (
+	      <option key={status._id} value={status._id}>{status.name}</option>
+	    );
     });
 
     let filteredCategories = _.filter(this.props.categories, function(o)  {
@@ -89,21 +101,26 @@ class Sales extends React.Component {
 
     let sales = this.state.sales.map(sale => {
 
+			let disableYes = (
+				(_.find(this.props.statuses, ['_id', sale.statusId]).name === "Já") &&
+				(supervisor)
+			);
+
 			return(
 				<tr>
 					<td>{_.find(this.props.categories, ['_id', sale.categoryId]).name}</td>
 					<td>
-						<Input type="select" onChange={e => this.changeSalesman(e, sale.categoryId)} value={sale.salesmanId} style={{width: '150px'}}>
+						<Input disabled={disableYes} type="select" onChange={e => this.changeSalesman(e, sale.categoryId)} value={sale.salesmanId} style={{width: '150px'}}>
 							{salesmen}
 						</Input>
 					</td>
 					<td>
-						<Input type="select" onChange={e => this.changeStatus(e, sale.categoryId)} value={sale.statusId} style={{width: '150px'}}>
-							{statuses}
+						<Input disabled={disableYes} type="select" onChange={e => this.changeStatus(e, sale.categoryId)} value={sale.statusId} style={{width: '150px'}}>
+							{(supervisor && !disableYes) ? filteredStatuses : statuses}
 						</Input>
 					</td>
 					<td>
-						<div style={{display: 'flex', flexDirection: 'row'}}>
+						<div style={disableYes ? { display: 'none'} : {display: 'flex', flexDirection: 'row'}}>
 							<Button
 								onClick={e => this.updateSale(e, sale.categoryId)}
 								bsStyle="primary" style={{height:'35px', marginRight: '10px'}}>
@@ -138,7 +155,7 @@ class Sales extends React.Component {
           <th>
 						<div style={{fontSize: '14px', paddingBottom: '10px'}}>Staða</div>
             <Input type="select" style={{width: '150px'}} ref="status">
-              {statuses}
+              {filteredStatuses}
             </Input>
           </th>
           <th>

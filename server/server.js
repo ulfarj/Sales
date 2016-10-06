@@ -63,17 +63,18 @@ app.post('/authenticate', function(req, res) {
           } else {
             // if user is found and password is right
             // create a token
-            var token = jwt.sign(user, 'weirdoes', {
-              expiresIn: "20d"
+            var token = jwt.sign(user, 'moveon', {
+              expiresIn: "2d"
             });
 
-            var expirationDate = moment().add(19,'d').toDate();
+            var expirationDate = moment().add(1,'d').toDate();
             // return the information including token as JSON
             res.json({
               ok: true,
               access_token: token,
               userName: user.username,
               userType: user.type,
+              salesman: user.salesman,
               expires: expirationDate
             });
           }

@@ -8,7 +8,11 @@ import { updateCompanyComment } from '../../actions/companies';
 const styles = {
   input: {
     border: '0',
-    height: '20px',
+    height: 20,
+    lineHeight: 20,
+    fontSize: 12,
+    padding: 0,
+    margin: 0,
   }
 };
 
@@ -34,7 +38,6 @@ class EditCell extends Component {
   };
 
   onKeyPress = (e) => {
-    console.log(e);
     if(e.key == 'Enter'){
       this.updateComment();
     }
@@ -58,7 +61,8 @@ class EditCell extends Component {
 
     return(
       <Cell>
-        <div style={{display: 'flex', flexDirection: 'row'}}>
+        <div style={{display: 'flex', flexDirection: 'row', width: 150 }}>
+
           <Input
             type="text"
             style={styles.input}
@@ -69,6 +73,7 @@ class EditCell extends Component {
             ref="xx"
           />
           <Glyphicon style={{cursor: 'pointer'}} glyph="chevron-up" onClick={this.onClickIcon} />
+
         </div>
       </Cell>
     );

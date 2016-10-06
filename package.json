@@ -25,6 +25,7 @@
     "jquery": "^2.2.0",
     "json-loader": "^0.5.4",
     "jsonwebtoken": "^7.0.1",
+    "jwt-decode": "^2.1.0",
     "less": "^2.6.1",
     "less-loader": "^2.2.3",
     "lodash": "^4.6.0",

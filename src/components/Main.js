@@ -7,12 +7,11 @@ import { fetchCategoriesIfNeeded } from '../actions/categories';
 import { fetchSalesmenIfNeeded } from '../actions/salesmen';
 import { fetchStatusesIfNeeded } from '../actions/statuses';
 import { fetchCompanies } from '../actions/companies';
-import { logoutUser } from '../actions/account';
 import Companies from './Companies';
 import CreateCompany from './CreateCompany';
 import EditCompany from './EditCompany';
 import Categories from './Categories';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import Logout from './Logout';
 
 const styles = {
   input: {
@@ -50,7 +49,6 @@ class Main extends Component {
   	}
 
     componentWillMount(){
-      injectTapEventPlugin();
       const { dispatch } = this.props;
       dispatch(fetchCategoriesIfNeeded());
       dispatch(fetchSalesmenIfNeeded());
@@ -91,14 +89,9 @@ class Main extends Component {
       this.setState({showEditCompanyModal: false});
     };
 
-    logoutUser = () => {
-      const { dispatch } = this.props;
-      dispatch(logoutUser());
-    };
-
   	render() {
 
-      const { loaded, companiesCount } = this.props;
+      const { loaded, companiesCount, isAuthenticated } = this.props;
 
       if(!loaded) {
           return(<div>Loading</div>);
@@ -147,16 +140,9 @@ class Main extends Component {
                 </Modal.Body>
               </Modal>
             </div>
-            {/* Login
-              <div style={{paddingLeft: '40'}}>
-              <Button
-              bsStyle="primary"
-              onClick={e => this.logoutUser()}
-              >
-              Útskrá
-              </Button>
-            </div>*/}
-
+            <div style={{paddingLeft: '40'}}>
+              <Logout />
+            </div>
             <div style={{paddingLeft: '40', width: 300}}>
               <label>
                 <h4>
@@ -194,6 +180,7 @@ Main.propTypes = {
   statuses: PropTypes.array,
   loaded: PropTypes.bool.isRequired,
   filter: PropTypes.object,
+  isAuthenticated: PropTypes.bool,
   dispatch: PropTypes.func.isRequired
 }
 
@@ -202,6 +189,7 @@ function mapStateToProps(state) {
   var companies = state.companies.items;
   var salesmen = state.salesmen.items;
   var statuses = state.statuses.items;
+  let isAuthenticated = state.account.isAuthenticated;
 
   let loaded = false;
 
@@ -212,7 +200,7 @@ function mapStateToProps(state) {
   let companiesCount = state.companies.loaded ? state.companies.items.length : 0;
   let filter = state.companies ? state.companies.filter : {};
 
-  return { loaded, categories, salesmen, statuses, companiesCount, filter}
+  return { loaded, categories, salesmen, statuses, companiesCount, filter, isAuthenticated }
 }
 
 export default connect(mapStateToProps)(Main);

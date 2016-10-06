@@ -8,30 +8,33 @@ import Login from './src/components/login';
 import ImportCompanies from './src/containers/ImportCompanies';
 import Admin from './src/containers/Admin';
 import { authenticated, notAuthenticated } from './src/actions/account';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 class Routes extends React.Component {
+
+  componentWillMount = () => {
+    injectTapEventPlugin();
+  }
 
   authenticate = (nextState, replace) => {
     const { dispatch } = this.props.store;
 
-    if (!(localStorage.token && moment() < moment(localStorage.expires))) {
+    if (!(sessionStorage.token && moment() < moment(sessionStorage.expires))) {
       dispatch(notAuthenticated());
       replace({ pathname: '/login', state: { nextPathname: nextState.location.pathname } });
     } else {
       dispatch(authenticated({
-        userName: localStorage.userName,
-        token: localStorage.token,
+        userName: sessionStorage.userName,
+        token: sessionStorage.token,
       }));
     }
   }
 
   render() {
     const history = syncHistoryWithStore(browserHistory, this.props.store);
-    //onEnter={this.authenticate}
-
     return (
       <Router history={history}>
-        <Route path="/" component={App}>
+        <Route path="/" component={App} onEnter={this.authenticate}>
           <IndexRoute component={Main} />
           <Route path="ImportCompanies" component={ImportCompanies} />
           <Route path="Admin" component={Admin} />

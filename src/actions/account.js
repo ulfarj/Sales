@@ -61,10 +61,10 @@ export function loginUser(username, password) {
         return response.json();
     })
     .then(response => {
-      localStorage.token = response.access_token;
-      localStorage.userName = response.userName;
-      localStorage.expires = response.expires;
-      localStorage.userType = response.userType;
+      sessionStorage.token = response.access_token;
+      sessionStorage.userName = response.userName;
+      sessionStorage.expires = response.expires;
+      sessionStorage.userType = response.userType;
 
       dispatch(loginSuccess(response.access_token, response.userName, response.expires));
       browserHistory.push('/');
@@ -119,12 +119,13 @@ export function logoutUser() {
     },
   };*/
 
-  localStorage.clear();
+  browserHistory.push('/login');
+
+  //sessionStorage.clear();
 
   return dispatch => {
-    dispatch(logoutRequest());
-    dispatch(logoutSuccess());
-    //browserHistory.push('/');
+    //dispatch(logoutRequest());
+    //dispatch(logoutSuccess());
 
     /* return fetch(`${apiUrl}/api/account/logout`, config)
     .then(response => {
