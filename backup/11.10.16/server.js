@@ -44,8 +44,7 @@ app.post('/authenticate', function(req, res) {
       var collection = db.collection('users');
       // find the user
       collection.findOne({
-        username: req.body.username,
-        deleted: { $exists: false },
+        username: req.body.username
       }, function(err, user) {
 
         if (err) throw err;
@@ -64,18 +63,17 @@ app.post('/authenticate', function(req, res) {
           } else {
             // if user is found and password is right
             // create a token
-            var token = jwt.sign(user, 'moveon', {
-              expiresIn: "2d"
+            var token = jwt.sign(user, 'weirdoes', {
+              expiresIn: "20d"
             });
 
-            var expirationDate = moment().add(1,'d').toDate();
+            var expirationDate = moment().add(19,'d').toDate();
             // return the information including token as JSON
             res.json({
               ok: true,
               access_token: token,
               userName: user.username,
               userType: user.type,
-              salesman: user.salesman,
               expires: expirationDate
             });
           }
@@ -425,19 +423,6 @@ var sortByProperty = function (property, order) {
     }
 };
 
-app.get('/company/:id', function (req, res) {
-
-    MongoClient.connect(url, function(err, db) {
-        var collection = db.collection('companies');
-        var findParams = {};
-        findParams.ssn = new RegExp(req.params.id, 'i');
-
-        collection.find(findParams).toArray(function(err, docs) {
-            res.jsonp(docs);
-        });
-    });
-});
-
 app.post('/company', function(req, res) {
 
   MongoClient.connect(url, function(err, db) {
@@ -455,8 +440,7 @@ app.post('/company', function(req, res) {
           "email": req.body.email,
           "comment": req.body.comment,
           "namersk": req.body.namersk,
-          "sales": req.body.sales,
-          "contact": req.body.contact,
+          "sales": req.body.sales
         },
         function (err, result){
 

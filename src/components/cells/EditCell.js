@@ -70,6 +70,7 @@ class EditCell extends Component {
             onChange={this.onChange}
             onKeyPress={this.onKeyPress}
             onClick={this.onClick}
+            onBlur={this.updateComment}
             ref="xx"
           />
           <Glyphicon style={{cursor: 'pointer'}} glyph="chevron-up" onClick={this.onClickIcon} />

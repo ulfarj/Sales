@@ -32,9 +32,16 @@ function shouldFetchStatuses(state) {
 }
 
 function fetchStatuses() {
+  const config = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  }
+
   return dispatch => {
     dispatch(requestStatuses())
-    return fetch(webconfig.apiUrl+'/statuses')
+    return fetch(webconfig.apiUrl+'/statuses', config)
       .then(response => response.json())
       .then(json => dispatch(receivesStatuses(json)))
   }

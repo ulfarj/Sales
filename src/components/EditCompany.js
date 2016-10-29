@@ -10,6 +10,8 @@ import { fetchComments } from '../actions/comments';
 import { addSale, deleteSale, fetchSales } from '../actions/sales';
 import moment from 'moment';
 import Sales from './Sales';
+import { addComment } from '../actions/company';
+import { updateCompanyComment } from '../actions/companies';
 
 class EditCompany extends React.Component {
 
@@ -69,8 +71,14 @@ class EditCompany extends React.Component {
 		this.setState({company: company});
 	};
 
-	render() {
+	addComment = () => {
+		const {dispatch, company} = this.props;
+		dispatch(addComment(company._id, this.refs.comment.getValue()));
+		//dispatch(fetchComments(company._id));
+		dispatch(updateCompanyComment(company._id, this.refs.comment.getValue()));
+	};
 
+	render() {
 		const { company } = this.state;
 
 		let sortedComments = _.sortBy( this.props.comments, function(o) { return o.created; }).reverse();
@@ -107,20 +115,20 @@ class EditCompany extends React.Component {
 									<Input type="text" label="Tengill" placeholder="Tengill" onChange={e => this.onChange(e, 'contact')} value={company.contact} ref="contact" style={{width: 250}} />
 								</div>
 								<div>
-								<Input
-								 type="checkbox"
-								 label="Lögfræðiinnheimta"
-								 checked={company.legal ? true : false}
-								 onClick={e => this.onClick(e, 'legal')}
-								 ref="legal"
-								 />
-								 <Input
- 								 type="checkbox"
- 								 label="Ekki hafa samband (nafnið gæti breyst)"
-								 checked={company.dontcontact ? true : false}
-								 onClick={e => this.onClick(e, 'dontcontact')}
-								 ref="dontcontact"
- 								 />
+									<Input
+										type="checkbox"
+										label="Lögfræðiinnheimta"
+										checked={company.legal ? true : false}
+										onClick={e => this.onClick(e, 'legal')}
+										ref="legal"
+									/>
+									<Input
+										type="checkbox"
+										label="Ekki hafa samband (nafnið gæti breyst)"
+										checked={company.dontcontact ? true : false}
+										onClick={e => this.onClick(e, 'dontcontact')}
+										ref="dontcontact"
+									/>
 								</div>
 							</div>
 							<div>
@@ -137,6 +145,14 @@ class EditCompany extends React.Component {
 							</div>
 			      </Tab>
 						<Tab eventKey={3} title="Athugasemdir">
+							<div style={{ paddingTop: 20, display: 'flex' }}>
+								<Input type="text" placeholder="Athugasemd" ref="comment" style={{width: 400}} />
+								<Button
+									onClick={this.addComment}
+									bsStyle="primary" style={{height:'35px'}}>
+									Bæta við
+								</Button>
+							</div>
 							<Table style={{padding: '20px'}}>
 								<thead>
 									<tr>
@@ -192,6 +208,7 @@ function mapStateToProps(state, ownProps) {
 
 	if(state.comments && state.comments.loaded) {
 			comments = state.comments.items;
+			console.log(state.comments.items);
 	}
 
 	if(state.sales && state.sales.loaded) {

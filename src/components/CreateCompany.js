@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import {Input, Button, Alert, DropDown, Col} from 'react-bootstrap';
+import { Input, Button, Alert, DropDown, Col, Modal } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import ToggleDisplay from 'react-toggle-display';
-import { createCompany } from '../actions/company';
+import { createCompany, findCompany } from '../actions/company';
 import webconfig from 'config';
+import Confirm from 'react-bootstrap-confirm'
 
 
 class CreateCompany extends React.Component {
@@ -14,7 +15,8 @@ class CreateCompany extends React.Component {
      this.state = {
        salesman: '',
        categories: [],
-       ssnerror: false
+       ssnerror: false,
+       showCompanyExistsModal: false,
      }
    }
 
@@ -55,6 +57,45 @@ class CreateCompany extends React.Component {
     return valid;
   }
 
+  onCreate = () => {
+    const { dispatch } = this.props;
+
+    let userId = this.refs.ssn.getValue();
+    if(userId.indexOf('-') > '-1'){
+      userId = userId.replace('-','');
+    }
+
+    dispatch(createCompany(
+      userId,
+      this.refs.name.getValue(),
+      this.refs.address.getValue(),
+      this.refs.postalCode.getValue(),
+      this.refs.phone.getValue(),
+      this.refs.email.getValue(),
+      this.refs.comment.getValue(),
+      this.getSales(),
+      this.refs.namersk.getValue(),
+      this.refs.contact.getValue(),
+    ));
+    this.props.onCreate();
+  }
+
+  confirm = (userId) => {
+    const { ssn, loaded, company } = this.props;
+
+    setTimeout(function() {
+      if(ssn && loaded) {
+        if(ssn === userId && company.length > 0) {
+          this.setState({showCompanyExistsModal: true});
+        } else {
+          this.onCreate();
+        }
+      } else {
+        this.confirm(userId);
+      }
+    }.bind(this), 200);
+  }
+
   createCompany = (e) => {
 
     const { dispatch } = this.props;
@@ -65,18 +106,8 @@ class CreateCompany extends React.Component {
     }
 
     if(this.validateUserId(userId)){
-      dispatch(createCompany(
-        userId,
-        this.refs.name.getValue(),
-        this.refs.address.getValue(),
-        this.refs.postalCode.getValue(),
-        this.refs.phone.getValue(),
-        this.refs.email.getValue(),
-        this.refs.comment.getValue(),
-        this.getSales(),
-        this.refs.namersk.getValue(),
-      ));
-      this.props.onCreate();
+      dispatch(findCompany(userId));
+      this.confirm(userId)
     }
     else {
       this.setState({ssnerror: true});
@@ -157,9 +188,9 @@ class CreateCompany extends React.Component {
             type="checkbox"
             label={category.name}
             value={category._id}
-              checked={checked}
-              disabled={disabled}
-              onClick={this.changeCategory}  />
+            checked={checked}
+            disabled={disabled}
+            onClick={this.changeCategory}  />
         </Col>
       );
     });
@@ -177,33 +208,54 @@ class CreateCompany extends React.Component {
 		return(
 			<div>
 
-        {categoriesBySalesman}
-
         <div style={{display: 'flex', flexDirection: 'row',}}>
           <Input type="select" ref="salesman" label="Sölumaður" onChange={this.changeSalesman} style={{width: 250}}>
             {salesmen}
           </Input>
         </div>
 
+        {categoriesBySalesman}
+
         <div style={{display: 'flex', flexDirection: 'row',}}>
           <Input type="text" label="Nafn" placeholder="Nafn" ref="name" style={{width: 250}} />
           <Input type="text" label="Nafn samkvæmt rsk" placeholder="Rekstrarnafn" ref="namersk" style={{width: 250}} />
-           </div>
+        </div>
 
-           <div style={{display: 'flex', flexDirection: 'row'}}>
-            <Input type="text" label="Kennitala" placeholder="Kennitala" ref="ssn" onChange={this.checkError} bsStyle={this.state.ssnerror ? 'error' : ''} style={{width: 250}} />
-            <Input type="text" label="Heimilisfang" placeholder="Heimilisfang" ref="address" style={{width: 250}} />
-            <Input type="text" label="Póstnúmer" placeholder="Póstnúmer" ref="postalCode" style={{width: 120}} />
-           </div>
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+          <Input type="text" label="Kennitala" placeholder="Kennitala" ref="ssn" onChange={this.checkError} bsStyle={this.state.ssnerror ? 'error' : ''} style={{width: 250}} />
+          <Input type="text" label="Heimilisfang" placeholder="Heimilisfang" ref="address" style={{width: 250}} />
+          <Input type="text" label="Póstnúmer" placeholder="Póstnúmer" ref="postalCode" style={{width: 120}} />
+        </div>
 
-           <div style={{display: 'flex', flexDirection: 'row'}}>
-            <Input type="text" label="Sími" placeholder="Sími" ref="phone" style={{width: 250}} />
-            <Input type="text" label="Netfang" placeholder="Netfang" ref="email" style={{width: 250}} />
-           </div>
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+          <Input type="text" label="Sími" placeholder="Sími" ref="phone" style={{width: 250}} />
+          <Input type="text" label="Netfang" placeholder="Netfang" ref="email" style={{width: 250}} />
+          <Input type="text" label="Tengill" placeholder="Tengill" ref="contact" style={{width: 250}} />
+        </div>
 
-           <Input type="textarea" label="Athugasemd" placeholder="Athugasemd" ref="comment" />
+        <Input type="textarea" label="Athugasemd" placeholder="Athugasemd" ref="comment" />
 
-           <Button onClick={this.createCompany} bsStyle="primary">Skrá</Button>
+        <Button onClick={this.createCompany} bsStyle="primary">Skrá</Button>
+
+        <Modal
+          show={this.state.showCompanyExistsModal}
+          onHide={e => this.setState({showCompanyExistsModal: false})}
+          bsSize="lg">
+          <Modal.Header closeButton>
+            <Modal.Title>Kennitala er þegar skráð</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Ertu viss um að þú viljir skrá þessa færslu
+            <div style={{display: 'flex', paddingTop: 20}}>
+              <div>
+                <Button onClick={this.onCreate} bsStyle="primary">Já</Button>
+              </div>
+              <div style={{paddingLeft: 15}}>
+                <Button onClick={e => this.setState({showCompanyExistsModal: false})} bsStyle="secondary">Nei</Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
 
 			</div>
 		);
@@ -215,12 +267,18 @@ CreateCompany.propTypes = {
   categories: PropTypes.array.isRequired,
   salesmen: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  companies: PropTypes.array.isRequired,
+  ssn: PropTypes.string,
+  company: PropTypes.array,
 }
 
 function mapStateToProps(state) {
   var categories = state.categories.items;
   var salesmen = state.salesmen.items;
+  const companies = state.companies.items;
+  const ssn = state.company.ssn;
+  const company = state.company.company;
 
   let loaded = false;
 
@@ -228,7 +286,7 @@ function mapStateToProps(state) {
     loaded = true;
   }
 
-  return { categories, salesmen, loaded}
+  return { categories, salesmen, loaded, companies, ssn, company }
 }
 
 export default connect(mapStateToProps)(CreateCompany);
