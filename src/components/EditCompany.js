@@ -12,6 +12,7 @@ import moment from 'moment';
 import Sales from './Sales';
 import { addComment } from '../actions/company';
 import { updateCompanyComment } from '../actions/companies';
+import Contract from './Contract';
 
 class EditCompany extends React.Component {
 
@@ -174,7 +175,12 @@ class EditCompany extends React.Component {
 								</Button>
 							</div>
 						</Tab>
-
+						<Tab eventKey={5} title="Samningur">
+							<Contract
+								salesmen={this.props.salesmen}
+								statuses={this.props.statuses}
+							/>
+						</Tab>
 		  		</Tabs>
 				</div>
 

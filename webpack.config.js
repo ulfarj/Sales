@@ -36,13 +36,13 @@
     plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: '"production"'
+        NODE_ENV: '"development"'
       }
     })
    ],
    resolve: {
       alias: {
-          config: path.join(__dirname, '/config/prod')
+          config: path.join(__dirname, '/config/dev')
       }
    }
 };
