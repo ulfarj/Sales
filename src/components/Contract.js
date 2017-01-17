@@ -1,14 +1,30 @@
 import React, { Component, PropTypes } from 'react';
-import { Input } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Input, Button } from 'react-bootstrap';
 import 'react-widgets/lib/less/react-widgets.less';
 import Calendar from 'react-widgets/lib/Calendar';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import Dropzone from 'react-dropzone';
+import { createContract } from '../actions/contract';
 
 class Contract extends Component {
+
+  constructor(props) {
+     super(props);
+     this.state = {
+       salesday: '',
+     }
+  }
+
   componentWillMount(){
     moment.locale('is');
     momentLocalizer(moment);
+  }
+
+  onChangeDate = (e) => {
+    const date = this.normalizeDate(e.target.value);
+    this.setState({salesday: date});
   }
 
   normalizeDate = (value) => {
@@ -17,16 +33,60 @@ class Contract extends Component {
     }
     const date = value.toString().replace(/[^a-zá-öø-þA-ZÀ-ÖØ-Þ\d]/g, '');
 
-    if (date.length <= 2) {
+    if (value.length <= 2) {
         return date;
     }
 
-    if(date.length <= 4 ) {
-      return `${date.slice(0, 2)}${'.'}${date.slice(2, date.length)}`;
+    if(date.length <= 4 || value.lenght <= 4) {
+      return `${date.slice(0, 2)}${'/'}${date.slice(2, date.length)}`;
     }
 
-    return `${date.slice(0, 2)}${'.'}${date.slice(2, 4)}${'.'}${date.slice(4, date.length)}`;
+    const length = (date.length > 8) ? 8 : date.length;
+
+    return `${date.slice(0, 2)}${'/'}${date.slice(2, 4)}${'/'}${date.slice(4, length)}`;
   };
+
+  createContract = (e) => {
+    const { dispatch } = this.props;
+
+    const contract = {
+      category: this.refs.category.getValue(),
+      contractcategory: this.refs.contractcategory.getValue(),
+      contractnumber: this.refs.contractnumber.getValue(),
+      file: this.refs.file.getValue(),
+      salesman: this.refs.salesman.getValue(),
+      salesday: this.refs.salesday.getValue(),
+      type: this.refs.type.getValue(),
+      contractamount: this.refs.contractamount.getValue(),
+      subscriptionamount: this.refs.subscriptionamount.getValue(),
+      firstpaydate: this.refs.firstpaydate.getValue(),
+      firstdisplaydate: this.refs.firstdisplaydate.getValue(),
+      termination: this.refs.termination.getValue(),
+      lastpaydate: this.refs.lastpaydate.getValue(),
+      contact: this.refs.contact.getValue(),
+      contactphone: this.refs.contactphone.getValue(),
+      contactemail: this.refs.contactemail.getValue(),
+      article: this.refs.article.getValue(),
+      advertisement: this.refs.advertisement.getValue(),
+      coverage: this.refs.coverage.getValue(),
+      photography: this.refs.photography.getValue(),
+      articlewriting: this.refs.articlewriting.getValue(),
+      contentready: this.refs.contentready.getValue(),
+      email: this.refs.email.getValue(),
+      contentready: this.refs.contentready.getValue(),
+      proofs: this.refs.proofs.getValue(),
+      corrected: this.refs.corrected.getValue(),
+      approved: this.refs.approved.getValue(),
+      app: this.refs.app.getValue(),
+      location: this.refs.location.getValue(),
+      legalmarked: this.refs.legalmarked.getValue(),
+      contactbilling: this.refs.contactbilling.getValue(),
+    };
+
+    console.log(contract);
+
+  //  dispatch(createContract(contract));
+  }
 
   render() {
 
@@ -43,63 +103,69 @@ class Contract extends Component {
     return(
       <div style={{ paddingTop: 10 }}>
         <div style={{ display: 'flex' }}>
-          <Input type="text" label="Nafn" placeholder="Nafn" ref="name" style={{width: 250}} />
-          <Input type="text" label="Kennitala" placeholder="Kennitala" ref="ssn" style={{width: 150}} />
-          <Input type="text" label="Heimili" placeholder="Heimili" ref="address" style={{width: 250}} />
-          <Input type="text" label="Pnr." placeholder="Pnr." ref="postalCode" style={{width: 80}} />
+          <Input type="select" label="Verk" style={{width: '160px'}} ref="category">
+          </Input>
+          <Input type="select" label="Flokkur" style={{width: '160px'}} ref="contractcategory">
+          </Input>
+          <Input type="text" label="Samningsnúmer" placeholder="Samningsnúmer" ref="contractnumber" style={{width: 160}} />
+          <Input type="file" label="Samningur" ref="file" />
         </div>
         <div style={{ display: 'flex' }}>
-          <Input type="text" label="Sími" placeholder="Sími" ref="phone" style={{width: 150}} />
-          <Input type="text" label="Tengill" placeholder="Tengill" ref="link" style={{width: 250}} />
-        </div>
-        <div style={{ display: 'flex' }}>
-          <Input type="select" style={{width: '150px'}} label="Sölumaður" ref="salesman">
+          <Input type="select" label="Sölumaður" ref="salesman" style={{width: '160px'}} >
             {salesmen}
           </Input>
-          <Input ref="salesday" type="text" label="Söludagur" placeholder="Söludagur" style={{width: 100}} />
-          <Input type="select" style={{width: '150px'}} label="Binding" ref="aa">
+          <Input ref="salesday" type="text" maxLength="10" label="Söludagur" placeholder="Söludagur" style={{width: 160}} />
+          <Input type="select" style={{width: '160px'}} label="Tegund" ref="type">
             <option>Ótímabundinn</option>
             <option>Tímabundinn</option>
           </Input>
+          <Input type="number" label="Upphæð samnings" placeholder="Upphæð samnings" ref="contractamount" style={{width: 160}} />
+          <Input type="number" label="Upphæð áskriftar" placeholder="Upphæð áskriftar" ref="subscriptionamount" style={{width: 160}} />
+        </div>
+        <div style={{ display: 'flex' }}>
+          <Input type="text" label="Fyrsti gjalddagi" maxLength="10" placeholder="Fyrsti gjalddagi" ref="firstpaydate" style={{width: 160}} />
+          <Input type="text" label="Fyrsta birting" maxLength="7" placeholder="Fyrsta birting" ref="firstdisplaydate" style={{width: 160}} />
+          <Input type="text" label="Uppsögn" maxLength="10" placeholder="Uppsögn" ref="termination" style={{width: 160}} />
+          <Input type="text" label="Síðasti gjalddagi" maxLength="10" placeholder="Síðasti gjalddagi" ref="lastpaydate" style={{width: 160}} />
+          <Input type="text" label="Síðasta birting" maxLength="7" placeholder="Síðasta birting" ref="lastdisplaydate" style={{width: 160}} />
+        </div>
+        <div style={{ display: 'flex' }}>
+          <Input type="text" label="Tengiliður" placeholder="Tengiliður" ref="contact" style={{width: 160}} />
+          <Input type="text" label="Sími" placeholder="Sími" ref="contactphone" style={{width: 160}} />
+          <Input type="text" label="Netfang" placeholder="Netfang" ref="contactemail" style={{width: 160}} />
+        </div>
+        <div style={{ display: 'flex' }}>
+          <Input type="text" label="Grein" placeholder="Grein" ref="article" style={{width: 160}} />
+          <Input type="text" label="Auglýsing" placeholder="Auglýsing" ref="advertisement" style={{width: 160}} />
+          <Input type="text" label="Umfjöllun/Mynd" placeholder="Umfjöllun/Mynd" ref="coverage" style={{width: 160}} />
+        </div>
+        <div style={{ display: 'flex' }}>
+          <Input type="text" label="Ljósmyndun" maxLength="10" placeholder="Ljósmyndun" ref="photography" style={{ width: 160 }} />
+          <Input type="text" label="Greinaskrif" maxLength="10" placeholder="Greinaskrif" ref="articlewriting" style={{width: 160}} />
+        </div>
+        <div style={{ display: 'flex' }}>
+          <Input type="text" label="Email" maxLength="10" placeholder="Email" ref="email" style={{width: 160}} />
+          <Input type="text" label="Efni komið" maxLength="10" placeholder="Efni komið" ref="contentready" style={{width: 160}} />
+          <Input type="text" label="Próförk" maxLength="10" placeholder="Próförk" ref="proofs" style={{width: 160}} />
+          <Input type="text" label="Leiðrétt" maxLength="10" placeholder="Leiðrétt" ref="corrected" style={{width: 160}} />
+          <Input type="text" label="Samþykkt" maxLength="10" placeholder="Samþykkt" ref="approved" style={{width: 160}} />
         </div>
         <div>
-          <Input type="file" label="Samningur" ref="link" />
-        </div>
-        <div style={{ display: 'flex' }}>
-          <Input type="number" label="Upphæð samnings" placeholder="Upphæð samnings" ref="link" style={{width: 150}} />
-          <Input type="number" label="Upphæð áskriftar" placeholder="Upphæð áskriftar" ref="link" style={{width: 150}} />
-        </div>
-        <div style={{ display: 'flex' }}>
-          <Input type="text" label="Fyrsti gjalddagi" placeholder="Fyrsti gjalddagi" ref="salesday" style={{width: 120}} />
-          <Input type="text" label="Fyrsta birting" placeholder="Fyrsta birting" ref="salesday" style={{width: 120}} />
-          <Input type="text" label="Uppsögn" placeholder="Uppsögn" ref="salesday" style={{width: 120}} />
-          <Input type="text" label="Síðasti gjalddagi" placeholder="Síðasti gjalddagi" ref="salesday" style={{width: 120}} />
-          <Input type="text" label="Síðasta birting" placeholder="Síðasta birting" ref="salesday" style={{width: 120}} />
+          <Input type="text" label="Birting í appi" maxLength="10" placeholder="Birting í appi" ref="app" style={{width: 160}} />
         </div>
         <div>
-          <Input type="file" label="Grein" ref="link" />
-          <Input type="file" label="Auglýsing" ref="link" />
-          <Input type="file" label="Umfjöllun" ref="link" />
-          <Input type="file" label="Ljósmynd" ref="salesday" />
-        </div>
-        <div style={{ display: 'flex' }}>
-          <Input type="text" label="Greinaskrif" placeholder="Greinaskrif" ref="salesday" style={{width: 120}} />
-          <Input type="text" label="Email" placeholder="Email" ref="salesday" style={{width: 120}} />
-          <Input type="text" label="Efni komið" placeholder="Efni komið" ref="salesday" style={{width: 120}} />
-          <Input type="text" label="Próförk" placeholder="Próförk" ref="salesday" style={{width: 120}} />
-          <Input type="text" label="Leiðrétt" placeholder="Leiðrétt" ref="salesday" style={{width: 120}} />
-        </div>
-        <div style={{ display: 'flex' }}>
-          <Input type="text" label="Samþ." placeholder="Samþ." ref="salesday" style={{width: 120}} />
-          <Input type="text" label="Birting í appi" placeholder="Birting í appi" ref="salesday" style={{width: 120}} />
-          <Input type="textarea" label="Staðsetning" style={{ width: 360 }} />
-          <Input type="select" label="Flokkur" style={{width: '150px'}} ref="status">
-            {statuses}
-          </Input>
+          <Input type="text" label="Staðsetning" placeholder="Staðsetning" ref="location" style={{ width: 160 }} />
         </div>
         <div>
-          <Input type="checkbox" label="Lögfræðimerkt" />
-          <Input type="checkbox" label="Tala við innheimtu áður en selt er" />
+          <Input type="checkbox" label="Lögfræðimerkt" ref="legalmarked" />
+          <Input type="checkbox" label="Tala við innheimtu áður en selt er" ref="contactbilling" />
+        </div>
+        <div>
+          <Button
+            onClick={e => this.createContract(e)}
+            bsStyle="primary" style={{height:'35px'}}>
+            Stofna
+          </Button>
         </div>
       </div>
     )
@@ -109,6 +175,7 @@ class Contract extends Component {
 Contract.propTypes = {
   salesmen: PropTypes.array.isRequired,
   statuses: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired,
 }
 
-export default Contract;
+export default connect()(Contract);
