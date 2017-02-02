@@ -44,8 +44,8 @@ class Users extends Component {
 
     let users = this.props.users.map(user => {
       let salesman = '';
-      if(user.salesman) {
-        salesman = _.find(this.props.salesmen, ['_id', user.salesman]);
+      if(user.salesman && _.find(this.props.salesmen, ['_id', user.salesman])) {
+        salesman = _.find(this.props.salesmen, ['_id', user.salesman]).name;
       }
 
       return(
@@ -53,7 +53,7 @@ class Users extends Component {
           <td>{user.name}</td>
           <td>{user.username}</td>
           <td>{this.getUserType(user.type)}</td>
-          <td>{salesman.name}</td>
+          <td>{salesman}</td>
           <td>****</td>
           <td>
             <Button

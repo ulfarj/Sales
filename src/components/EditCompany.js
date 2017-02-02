@@ -13,6 +13,8 @@ import Sales from './Sales';
 import { addComment } from '../actions/company';
 import { updateCompanyComment } from '../actions/companies';
 import Contract from './Contract';
+import { createContract, fetchContracts } from '../actions/contract';
+import Contracts from './Contracts';
 
 class EditCompany extends React.Component {
 
@@ -32,6 +34,7 @@ class EditCompany extends React.Component {
 
 		dispatch(fetchComments(company._id));
 		dispatch(fetchSales(company._id));
+		dispatch(fetchContracts(company._id));
 	}
 
 	updateCompany = () => {
@@ -176,9 +179,18 @@ class EditCompany extends React.Component {
 							</div>
 						</Tab>
 						<Tab eventKey={5} title="Samningur">
+
+							{this.props.contracts &&
+								<Contracts
+									contracts={this.props.contracts}
+								/>
+							}
+
 							<Contract
 								salesmen={this.props.salesmen}
 								statuses={this.props.statuses}
+								categories={this.props.categories}
+								companyId={company._id}
 							/>
 						</Tab>
 		  		</Tabs>
@@ -199,6 +211,7 @@ EditCompany.propTypes = {
 	filter: PropTypes.array,
 	activeTab: PropTypes.int,
 	sales: PropTypes.array,
+	contracts: PropTypes.array,
   dispatch: PropTypes.func.isRequired
 }
 
@@ -211,17 +224,17 @@ function mapStateToProps(state, ownProps) {
 	let activeTab = ownProps.activeTab;
 	let comments = [];
 	let sales = [];
+	const contracts = state.contracts.items;
 
 	if(state.comments && state.comments.loaded) {
-			comments = state.comments.items;
-			console.log(state.comments.items);
+			comments = state.comments.items;			
 	}
 
 	if(state.sales && state.sales.loaded) {
 			sales = state.sales.items;
 	}
 
-  return { categories, salesmen, statuses, loaded, filter, activeTab, comments, sales }
+  return { categories, salesmen, statuses, loaded, filter, activeTab, comments, sales, contracts }
 }
 
 export default connect(mapStateToProps)(EditCompany);

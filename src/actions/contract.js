@@ -2,6 +2,50 @@ import fetch from 'isomorphic-fetch';
 import * as types from '../constants/ActionTypes';
 import webconfig from 'config';
 
+function fetchContractsRequest(companyId) {
+  return {
+    type: types.FETCH_CONTRACTS_REQUEST,
+    companyId,
+  }
+}
+
+function fetchContractsSuccess(contracts) {
+  return {
+    type: types.FETCH_CONTRACTS_SUCCESS,
+    items: contracts,
+  }
+}
+
+function fetchContractsFailure(error) {
+  return {
+    type: types.FETCH_CONTRACTS_FAILURE,
+    error,
+  }
+}
+
+export function fetchContracts(companyId) {
+  let config = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json'
+    },
+  }
+
+  return (dispatch, getState) => {
+    dispatch(fetchContractsRequest(companyId))
+    return fetch(webconfig.apiUrl+'/contracts/'+companyId, config)
+      .then(response => response.json())
+      .then(function(response) {
+        if(response.error){
+          dispatch(fetchContractsFailure(response.error));
+        } else {
+          dispatch(fetchContractsSuccess(response));
+        }
+      });
+  }
+}
+
 function createContractRequest(contract) {
   return {
     type: types.CREATE_CONTRACT_REQUEST,
@@ -12,7 +56,7 @@ function createContractRequest(contract) {
 function createContractSuccess(response) {
   return {
     type: types.CREATE_CONTRACT_SUCCESS,
-    body,
+    response,
   }
 }
 
@@ -25,15 +69,13 @@ function createContractFailure(error) {
 
 export function createContract(contract) {
 
-  console.log(contract);
-
-  let config = {
+  const config = {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type':'application/json'
     },
-    body: contract
+    body: JSON.stringify(contract),
   }
 
   return (dispatch) => {
@@ -41,13 +83,11 @@ export function createContract(contract) {
     return fetch(webconfig.apiUrl+'/createContract/', config)
       .then(response => response.json())
       .then(function(response) {
-
         if(response.error){
           dispatch(createcontractFailure(response.error));
         } else {
           dispatch(createContractSuccess(response));
-          //dispatch(fetchCurrentSalesmen());
         }
-      });
+     });
   }
 }

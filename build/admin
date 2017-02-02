@@ -12,7 +12,7 @@
   </head>
   <body>
     <section id="app"></section>
-    <script src="/js/bundle2.js"></script>
+    <script src="/js/bundle5.js"></script>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
   </body>

@@ -84,6 +84,32 @@ app.post('/authenticate', function(req, res) {
   });
 });
 
+app.post('/createContract', function(req, res) {
+
+  MongoClient.connect(url, function(err, db) {
+    try {
+      db.collection("contracts").insertOne(req.body);
+      res.jsonp({status: 'success'});
+    }
+    catch(e) {
+      res.jsonp({status: 'error', error: e});
+    }
+  });
+});
+
+app.get('/contracts/:id', function (req, res) {
+
+    MongoClient.connect(url, function(err, db) {
+        var collection = db.collection('contracts');
+        var findParams = {};
+        //findParams.deleted = { $exists: false };
+
+        collection.find(findParams).toArray(function(err, docs) {
+            res.jsonp(docs);
+        });
+    });
+});
+
 app.post('/createUser', function(req, res) {
 
   MongoClient.connect(url, function(err, db) {

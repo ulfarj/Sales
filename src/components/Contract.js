@@ -6,50 +6,15 @@ import Calendar from 'react-widgets/lib/Calendar';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import Dropzone from 'react-dropzone';
-import { createContract } from '../actions/contract';
+import { createContract, fetchContracts } from '../actions/contract';
 
 class Contract extends Component {
 
-  constructor(props) {
-     super(props);
-     this.state = {
-       salesday: '',
-     }
-  }
-
-  componentWillMount(){
-    moment.locale('is');
-    momentLocalizer(moment);
-  }
-
-  onChangeDate = (e) => {
-    const date = this.normalizeDate(e.target.value);
-    this.setState({salesday: date});
-  }
-
-  normalizeDate = (value) => {
-    if (!value) {
-      return value;
-    }
-    const date = value.toString().replace(/[^a-zá-öø-þA-ZÀ-ÖØ-Þ\d]/g, '');
-
-    if (value.length <= 2) {
-        return date;
-    }
-
-    if(date.length <= 4 || value.lenght <= 4) {
-      return `${date.slice(0, 2)}${'/'}${date.slice(2, date.length)}`;
-    }
-
-    const length = (date.length > 8) ? 8 : date.length;
-
-    return `${date.slice(0, 2)}${'/'}${date.slice(2, 4)}${'/'}${date.slice(4, length)}`;
-  };
-
   createContract = (e) => {
-    const { dispatch } = this.props;
+    const { dispatch, companyId } = this.props;
 
     const contract = {
+      companyId,
       category: this.refs.category.getValue(),
       contractcategory: this.refs.contractcategory.getValue(),
       contractnumber: this.refs.contractnumber.getValue(),
@@ -83,9 +48,7 @@ class Contract extends Component {
       contactbilling: this.refs.contactbilling.getValue(),
     };
 
-    console.log(contract);
-
-  //  dispatch(createContract(contract));
+    dispatch(createContract(contract));
   }
 
   render() {
@@ -100,10 +63,17 @@ class Contract extends Component {
 	    );
     });
 
+    const categories = this.props.categories.map(category => {
+      return (
+        <option key={category._id} value={category._id}>{category.name}</option>
+      );
+    });
+
     return(
       <div style={{ paddingTop: 10 }}>
         <div style={{ display: 'flex' }}>
           <Input type="select" label="Verk" style={{width: '160px'}} ref="category">
+            {categories}
           </Input>
           <Input type="select" label="Flokkur" style={{width: '160px'}} ref="contractcategory">
           </Input>
@@ -175,6 +145,8 @@ class Contract extends Component {
 Contract.propTypes = {
   salesmen: PropTypes.array.isRequired,
   statuses: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
+  companyId: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
 }
 

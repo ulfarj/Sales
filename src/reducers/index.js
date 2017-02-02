@@ -9,6 +9,7 @@ import comments from './comments';
 import sales from './sales';
 import account from './account';
 import users from './admin/users';
+import contracts from './contracts';
 
 export default combineReducers({
 	categories,
@@ -20,5 +21,6 @@ export default combineReducers({
 	sales,
 	account,
 	users,
+	contracts,
 	routing: routerReducer,
 });
