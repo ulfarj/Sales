@@ -23,7 +23,8 @@ class EditCompany extends React.Component {
 		 this.state = {
 			 salesmanId: '',
 			 statusId: '',
-			 company: {}
+			 company: {},
+			 contractStatus: 'init',
 		 }
 	 }
 
@@ -81,6 +82,19 @@ class EditCompany extends React.Component {
 		//dispatch(fetchComments(company._id));
 		dispatch(updateCompanyComment(company._id, this.refs.comment.getValue()));
 	};
+
+	cancelContract = () => {
+		this.setState({contractStatus: 'init'});
+	}
+
+	editContract = (contract) => {
+		this.setState({contractStatus: 'edit'});
+		this.setState({editContract: contract});
+	}
+
+	deleteContract = (contract) => {
+		console.log(contract);
+	}
 
 	render() {
 		const { company } = this.state;
@@ -178,26 +192,40 @@ class EditCompany extends React.Component {
 								</Button>
 							</div>
 						</Tab>
-						<Tab eventKey={5} title="Samningur">
-
+						<Tab eventKey={5} title="Samningar">
 							{this.props.contracts &&
 								<Contracts
 									contracts={this.props.contracts}
+									salesmen={this.props.salesmen}
+									statuses={this.props.statuses}
+									categories={this.props.categories}
+									onEdit={this.editContract}
+									onDelete={this.deleteContract}
+								/>
+							}
+							{(this.state.contractStatus === 'create') &&
+								<Contract
+									salesmen={this.props.salesmen}
+									statuses={this.props.statuses}
+									categories={this.props.categories}
+									companyId={company._id}
+									onCancel={this.cancelContract}
 								/>
 							}
 
-							<Contract
-								salesmen={this.props.salesmen}
-								statuses={this.props.statuses}
-								categories={this.props.categories}
-								companyId={company._id}
-							/>
+							{(this.state.contractStatus === 'init') &&
+								<div style={{ paddingTop: 20 }}>
+									<Button
+										onClick={e => this.setState({contractStatus: 'create'})}
+										bsStyle="primary" style={{height:'35px', marginRight: '10px'}}>
+										Skrá nýjan samning
+									</Button>
+								</div>
+							}
 						</Tab>
 		  		</Tabs>
 				</div>
-
 			</div>
-
 		);
 	}
 }
@@ -227,7 +255,7 @@ function mapStateToProps(state, ownProps) {
 	const contracts = state.contracts.items;
 
 	if(state.comments && state.comments.loaded) {
-			comments = state.comments.items;			
+			comments = state.comments.items;
 	}
 
 	if(state.sales && state.sales.loaded) {

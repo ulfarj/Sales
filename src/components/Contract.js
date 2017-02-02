@@ -130,12 +130,21 @@ class Contract extends Component {
           <Input type="checkbox" label="Lögfræðimerkt" ref="legalmarked" />
           <Input type="checkbox" label="Tala við innheimtu áður en selt er" ref="contactbilling" />
         </div>
-        <div>
-          <Button
-            onClick={e => this.createContract(e)}
-            bsStyle="primary" style={{height:'35px'}}>
-            Stofna
-          </Button>
+        <div style={{ display: 'flex'}}>
+          <div>
+            <Button
+              onClick={e => this.createContract(e)}
+              bsStyle="primary" style={{height:'35px'}}>
+              Stofna
+            </Button>
+          </div>
+          <div style={{ paddingLeft: 35 }}>
+            <Button
+              onClick={this.props.onCancel}
+              bsStyle="primary" style={{height:'35px'}}>
+              Hætta við
+            </Button>
+          </div>
         </div>
       </div>
     )
@@ -148,6 +157,7 @@ Contract.propTypes = {
   categories: PropTypes.array.isRequired,
   companyId: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 }
 
 export default connect()(Contract);
