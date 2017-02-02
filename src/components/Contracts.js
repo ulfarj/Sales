@@ -17,18 +17,23 @@ const Contracts = (props) => {
           {contract.contractnumber}
         </td>
         <td>
-          <div style={{display: 'flex', flexDirection: 'row'}}>
+          <Button
+            onClick={() => props.onEdit(contract)}
+            bsStyle="primary" style={{height:'35px', marginRight: '10px'}}>
+            Breyta
+          </Button>
+          {/*<div style={{display: 'flex', flexDirection: 'row'}}>
             <Button
-              onClick={() => props.onEdit(contract)}
-              bsStyle="primary" style={{height:'35px', marginRight: '10px'}}>
-              Breyta
+            onClick={() => props.onEdit(contract)}
+            bsStyle="primary" style={{height:'35px', marginRight: '10px'}}>
+            Breyta
             </Button>
             <Button
-              onClick={() => props.onDelete(contract)}
-              bsStyle="primary" style={{height:'35px'}}>
-              Eyða
+            onClick={() => props.onDelete(contract)}
+            bsStyle="primary" style={{height:'35px'}}>
+            Eyða
             </Button>
-          </div>
+          </div>*/}
         </td>
       </tr>
     );

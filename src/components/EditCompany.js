@@ -15,6 +15,7 @@ import { updateCompanyComment } from '../actions/companies';
 import Contract from './Contract';
 import { createContract, fetchContracts } from '../actions/contract';
 import Contracts from './Contracts';
+import EditContract from './EditContract';
 
 class EditCompany extends React.Component {
 
@@ -85,11 +86,12 @@ class EditCompany extends React.Component {
 
 	cancelContract = () => {
 		this.setState({contractStatus: 'init'});
+		this.setState({editContract: null});
 	}
 
 	editContract = (contract) => {
-		this.setState({contractStatus: 'edit'});
 		this.setState({editContract: contract});
+		this.setState({contractStatus: 'edit'});
 	}
 
 	deleteContract = (contract) => {
@@ -193,14 +195,15 @@ class EditCompany extends React.Component {
 							</div>
 						</Tab>
 						<Tab eventKey={5} title="Samningar">
-							{this.props.contracts &&
-								<Contracts
-									contracts={this.props.contracts}
+
+							{((this.state.contractStatus === 'edit') && (this.state.editContract)) &&
+								<EditContract
 									salesmen={this.props.salesmen}
 									statuses={this.props.statuses}
 									categories={this.props.categories}
-									onEdit={this.editContract}
-									onDelete={this.deleteContract}
+									companyId={company._id}
+									onCancel={this.cancelContract}
+									contract={this.state.editContract}
 								/>
 							}
 							{(this.state.contractStatus === 'create') &&
@@ -214,16 +217,29 @@ class EditCompany extends React.Component {
 							}
 
 							{(this.state.contractStatus === 'init') &&
-								<div style={{ paddingTop: 20 }}>
-									<Button
-										onClick={e => this.setState({contractStatus: 'create'})}
-										bsStyle="primary" style={{height:'35px', marginRight: '10px'}}>
-										Skrá nýjan samning
-									</Button>
+								<div>
+									{this.props.contracts &&
+										<Contracts
+											contracts={this.props.contracts}
+											salesmen={this.props.salesmen}
+											statuses={this.props.statuses}
+											categories={this.props.categories}
+											onEdit={this.editContract}
+											onDelete={this.deleteContract}
+										/>
+									}
+									<div style={{ paddingTop: 20 }}>
+										<Button
+											onClick={e => this.setState({contractStatus: 'create'})}
+											bsStyle="primary" style={{height:'35px', marginRight: '10px'}}>
+											Skrá nýjan samning
+										</Button>
+									</div>
 								</div>
 							}
+
 						</Tab>
-		  		</Tabs>
+					</Tabs>
 				</div>
 			</div>
 		);
