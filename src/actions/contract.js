@@ -87,6 +87,34 @@ export function createContract(contract) {
           dispatch(createcontractFailure(response.error));
         } else {
           dispatch(createContractSuccess(response));
+          dispatch(fetchContracts(contract.companyId));
+        }
+     });
+  }
+}
+
+
+export function updateContract(contract) {
+
+  const config = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify(contract),
+  }
+
+  return (dispatch) => {
+    dispatch(createContractRequest(contract))
+    return fetch(webconfig.apiUrl+'/updateContract/', config)
+      .then(response => response.json())
+      .then(function(response) {
+        if(response.error){
+          dispatch(createcontractFailure(response.error));
+        } else {
+          dispatch(createContractSuccess(response));
+          dispatch(fetchContracts(contract.companyId));
         }
      });
   }

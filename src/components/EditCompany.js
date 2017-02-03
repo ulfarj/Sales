@@ -13,7 +13,7 @@ import Sales from './Sales';
 import { addComment } from '../actions/company';
 import { updateCompanyComment } from '../actions/companies';
 import Contract from './Contract';
-import { createContract, fetchContracts } from '../actions/contract';
+import { createContract, fetchContracts, updateContract } from '../actions/contract';
 import Contracts from './Contracts';
 import EditContract from './EditContract';
 
@@ -84,6 +84,12 @@ class EditCompany extends React.Component {
 		dispatch(updateCompanyComment(company._id, this.refs.comment.getValue()));
 	};
 
+	createTheContract = (contract) => {
+		const { dispatch } = this.props;
+		dispatch(createContract(contract));
+		this.setState({contractStatus: 'init'});
+	}
+
 	cancelContract = () => {
 		this.setState({contractStatus: 'init'});
 		this.setState({editContract: null});
@@ -92,6 +98,12 @@ class EditCompany extends React.Component {
 	editContract = (contract) => {
 		this.setState({editContract: contract});
 		this.setState({contractStatus: 'edit'});
+	}
+
+	onUpdateContract = (contract) => {
+		const { dispatch } = this.props;
+		dispatch(updateContract(contract));
+		this.setState({contractStatus: 'init'});
 	}
 
 	deleteContract = (contract) => {
@@ -204,6 +216,7 @@ class EditCompany extends React.Component {
 									companyId={company._id}
 									onCancel={this.cancelContract}
 									contract={this.state.editContract}
+									onEdit={this.onUpdateContract}
 								/>
 							}
 							{(this.state.contractStatus === 'create') &&
@@ -212,6 +225,7 @@ class EditCompany extends React.Component {
 									statuses={this.props.statuses}
 									categories={this.props.categories}
 									companyId={company._id}
+									onCreate={this.createTheContract}
 									onCancel={this.cancelContract}
 								/>
 							}

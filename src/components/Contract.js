@@ -6,12 +6,12 @@ import Calendar from 'react-widgets/lib/Calendar';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import Dropzone from 'react-dropzone';
-import { createContract, fetchContracts } from '../actions/contract';
+import { fetchContracts } from '../actions/contract';
 
 class Contract extends Component {
 
   createContract = (e) => {
-    const { dispatch, companyId } = this.props;
+    const { dispatch, companyId, onCreate } = this.props;
 
     const contract = {
       companyId,
@@ -48,7 +48,8 @@ class Contract extends Component {
       contactbilling: this.refs.contactbilling.getValue(),
     };
 
-    dispatch(createContract(contract));
+    //dispatch(createContract(contract));
+    onCreate(contract);
   }
 
   render() {
@@ -158,6 +159,7 @@ Contract.propTypes = {
   companyId: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
 }
 
 export default connect()(Contract);

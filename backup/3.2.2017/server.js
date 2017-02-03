@@ -84,87 +84,6 @@ app.post('/authenticate', function(req, res) {
   });
 });
 
-app.post('/updateContract', function (req, res) {
-
-    MongoClient.connect(url, function(err, db) {
-
-      try{
-        db.collection("contracts").update(
-         { _id: ObjectID(req.body._id) },
-         {
-           $set:
-           {
-             "category": req.body.category,
-             "contractcategory": req.body.contractcategory,
-             "contractnumber": req.body.contractnumber,
-             file: req.body.file,
-             salesman: req.body.salesman,
-             salesday: req.body.salesday,
-             type: req.body.type,
-             contractamount: req.body.contractamount,
-             subscriptionamount: req.body.subscriptionamount,
-             firstpaydate: req.body.firstpaydate,
-             firstdisplaydate: req.body.firstdisplaydate,
-             termination: req.body.termination,
-             lastpaydate: req.body.lastpaydate,
-             contact: req.body.contact,
-             contactphone: req.body.contactphone,
-             contactemail: req.body.contactemail,
-             article: req.body.article,
-             advertisement: req.body.advertisement,
-             coverage: req.body.coverage,
-             photography: req.body.photography,
-             articlewriting: req.body.articlewriting,
-             contentready: req.body.contentready,
-             email: req.body.email,
-             contentready: req.body.contentready,
-             proofs: req.body.proofs,
-             corrected: req.body.corrected,
-             approved: req.body.approved,
-             app: req.body.app,
-             location: req.body.location,
-             legalmarked: req.body.legalmarked,
-             contactbilling: req.body.contactbilling,
-           }
-         });
-
-        res.jsonp({status: 'success'});
-     }
-     catch(e) {
-       console.log(e);
-       res.jsonp({status: 'error', error: e});
-     }
-
-    });
-});
-
-
-app.post('/createContract', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try {
-      db.collection("contracts").insertOne(req.body);
-      res.jsonp({status: 'success'});
-    }
-    catch(e) {
-      res.jsonp({status: 'error', error: e});
-    }
-  });
-});
-
-app.get('/contracts/:id', function (req, res) {
-
-    MongoClient.connect(url, function(err, db) {
-        var collection = db.collection('contracts');
-        var findParams = {};
-        findParams.companyId = req.params.id;
-
-        collection.find(findParams).toArray(function(err, docs) {
-            res.jsonp(docs);
-        });
-    });
-});
-
 app.post('/createUser', function(req, res) {
 
   MongoClient.connect(url, function(err, db) {
@@ -181,7 +100,6 @@ app.post('/createUser', function(req, res) {
           "password": hashedPassword,
         }
        );
-
       res.jsonp({status: 'success'});
    }
    catch(e) {
@@ -577,6 +495,8 @@ app.post('/importcompanies', function(req, res) {
 
   });
 });
+
+
 
 app.post('/updateCompany', function (req, res) {
 

@@ -16,44 +16,8 @@ class EditContract extends Component {
   }
 
   editContract = (e) => {
-    const { dispatch, companyId } = this.props;
-
-    const contract = {
-      companyId,
-      category: this.refs.category.getValue(),
-      contractcategory: this.refs.contractcategory.getValue(),
-      contractnumber: this.refs.contractnumber.getValue(),
-      file: this.refs.file.getValue(),
-      salesman: this.refs.salesman.getValue(),
-      salesday: this.refs.salesday.getValue(),
-      type: this.refs.type.getValue(),
-      contractamount: this.refs.contractamount.getValue(),
-      subscriptionamount: this.refs.subscriptionamount.getValue(),
-      firstpaydate: this.refs.firstpaydate.getValue(),
-      firstdisplaydate: this.refs.firstdisplaydate.getValue(),
-      termination: this.refs.termination.getValue(),
-      lastpaydate: this.refs.lastpaydate.getValue(),
-      contact: this.refs.contact.getValue(),
-      contactphone: this.refs.contactphone.getValue(),
-      contactemail: this.refs.contactemail.getValue(),
-      article: this.refs.article.getValue(),
-      advertisement: this.refs.advertisement.getValue(),
-      coverage: this.refs.coverage.getValue(),
-      photography: this.refs.photography.getValue(),
-      articlewriting: this.refs.articlewriting.getValue(),
-      contentready: this.refs.contentready.getValue(),
-      email: this.refs.email.getValue(),
-      contentready: this.refs.contentready.getValue(),
-      proofs: this.refs.proofs.getValue(),
-      corrected: this.refs.corrected.getValue(),
-      approved: this.refs.approved.getValue(),
-      app: this.refs.app.getValue(),
-      location: this.refs.location.getValue(),
-      legalmarked: this.refs.legalmarked.getValue(),
-      contactbilling: this.refs.contactbilling.getValue(),
-    };
-
-    //dispatch(createContract(contract));
+    const { dispatch, companyId, onEdit } = this.props;
+    onEdit(this.state.contract);
   }
 
   handleInputChange = (event) => {
@@ -176,6 +140,7 @@ EditContract.propTypes = {
   dispatch: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   contract: PropTypes.object.isRequired,
+  onEdit: PropTypes.func.isRequired,
 }
 
 export default connect()(EditContract);
