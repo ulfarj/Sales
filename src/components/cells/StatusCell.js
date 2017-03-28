@@ -32,16 +32,16 @@ class StatusCell extends Component {
       let status = _.find(this.props.statuses, ['_id', sale.statusId]);
       let salesman = _.find(this.props.salesmen, ['_id', sale.salesmanId]);
 
-      if(salesman._id === token.salesman) {
+      if(salesman && (salesman._id === token.salesman)) {
         assigned = true;
       }
 
       return {
         'selected': selected,
-        'category': category.name,
-        'status': status.name,
-        'salesman': salesman.name,
-        'color': status.color
+        'category': category ? category.name : '',
+        'status': status ? status.name : '',
+        'salesman': salesman ? salesman.name : '',
+        'color': status ? status.color : '',
       }
     });
 

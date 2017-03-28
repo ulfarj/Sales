@@ -21,15 +21,19 @@ class Sales extends React.Component {
 	}
 
   addSale = () => {
-    const { dispatch, company } = this.props;
-
-    let sale = {
-      "categoryId": this.refs.category.getValue(),
-      "salesmanId": this.refs.salesman.getValue(),
-      "statusId": this.refs.status.getValue()
-    };
-
-    dispatch(addSale(company._id, sale));
+		if(
+			this.refs.category.getValue() &&
+			this.refs.salesman.getValue() &&
+			this.refs.status.getValue()
+		) {
+	    const { dispatch, company } = this.props;
+	    let sale = {
+	      "categoryId": this.refs.category.getValue(),
+	      "salesmanId": this.refs.salesman.getValue(),
+	      "statusId": this.refs.status.getValue()
+	    };
+	    dispatch(addSale(company._id, sale));
+		}
   };
 
   deleteSale = (e, categoryId) => {
@@ -66,10 +70,10 @@ class Sales extends React.Component {
 		this.setState({sales: sales});
 	};
 
-  render(){
+  render() {
 
 		let token = jwtDecode(sessionStorage.token);
-    let supervisor = (token.type === "supervisor") ? true : false;
+    let supervisor = (token.type === "supervisor" || token.type === "salesman") ? true : false;
 
     let salesmen = this.props.salesmen.map(salesman => {
       return (<option key={salesman._id} value={salesman._id}>{salesman.name}</option>);
@@ -142,19 +146,22 @@ class Sales extends React.Component {
         <thead>
 					<th>
 						<div style={{fontSize: '14px', paddingBottom: '10px'}}>Verk</div>
-						<Input type="select" style={{width: '150px'}} ref="category" >
+						<Input type="select" style={{width: '150px'}} ref="category">
+							<option value=''>Velja verk</option>
 							{categories}
 						</Input>
 					</th>
           <th>
 						<div style={{fontSize: '14px', paddingBottom: '10px'}}>Sölumaður</div>
             <Input type="select" style={{width: '150px'}} ref="salesman">
+							<option value=''>Velja sölumann</option>
               {salesmen}
             </Input>
           </th>
           <th>
 						<div style={{fontSize: '14px', paddingBottom: '10px'}}>Staða</div>
             <Input type="select" style={{width: '150px'}} ref="status">
+							<option value=''>Engin staða</option>
               {filteredStatuses}
             </Input>
           </th>

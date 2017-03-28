@@ -14,12 +14,18 @@ import jwtDecode from 'jwt-decode';
 class CreateSales extends React.Component {
 
   addSale = () => {
-    let sale = {
-      "categoryId": this.refs.category.getValue(),
-      "salesmanId": this.refs.salesman.getValue(),
-      "statusId": this.refs.status.getValue()
-    };
-    this.props.addSale(sale);
+		if(
+			this.refs.category.getValue() &&
+			this.refs.salesman.getValue() &&
+			this.refs.status.getValue()
+		) {
+	    let sale = {
+	      "categoryId": this.refs.category.getValue(),
+	      "salesmanId": this.refs.salesman.getValue(),
+	      "statusId": this.refs.status.getValue()
+	    };
+	    this.props.addSale(sale);
+		}
   };
 
   deleteSale = (e, categoryId) => {
@@ -41,7 +47,7 @@ class CreateSales extends React.Component {
   render(){
 
 		let token = jwtDecode(sessionStorage.token);
-    let supervisor = (token.type === "supervisor") ? true : false;
+    let supervisor = (token.type === "supervisor" || token.type === "salesman") ? true : false;
 
     let salesmen = this.props.salesmen.map(salesman => {
       return (<option key={salesman._id} value={salesman._id}>{salesman.name}</option>);
@@ -110,18 +116,21 @@ class CreateSales extends React.Component {
 					<th>
 						<div style={{fontSize: '14px', paddingBottom: '10px'}}>Verk</div>
 						<Input type="select" style={{width: '150px'}} ref="category" >
+							<option value=''>Velja verk</option>
 							{categories}
 						</Input>
 					</th>
           <th>
 						<div style={{fontSize: '14px', paddingBottom: '10px'}}>Sölumaður</div>
             <Input type="select" style={{width: '150px'}} ref="salesman">
+							<option value=''>Velja sölumann</option>
               {salesmen}
             </Input>
           </th>
           <th>
 						<div style={{fontSize: '14px', paddingBottom: '10px'}}>Staða</div>
             <Input type="select" style={{width: '150px'}} ref="status">
+							<option value=''>Engin staða</option>
               {filteredStatuses}
             </Input>
           </th>
