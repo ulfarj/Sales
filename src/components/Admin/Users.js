@@ -88,6 +88,7 @@ class Users extends Component {
                   <option value="admin">Admin</option>
                   <option value="supervisor">Yfirmaður</option>
                   <option value="salesman">Sölumaður</option>
+                  <option value="salesmanLimited">Sölumaður - takmarkað</option>
                 </Input>
               </td>
               <td>

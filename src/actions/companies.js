@@ -27,7 +27,8 @@ export function fetchCompanies(filter) {
 		method: 'POST',
 		headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(filter)
   }

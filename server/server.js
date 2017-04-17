@@ -359,16 +359,26 @@ app.get('/categories', function (req, res) {
 });
 
 app.get('/salesmen', function (req, res) {
+  try {
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token, 'moveon');
 
     MongoClient.connect(url, function(err, db) {
         var collection = db.collection('salesmen');
         var findParams = {};
+        if(decoded.type === 'salesmanLimited') {
+          findParams._id = ObjectID(decoded.salesman); 
+        }
         findParams.deleted = { $exists: false };
 
         collection.find(findParams).toArray(function(err, docs) {
             res.jsonp(docs);
         });
     });
+  }
+  catch(err) {
+    return res.jsonp({ success: false, message: 'Failed to authenticate token.'});
+  }
 });
 
 app.get('/statuses', function (req, res) {
@@ -410,89 +420,96 @@ app.get('/sales/:id', function (req, res) {
 });
 
 app.post('/companies', function (req, res) {
+    try {
+      const token = req.headers.authorization;
+      const decoded = jwt.verify(token, 'moveon');
 
-    MongoClient.connect(url, function(err, db) {
+      MongoClient.connect(url, function(err, db) {
 
-        var findParams = {};
+          var findParams = {};
 
-        if(req.body.name) {
-           findParams.name = new RegExp(req.body.name, 'i');
-        }
+          if(req.body.name) {
+             findParams.name = new RegExp(req.body.name, 'i');
+          }
 
-        if(req.body.ssn) {
-           findParams.ssn = new RegExp(req.body.ssn, 'i');
-        }
+          if(req.body.ssn) {
+             findParams.ssn = new RegExp(req.body.ssn, 'i');
+          }
 
-        if(req.body.phone) {
-           findParams.phone = new RegExp(req.body.phone, 'i');
-        }
+          if(req.body.phone) {
+             findParams.phone = new RegExp(req.body.phone, 'i');
+          }
 
-        if(req.body.address) {
-           findParams.address = new RegExp(req.body.address, 'i');
-        }
+          if(req.body.address) {
+             findParams.address = new RegExp(req.body.address, 'i');
+          }
 
-        if(req.body.postalCode) {
-           findParams.postalCode = new RegExp(req.body.postalCode, 'i');
-        }
+          if(req.body.postalCode) {
+             findParams.postalCode = new RegExp(req.body.postalCode, 'i');
+          }
 
-        if(req.body.phone) {
-           findParams.phone = new RegExp(req.body.phone, 'i');
-        }
+          if(req.body.phone) {
+             findParams.phone = new RegExp(req.body.phone, 'i');
+          }
 
-        if(req.body.email) {
-           findParams.email = new RegExp(req.body.email, 'i');
-        }
+          if(req.body.email) {
+             findParams.email = new RegExp(req.body.email, 'i');
+          }
 
-        if(req.body.comment) {
-           findParams.comment = new RegExp(req.body.comment, 'i');
-        }
+          if(req.body.comment) {
+             findParams.comment = new RegExp(req.body.comment, 'i');
+          }
 
-        if(req.body.contact) {
-           findParams.contact = new RegExp(req.body.contact, 'i');
-        }
+          if(req.body.contact) {
+             findParams.contact = new RegExp(req.body.contact, 'i');
+          }
 
-        if(req.body.nosale)
-        {
-          findParams.$and =
-          [{
-            $or: [
-              {
-                sales: { $eq: [] }
-              },
-              {
-                sales: {
-                  $elemMatch: {
-                    categoryId: {$in: req.body.categories},
-                    statusId: {$in: req.body.statuses},
-                    salesmanId: {$in: req.body.salesmen}
+          if(req.body.nosale)
+          {
+            findParams.$and =
+            [{
+              $or: [
+                {
+                  sales: { $eq: [] }
+                },
+                {
+                  sales: {
+                    $elemMatch: {
+                      categoryId: {$in: req.body.categories},
+                      statusId: {$in: req.body.statuses},
+                      salesmanId: {$in: req.body.salesmen}
+                    }
                   }
                 }
-              }
-            ]
-          }];
-        }
-        else {
-            findParams.sales = {
-              $elemMatch: {
-                categoryId: {$in: req.body.categories},
-                statusId: {$in: req.body.statuses},
-                salesmanId: {$in: req.body.salesmen}
-              }
-            };
-        }
+              ]
+            }];
+          }
+          else {
+              findParams.sales = {
+                $elemMatch: {
+                  categoryId: {$in: req.body.categories},
+                  statusId: {$in: req.body.statuses},
+                  salesmanId: {$in: req.body.salesmen}
+                }
+              };
+          }
 
-        //findParams.$and = {deleted: { $exists: false }};
-        findParams.deleted = { $exists: false };
+          //findParams.$and = {deleted: { $exists: false }};
+          findParams.deleted = { $exists: false };
 
-        var collection = db.collection('companies');
-        collection.find(findParams).toArray(function(err, docs) {
-          //console.log(docs);
-          var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
+          var collection = db.collection('companies');
+          collection.find(findParams).toArray(function(err, docs) {
+            //console.log(docs);
+            var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
 
-          res.jsonp({companies: companies, requestAt: req.body.requestAt});
-        });
+            res.jsonp({companies: companies, requestAt: req.body.requestAt});
+          });
 
-    });
+      });
+    }
+    catch(err){
+      return res.jsonp({ success: false, message: 'Failed to authenticate token.'});
+    }
 });
 
 var sortByProperty = function (property, order) {

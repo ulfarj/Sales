@@ -32,9 +32,18 @@ function shouldFetchSalesmen(state) {
 }
 
 function fetchSalesmen() {
+  let config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
   return dispatch => {
     dispatch(requestSalesmen())
-    return fetch(webconfig.apiUrl+'/salesmen')
+    return fetch(webconfig.apiUrl+'/salesmen', config)
       .then(response => response.json())
       .then(json => dispatch(receiveSalesmen(json)))
   }
@@ -50,9 +59,18 @@ export function fetchSalesmenIfNeeded() {
 }
 
 export function fetchCurrentSalesmen() {
+  let config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
   return dispatch => {
     dispatch(requestSalesmen())
-    return fetch(webconfig.apiUrl+'/salesmen')
+    return fetch(webconfig.apiUrl+'/salesmen', config)
       .then(response => response.json())
       .then(json => dispatch(receiveSalesmen(json)))
   }
