@@ -366,8 +366,8 @@ app.get('/salesmen', function (req, res) {
     MongoClient.connect(url, function(err, db) {
         var collection = db.collection('salesmen');
         var findParams = {};
-        if(decoded.type === 'salesmanLimited') {
-          findParams._id = ObjectID(decoded.salesman); 
+        if(decoded.type === 'salesmanLimited') {          
+          findParams._id = ObjectID(decoded.salesman);
         }
         findParams.deleted = { $exists: false };
 

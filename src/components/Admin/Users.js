@@ -29,7 +29,9 @@ class Users extends Component {
       case 'supervisor':
         return 'Yfirmaður';
       case 'salesman':
-        return 'Sölumaður'
+        return 'Sölumaður';
+      case 'salesmanLimited':
+        return 'Sölumaður - takmarkað';
       default:
         return type;
     }
