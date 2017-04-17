@@ -161,7 +161,7 @@ class Sales extends React.Component {
           <th>
 						<div style={{fontSize: '14px', paddingBottom: '10px'}}>Staða</div>
             <Input type="select" style={{width: '150px'}} ref="status">
-							<option value=''>Engin staða</option>
+							<option value=''>Velja stöðu</option>
               {filteredStatuses}
             </Input>
           </th>
