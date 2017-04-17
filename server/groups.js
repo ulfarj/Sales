@@ -48,18 +48,16 @@ function handleFile(err, data) {
 app.get('/importgroups', function(req,res) {
   MongoClient.connect(url, function(err, db) {
     try {
-      const file = fs.readFileSync('groups.json')
+      const file = fs.readFileSync('groupsTest.json')
       const groups = JSON.parse(file);
 
       groups.map(group => {
-        //console.log(group.ssn);
-        //console.log(group.Yfirflokkur);
-        //console.log(group.Undirflokkur);
-        const x = db.collection("companies").find({ ssn: group.ssn })._id;
-        console.log(x);
+        db.collection("companies").findOne({ ssn: group.ssn.toString() }, function(err, item) {
+          console.log(item);
+        });
 
         /*db.collection("companies").update(
-         { _id: group.ssn },
+         { ssn: group.ssn.toString() },
          {
            $set:
            {
