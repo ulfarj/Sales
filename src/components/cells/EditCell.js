@@ -61,7 +61,7 @@ class EditCell extends Component {
 
     return(
       <Cell>
-        <div style={{display: 'flex', flexDirection: 'row', width: 150 }}>
+        <div style={{display: 'flex', flexDirection: 'row', width: 120 }}>
 
           <Input
             type="text"

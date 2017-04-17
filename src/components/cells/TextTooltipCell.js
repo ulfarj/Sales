@@ -3,7 +3,7 @@ import { Input, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Table, Column, Cell } from 'fixed-data-table';
 import { connect } from 'react-redux';
 
-class TextCell extends Component {
+class TextTooltipCell extends Component {
 
   onClick = () => {
 
@@ -24,16 +24,26 @@ class TextCell extends Component {
 
     const text = companies[rowIndex][column];
 
+    const tooltip = (
+      <Tooltip id="tooltip">{text}</Tooltip>
+    );
+
     return(
       <Cell onClick={this.onClick}>
-        {text}
+        <OverlayTrigger placement="bottom" overlay={tooltip}>
+          <Button
+            bsStyle="default"
+            style={{ border: 0, padding: 0, margin: 0, cursor: 'auto' }}>
+            {text}
+          </Button>
+        </OverlayTrigger>
       </Cell>
     );
   }
 
 }
 
-TextCell.propTypes = {
+TextTooltipCell.propTypes = {
   companies: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired
@@ -51,4 +61,4 @@ function mapStateToProps(state) {
   return { loaded, companies }
 }
 
-export default connect(mapStateToProps)(TextCell);
+export default connect(mapStateToProps)(TextTooltipCell);

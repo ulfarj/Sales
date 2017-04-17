@@ -3,6 +3,7 @@ import { Input } from 'react-bootstrap';
 import {Table, Column, Cell} from 'fixed-data-table';
 import { connect } from 'react-redux';
 import TextCell from './cells/TextCell';
+import TextTooltipCell from './cells/TextTooltipCell';
 import EditCell from './cells/EditCell';
 import PhoneCell from './cells/PhoneCell';
 import SsnCell from './cells/SsnCell';
@@ -104,10 +105,8 @@ class Companies extends Component {
 
   sortIcon = (column) => {
     const { sorting } = this.props;
-    //console.log(sorting);
     return sorting.column === column ? (sorting.order === 'desc' ? '↓' : '↑') : '';
   };
-
 
   render() {
     const { rowCount, sorting } = this.props;
@@ -117,7 +116,7 @@ class Companies extends Component {
           rowHeight={30}
           headerHeight={80}
           rowsCount={rowCount}
-          width={1285}
+          width={1400}
           height={600}
           ref="dataTable"
           {...this.props}>
@@ -155,7 +154,7 @@ class Companies extends Component {
             header={<TextFilter label="Heimilisfang" column="address" filter={this.filterRow} sorting={this.sortIcon('address')} onSort={this.onSort} /> }
             cell={props => (<TextCell {...props} column="address" />)}
             fixed={true}
-            width={160}
+            width={120}
           />
           <Column
             header={<TextFilter label="Pnr" column="postalCode" filter={this.filterRow} sorting={this.sortIcon('postalCode')} onSort={this.onSort} /> }
@@ -167,7 +166,7 @@ class Companies extends Component {
             header={<TextFilter label="Sími" column="phone" filter={this.filterRow} sorting={this.sortIcon('phone')} onSort={this.onSort} />}
             cell={props => (<PhoneCell {...props} column="phone" />)}
             fixed={true}
-            width={100}
+            width={90}
           />
           <Column
             header={<TextFilter label="Netfang" column="email" filter={this.filterRow} sorting={this.sortIcon('email')} onSort={this.onSort} />}
@@ -185,7 +184,19 @@ class Companies extends Component {
             header={<TextFilter label="Athugasemd" column="comment" filter={this.filterRow} sorting={this.sortIcon('comment')} onSort={this.onSort} />}
             cell={props => (<EditCell style={{padding: '0'}} {...props} column="comment" onClick={this.onClick} />)}
             fixed={true}
-            width={180}
+            width={150}
+          />
+          <Column
+            header={<TextFilter label="Yfirflokkur" column="maingroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
+            cell={props => (<TextTooltipCell {...props} column="maingroup" />)}
+            fixed={true}
+            width={100}
+          />
+          <Column
+            header={<TextFilter label="Undirflokkur" column="subgroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
+            cell={props => (<TextTooltipCell {...props} column="subgroup" />)}
+            fixed={true}
+            width={100}
           />
         </Table>
     )
