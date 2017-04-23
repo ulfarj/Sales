@@ -366,7 +366,7 @@ app.get('/salesmen', function (req, res) {
     MongoClient.connect(url, function(err, db) {
         var collection = db.collection('salesmen');
         var findParams = {};
-        if(decoded.type === 'salesmanLimited') {
+        if(decoded.type === 'salesmanLimited') {          
           findParams._id = ObjectID(decoded.salesman);
         }
         findParams.deleted = { $exists: false };
@@ -462,14 +462,6 @@ app.post('/companies', function (req, res) {
 
           if(req.body.contact) {
              findParams.contact = new RegExp(req.body.contact, 'i');
-          }
-
-          if(req.body.maingroup) {
-            findParams.maingroup = new RegExp(req.body.maingroup, 'i');
-          }
-
-          if(req.body.subgroup) {
-            findParams.subgroup = new RegExp(req.body.subgroup, 'i');
           }
 
           if(req.body.nosale)
@@ -791,6 +783,7 @@ function insertSale(companyId, categoryId, salesmanId, statusId) {
      });
    });
 }
+
 
 http.createServer(app).listen(3030, function () {
   console.log('Server listening on port 3030');
