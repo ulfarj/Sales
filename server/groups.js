@@ -45,16 +45,24 @@ function handleFile(err, data) {
     console.log(groups);
 }
 
-app.get('/importgroups', function(req,res) {
+async function findCompany(ssn) {
+  MongoClient.connect(url, function(err, db) {
+    db.collection("companies").findOne({ ssn }, function(err, item) {
+      //console.log(item);
+      return item;
+    })
+  });
+}
+
+app.get('/groups', async function(req,res) {
   MongoClient.connect(url, function(err, db) {
     try {
       const file = fs.readFileSync('groupsTest.json')
       const groups = JSON.parse(file);
 
-      groups.map(group => {
-        db.collection("companies").findOne({ ssn: group.ssn.toString() }, function(err, item) {
-          console.log(item);
-        });
+      const dbGroups = groups.map(group => {
+        return group;
+        //return findCompany(group.ssn.toString());
 
         /*db.collection("companies").update(
          { ssn: group.ssn.toString() },
@@ -69,7 +77,7 @@ app.get('/importgroups', function(req,res) {
        );*/
       })
 
-      res.jsonp({success: true});
+      res.jsonp(dbGroups);
    }
    catch(e) {
      console.log(e);
@@ -78,6 +86,6 @@ app.get('/importgroups', function(req,res) {
  });
 });
 
-http.createServer(app).listen(3131, function () {
-  console.log('Server listening on port 3131');
+http.createServer(app).listen(3030, function () {
+  console.log('Server listening on port 3030');
 });
