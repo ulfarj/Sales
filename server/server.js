@@ -792,6 +792,37 @@ function insertSale(companyId, categoryId, salesmanId, statusId) {
    });
 }
 
+app.get('/groups', async function(req,res) {
+  MongoClient.connect(url, function(err, db) {
+    try {
+      const file = fs.readFileSync('groupsTest.json')
+      const groups = JSON.parse(file);
+
+      const dbGroups = groups.map(group => {
+        return group;
+        //return findCompany(group.ssn.toString());
+
+        /*db.collection("companies").update(
+         { ssn: group.ssn.toString() },
+         {
+           $set:
+           {
+             "maingroup": group.Yfirflokkur,
+             "subgroup": group.Undirflokkur,
+           }
+         },
+         { upsert:false, multi:true}
+       );*/
+      })
+      res.jsonp(dbGroups);
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+ });
+});
+
 
 http.createServer(app).listen(3030, function () {
   console.log('Server listening on port 3030');
