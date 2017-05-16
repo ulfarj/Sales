@@ -47,7 +47,7 @@ class CreateSales extends React.Component {
   render(){
 
 		let token = jwtDecode(sessionStorage.token);
-    let supervisor = (token.type === "supervisor" || token.type === "salesman") ? true : false;
+    let supervisor = (token.type === "supervisor" || token.type === "salesman" || token.type === "salesmanLimited") ? true : false;
 
     let salesmen = this.props.salesmen.map(salesman => {
       return (<option key={salesman._id} value={salesman._id}>{salesman.name}</option>);

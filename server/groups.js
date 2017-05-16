@@ -57,14 +57,14 @@ async function findCompany(ssn) {
 app.get('/groups', function(req,res) {
   MongoClient.connect(url, function(err, db) {
     try {
-      const file = fs.readFileSync('groupsTest.json')
+      const file = fs.readFileSync('groups.json')
       const groups = JSON.parse(file);
 
       const dbGroups = groups.map(group => {
-        return group;
+        //return group;
         //return findCompany(group.ssn.toString());
 
-        /*db.collection("companies").update(
+        db.collection("companies").update(
          { ssn: group.ssn.toString() },
          {
            $set:
@@ -74,10 +74,11 @@ app.get('/groups', function(req,res) {
            }
          },
          { upsert:false, multi:true}
-       );*/
+       );
+       //console.log(group.ssn.toString());
       })
 
-      res.jsonp(dbGroups);
+      res.jsonp(groups);
    }
    catch(e) {
      console.log(e);

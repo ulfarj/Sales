@@ -1,3 +1,16 @@
+Uppsetning á samningshluta (gagnagrunnur, þjónustur, vefur, uppfæra kerfi): 8 tímar
+Flokkar - Greining á kröfum/skjölum fyrir flokka: 1 tími
+Flokkar - Uppfæra kerfi til að styðja við flokka (gagnagrunnur, þjónustur, vefur): 5 tímar
+Flokkar - Útbúa scriptu og gögn til að uppfæra gagnagrunn með flokkum úr excel skjali: 5 tímar
+Flokkar - Uppfæra gagnagrunn og kerfi: 1 tími
+Email 23.3(Mjög mikilvægt..) - Default texti, já merkingar (vefur, uppfæra kerfi): 1 tími
+Server - Greining á vandmáli með server og samskipti tengd honum: 2 tímar
+Ný aðgangsheimild, textabreytingar - (þjónustur, vefur, uppfæra kerfi): 3 tímar
+
+Samtals: 26 tímar
+
+26 * 15.000 kr. = 390.000 kr.
+
 
 xxxx-  8 timar - Uppsetning a samningshluta
 xxx - 1 timi - Fara yfir krofur
@@ -8,4 +21,12 @@ xxx - 1 timi - Fara yfir krofur
 4.4 - 1 timi - server
 5.4 - 1 timi - server
 10.4 - 1 timi - póstur
-17.4 - (14:00 - ) Aðgangsstýringar, textbreytingar,
+17.4 - 4 tímar Aðgangsstýringar, textbreytingar,
+23.4 - 4 tímar (import á gögnum), uppfæra kerfi
+
+26 tímar
+
+26 * 15 = 390.000
+
+Vinna við sölukerfi
+390.000 kr
