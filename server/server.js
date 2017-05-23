@@ -139,6 +139,52 @@ app.post('/updateContract', function (req, res) {
 });
 
 
+app.post('/createGroup', function(req, res) {
+
+  MongoClient.connect(url, function(err, db) {
+    try {
+      db.collection("groups").insertOne(req.body);
+      res.jsonp({status: 'success'});
+    }
+    catch(e) {
+      res.jsonp({status: 'error', error: e});
+    }
+  });
+});
+
+app.get('/groups', function (req, res) {
+    MongoClient.connect(url, function(err, db) {
+        var collection = db.collection('groups');
+        var findParams = {};
+        findParams.deleted = { $exists: false };
+        collection.find(findParams).toArray(function(err, docs) {
+            res.jsonp(docs);
+        });
+    });
+});
+
+app.get('/deleteGroup/:id', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+
+    try{
+      db.collection("groups").update(
+       { _id: ObjectID(req.params.id) },
+       {
+         $set:
+         {
+           "deleted": true
+         }
+       });
+
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     res.jsonp({status: 'error', error: e});
+   }
+  });
+});
+
+
 app.post('/createContract', function(req, res) {
 
   MongoClient.connect(url, function(err, db) {
@@ -744,6 +790,27 @@ app.post('/deleteSale', function (req, res) {
        res.jsonp({status: 'error', error: e});
      }
 
+    });
+});
+
+app.post('/setGroups', function (req, res) {
+    MongoClient.connect(url, function(err, db) {
+      try{
+        db.collection("companies").update(
+         { _id: ObjectID(req.body.companyId) },
+         {
+           $set:
+           {
+             "maingroup": req.body.maingroup,
+             "subgroup": req.body.subgroup,
+           }
+         });
+
+        res.jsonp({status: 'success'});
+     }
+     catch(e) {
+       res.jsonp({status: 'error', error: e});
+     }
     });
 });
 

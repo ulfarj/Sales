@@ -16,6 +16,7 @@ import Contract from './Contract';
 import { createContract, fetchContracts, updateContract } from '../actions/contract';
 import Contracts from './Contracts';
 import EditContract from './EditContract';
+import Groups from './Groups';
 
 class EditCompany extends React.Component {
 
@@ -252,6 +253,12 @@ class EditCompany extends React.Component {
 								</div>
 							}
 
+						</Tab>
+						<Tab eventKey={6} title="Flokkar">
+							<Groups
+								company={company}
+								onUpdate={this.props.onUpdate}
+							/>
 						</Tab>
 					</Tabs>
 				</div>

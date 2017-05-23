@@ -10,6 +10,7 @@ import Salesmen from '../components/Admin/Salesmen';
 import Statuses from '../components/Admin/Statuses';
 import Categories from '../components/Admin/Categories';
 import Users from '../components/Admin/Users';
+import Groups from '../components/Admin/Groups';
 
 
 class Admin extends Component {
@@ -37,6 +38,7 @@ class Admin extends Component {
           <Salesmen />
           <Categories />
           <Statuses />
+          <Groups />
         </div>
       </div>
     );

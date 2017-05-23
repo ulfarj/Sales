@@ -1,7 +1,7 @@
 import {
   REQUEST_COMPANIES, RECEIVE_COMPANIES, SET_FILTER,
   UPDATE_COMPANY_ITEM, UPDATE_COMPANY_ITEM_SALES,
-  UPDATE_COMPANY_ITEM_COMMENT,
+  UPDATE_COMPANY_ITEM_COMMENT, UPDATE_COMPANY_ITEM_GROUP,
 } from '../constants/ActionTypes';
 import update from 'react-addons-update';
 
@@ -39,7 +39,7 @@ export default function companies(state = {}, action) {
            dontcontact: { $set: action.company.dontcontact },
            phone: { $set: action.company.phone },
            postalCode: { $set: action.company.postalCode },
-           ssn: { $set: action.company.ssn },           
+           ssn: { $set: action.company.ssn },
          },
        })
      })
@@ -59,6 +59,15 @@ export default function companies(state = {}, action) {
           },
         })
       })
+      case UPDATE_COMPANY_ITEM_GROUP:
+        return Object.assign({}, state, {
+         items: update(state.items, {
+           [action.index]: {
+             maingroup: { $set: action.group.maingroup },
+             subgroup: { $set: action.group.subgroup },
+           },
+         })
+       })
     default:
       return state
   }

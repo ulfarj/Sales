@@ -105,3 +105,20 @@ export function updateCompanyComment(companyId, comment){
     dispatch(updateCompanyItemComment(index, comment));
   }
 }
+
+
+function updateCompanyItemGroup(index, group) {
+  return {
+    type: types.UPDATE_COMPANY_ITEM_GROUP,
+    index,
+    group,
+  }
+}
+
+export function updateCompanyGroup(group){
+  return (dispatch, getState) => {
+    let items = getState().companies.items;
+    let index = _.findIndex(items, ['_id', group.companyId]);
+    dispatch(updateCompanyItemGroup(index, group));
+  }
+}
