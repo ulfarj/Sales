@@ -38,6 +38,8 @@ class Admin extends Component {
           <Salesmen />
           <Categories />
           <Statuses />
+        </div>
+        <div style={{ width: 800 }}>
           <Groups />
         </div>
       </div>

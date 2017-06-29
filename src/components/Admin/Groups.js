@@ -7,6 +7,13 @@ import { Table, Button, Input } from 'react-bootstrap';
 
 class Groups extends Component {
 
+  constructor(props) {
+     super(props);
+     this.state = {
+       showMainGroups: false,
+     }
+  }
+
   componentWillMount = () => {
     const { dispatch } = this.props;
     dispatch(fetchGroups());
@@ -22,10 +29,15 @@ class Groups extends Component {
     const group = {
       name: this.refs.name.getValue(),
       type: this.refs.type.getValue(),
+      parent: (this.refs.parent ? this.refs.parent.getValue() : null),
     };
     if(group.name){
       dispatch(createGroup(group));
     }
+  };
+
+  onChange = (e) => {
+    this.setState({showMainGroups: (this.refs.type.getValue() === 'Undirflokkur')});
   };
 
   render() {
@@ -35,6 +47,7 @@ class Groups extends Component {
       <tr>
         <td>{group.name}</td>
         <td>{group.type}</td>
+        <td>{group.parent}</td>
         <td>
           <Button
             onClick={e => this.deleteGroup(e, group._id)}
@@ -49,16 +62,35 @@ class Groups extends Component {
         <div style={{}}>
           <h3>Flokkar</h3>
           <Table>
+            <thead>
+              <th>Nafn</th>
+              <th>Tegund flokks</th>
+              <th>Yfirflokkur</th>
+            </thead>
             <tbody>
               <tr>
                 <td>
                   <Input type="text" ref="name" name="name" />
                 </td>
                 <td>
-                  <Input type="select" ref="type" style={{width: '160px'}}>
+                  <Input
+                    type="select"
+                    ref="type"
+                    style={{width: '160px'}}
+                    onChange={this.onChange}
+                  >
                     <option value="Yfirflokkur">Yfirflokkur</option>
                     <option value="Undirflokkur">Undirflokkur</option>
                   </Input>
+                </td>
+                <td>
+                  {this.state.showMainGroups &&
+                    <Input type="select" ref="parent" style={{width: '160px'}}>
+                      {_.filter(this.props.groups, ['type', "Yfirflokkur"]).map(group =>
+                        <option value={group.name}>{group.name}</option>
+                      )}
+                    </Input>
+                  }
                 </td>
                 <td>
                   <Button

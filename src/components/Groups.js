@@ -7,6 +7,13 @@ import { Table, Button, Input } from 'react-bootstrap';
 
 class Groups extends Component {
 
+  constructor(props) {
+     super(props);
+     this.state = {
+       parent: null,
+     }
+  }
+
   componentWillMount = () => {
     const { dispatch } = this.props;
     dispatch(fetchGroups());
@@ -31,6 +38,17 @@ class Groups extends Component {
     }
   };
 
+  setMainGroup = () => {
+    this.setState({parent: this.refs.maingroup.getValue()});
+  }
+
+  getSubGroups = () => {
+    const subGroups = _.filter(groups, { 'type': 'Undirflokkur', 'parent': this.state.parent}).map(group =>
+      <option value={group.name}>{group.name}</option>
+    );
+    return subGroups;
+  }
+
   render() {
     const { dispatch, company, groups } = this.props;
 
@@ -38,7 +56,7 @@ class Groups extends Component {
       <option value={group.name}>{group.name}</option>
     );
 
-    const subGroups = _.filter(groups, { 'type': 'Undirflokkur'}).map(group =>
+    const subGroups = _.filter(groups, { 'type': 'Undirflokkur', 'parent': this.state.parent}).map(group =>
       <option value={group.name}>{group.name}</option>
     );
 
@@ -49,7 +67,13 @@ class Groups extends Component {
             <tbody>
               <tr>
                 <td>
-                  <Input label="Yfirflokkur" type="select" ref="maingroup" style={{width: '160px'}}>
+                  <Input
+                    label="Yfirflokkur"
+                    type="select"
+                    ref="maingroup"
+                    style={{width: '160px'}}
+                    onChange={this.setMainGroup}
+                  >
                     <option value='choose'>Veljið yfirflokk</option>
                     {mainGroups}
                   </Input>
