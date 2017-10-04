@@ -109,94 +109,99 @@ class Companies extends Component {
   };
 
   render() {
-    const { rowCount, sorting } = this.props;
-
+    const { rowCount, sorting, width, height } = this.props;
+    
+    const nrColumns = 14;
+    const md = (width/13); // 7
+    const lg = (width/11);
+    const sm = (width/16);
+    
     return(
         <Table
           rowHeight={30}
           headerHeight={80}
           rowsCount={rowCount}
-          width={1400}
-          height={600}
+          width={width}
+          height={height}
           ref="dataTable"
           {...this.props}>
           <Column
             header={<Cell></Cell>}
             cell={props => (<SignCell {...props} />)}
             fixed={true}
-            width={60}
+            width={sm}
           />
           <Column
             header={<SalesmanFilter label="SM" column="salesman" filter={this.filter} />}
             cell={props => (<SalesmenCell {...props} />)}
             fixed={true}
-            width={60}
+            width={sm}
           />
           <Column
             header={<StatusFilter label="Staða" column="status" filter={this.filter} />}
             cell={props => (<StatusCell {...props} onClick={this.onClick} />)}
             fixed={true}
-            width={140}
+            width={lg + 40}
           />
           <Column
             header={<TextFilter label="Nafn" column="name" filter={this.filterRow} sorting={this.sortIcon('name')} onSort={this.onSort} />}
             cell={props => (<TextCell {...props} column="name" onClick={this.onClick} />)}
             fixed={true}
-            width={160}
+            width={lg}
           />
           <Column
             header={<TextFilter label="Kennitala" column="ssn" filter={this.filterSsnRow} sorting={this.sortIcon('ssn')} onSort={this.onSort} /> }
             cell={props => (<SsnCell {...props} column="ssn" />)}
             fixed={true}
-            width={120}
+            width={md}
           />
           <Column
             header={<TextFilter label="Heimilisfang" column="address" filter={this.filterRow} sorting={this.sortIcon('address')} onSort={this.onSort} /> }
             cell={props => (<TextCell {...props} column="address" />)}
             fixed={true}
-            width={120}
+            width={md}
           />
           <Column
             header={<TextFilter label="Pnr" column="postalCode" filter={this.filterRow} sorting={this.sortIcon('postalCode')} onSort={this.onSort} /> }
             cell={props => (<TextCell {...props} column="postalCode" />)}
             fixed={true}
-            width={65}
+            width={sm -40}
           />
           <Column
             header={<TextFilter label="Sími" column="phone" filter={this.filterRow} sorting={this.sortIcon('phone')} onSort={this.onSort} />}
             cell={props => (<PhoneCell {...props} column="phone" />)}
             fixed={true}
-            width={90}
+            width={md}
           />
           <Column
             header={<TextFilter label="Netfang" column="email" filter={this.filterRow} sorting={this.sortIcon('email')} onSort={this.onSort} />}
             cell={props => (<TextCell {...props} column="email" />)}
             fixed={true}
-            width={120}
+            width={md}
           />
           <Column
             header={<TextFilter label="Tengill" column="contact" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
             cell={props => (<TextCell {...props} column="contact" />)}
             fixed={true}
-            width={120}
+            width={md}
           />
           <Column
             header={<TextFilter label="Athugasemd" column="comment" filter={this.filterRow} sorting={this.sortIcon('comment')} onSort={this.onSort} />}
             cell={props => (<EditCell style={{padding: '0'}} {...props} column="comment" onClick={this.onClick} />)}
             fixed={true}
-            width={150}
+            width={lg}
           />
           <Column
             header={<TextFilter label="Yfirflokkur" column="maingroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
             cell={props => (<TextTooltipCell {...props} column="maingroup" />)}
             fixed={true}
-            width={100}
+            width={md}
           />
           <Column
             header={<TextFilter label="Undirflokkur" column="subgroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
             cell={props => (<TextTooltipCell {...props} column="subgroup" />)}
             fixed={true}
-            width={100}
+            width={md}
           />
         </Table>
     )
@@ -209,7 +214,9 @@ Companies.propTypes = {
   salesmen: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
   sorting: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
 }
 
 function mapStateToProps(state) {
@@ -232,7 +239,10 @@ function mapStateToProps(state) {
     sorting = state.companies.filter.sorting;
   }
 
-  return { statuses, salesmen, categories, sorting  }
+  const width = (state.common.width - 40);
+  const height = (state.common.height - 100);
+
+  return { statuses, salesmen, categories, sorting, width, height  }
 }
 
 export default connect(mapStateToProps)(Companies);

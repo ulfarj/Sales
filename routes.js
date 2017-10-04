@@ -9,12 +9,20 @@ import ImportCompanies from './src/containers/ImportCompanies';
 import Admin from './src/containers/Admin';
 import { authenticated, notAuthenticated } from './src/actions/account';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import { updateSize } from './src/actions/common';
 
 class Routes extends React.Component {
 
   componentWillMount = () => {
     injectTapEventPlugin();
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize)
   }
+
+  handleResize = () => {    
+    const { dispatch } = this.props.store;
+    dispatch(updateSize(window.innerWidth, window.innerHeight));
+  };
 
   authenticate = (nextState, replace) => {
     const { dispatch } = this.props.store;

@@ -51,7 +51,7 @@ class EditCell extends Component {
 
   render() {
 
-    const { loaded, companies, rowIndex, column } = this.props;
+    const { loaded, companies, rowIndex, column, width } = this.props;
 
     if(!loaded) {
         return(<Cell></Cell>);
@@ -61,11 +61,11 @@ class EditCell extends Component {
 
     return(
       <Cell>
-        <div style={{display: 'flex', flexDirection: 'row', width: 120 }}>
+        <div style={{display: 'flex', flexDirection: 'row', width }}>
 
           <Input
             type="text"
-            style={styles.input}
+            style={{ ...styles.input, width: (width - 40) }}            
             value={comment}
             onChange={this.onChange}
             onKeyPress={this.onKeyPress}
@@ -85,10 +85,11 @@ class EditCell extends Component {
 EditCell.propTypes = {
   companies: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  width: PropTypes.number.isRequired,
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   var companies = state.companies.items;
 
   let loaded = false;
@@ -96,8 +97,9 @@ function mapStateToProps(state) {
   if(state.companies.loaded) {
     loaded = true;
   }
+  const width = (state.common.width / 11) 
 
-  return { loaded, companies }
+  return { loaded, companies, width }
 }
 
 export default connect(mapStateToProps)(EditCell);
