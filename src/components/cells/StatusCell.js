@@ -14,7 +14,7 @@ class StatusCell extends Component {
 
   render() {
 
-    const { loaded, companies, categories, statuses, rowIndex, filter } = this.props;
+    const { loaded, companies, categories, statuses, rowIndex, filter, width } = this.props;
 
     if(!loaded) {return(<Cell></Cell>);}
 
@@ -72,7 +72,7 @@ class StatusCell extends Component {
       <Cell>
         <div style={{display: 'flex', flexDirection: 'row'}}>
           <div>
-            <svg width="100" height="16">
+            <svg width={width - 10} height="16">
               {statusIcons}
             </svg>
           </div>
@@ -95,7 +95,8 @@ StatusCell.propTypes = {
   salesmen: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
   filter: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  width: PropTypes.number.isRequired,
 }
 
 function mapStateToProps(state) {
@@ -111,7 +112,9 @@ function mapStateToProps(state) {
     loaded = true;
   }
 
-  return { loaded, companies, categories, statuses, salesmen, filter }
+  const width = (state.common.width / 11)
+
+  return { loaded, companies, categories, statuses, salesmen, filter, width }
 }
 
 export default connect(mapStateToProps)(StatusCell);
