@@ -1,4 +1,4 @@
 21.5 - Stofna flokka, tengja flokkar við fyrirtæki, 2,5 tímar
 22.5 - Stofna flokka 1,5 tími
 23.5 - Stofna flokka, uppfæra kerfi 1,5 tími
-29.6 - Tengja flokka við undirflokka
+29.6 - Tengja flokka við undirflokka 2,5 tímar
