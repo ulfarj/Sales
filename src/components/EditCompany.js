@@ -214,6 +214,7 @@ class EditCompany extends React.Component {
 									salesmen={this.props.salesmen}
 									statuses={this.props.statuses}
 									categories={this.props.categories}
+									groups={this.props.groups}
 									companyId={company._id}
 									onCancel={this.cancelContract}
 									contract={this.state.editContract}
@@ -225,6 +226,7 @@ class EditCompany extends React.Component {
 									salesmen={this.props.salesmen}
 									statuses={this.props.statuses}
 									categories={this.props.categories}
+									groups={this.props.groups}
 									companyId={company._id}
 									onCreate={this.createTheContract}
 									onCancel={this.cancelContract}
@@ -277,7 +279,8 @@ EditCompany.propTypes = {
 	activeTab: PropTypes.int,
 	sales: PropTypes.array,
 	contracts: PropTypes.array,
-  dispatch: PropTypes.func.isRequired
+	groups: PropTypes.array,
+  dispatch: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state, ownProps) {
@@ -299,7 +302,20 @@ function mapStateToProps(state, ownProps) {
 			sales = state.sales.items;
 	}
 
-  return { categories, salesmen, statuses, loaded, filter, activeTab, comments, sales, contracts }
+	const groups = state.groups.items;
+
+  return {
+		categories,
+		salesmen,
+		statuses,
+		loaded,
+		filter,
+		activeTab,
+		comments,
+		sales,
+		contracts,
+		groups,
+	}
 }
 
 export default connect(mapStateToProps)(EditCompany);

@@ -4,7 +4,7 @@ import { find } from 'lodash';
 
 const Contracts = (props) => {
 
-  const contracts = props.contracts.map(contract => {
+  const contracts = props.contracts.map(contract => {    
     return (
       <tr>
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>

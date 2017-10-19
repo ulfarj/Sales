@@ -10,6 +10,7 @@ import update from 'react-addons-update';
 
 const initialState = {
   items: [],
+  isFetching: false,
 };
 
 export default function contracts(state = initialState, action) {
@@ -18,36 +19,42 @@ export default function contracts(state = initialState, action) {
       return {
         ...state,
         ...action,
+        isFetching: true,
       };
     }
     case CREATE_CONTRACT_SUCCESS: {
       return {
         ...state,
         ...action,
+        isFetching: false,
       };
     }
     case CREATE_CONTRACT_FAILURE: {
       return {
         ...state,
         ...action,
+        isFetching: false,
       };
     }
     case FETCH_CONTRACTS_REQUEST: {
       return {
         ...state,
         ...action,
+        isFetching: true,
       }
     }
     case FETCH_CONTRACTS_SUCCESS: {
       return {
         ...state,
-        ...action,        
+        ...action,
+        isFetching: false,
       }
     }
     case FETCH_CONTRACTS_FAILURE: {
       return {
         ...state,
         ...action,
+        isFetching: false,
       }
     }
     default:
