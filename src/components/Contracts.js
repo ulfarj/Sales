@@ -7,7 +7,9 @@ const Contracts = (props) => {
   const contracts = props.contracts.map(contract => {    
     return (
       <tr>
-        <td style={{fontSize: '14px', paddingBottom: '10px'}}>
+        <td 
+          style={{ fontSize: '14px', paddingBottom: '10px' }}
+        >
           {find(props.salesmen, ['_id', contract.salesman]).name}
         </td>
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
@@ -17,23 +19,23 @@ const Contracts = (props) => {
           {contract.contractnumber}
         </td>
         <td>
-          <Button
-            onClick={() => props.onEdit(contract)}
-            bsStyle="primary" style={{height:'35px', marginRight: '10px'}}>
-            Breyta
-          </Button>
-          {/*<div style={{display: 'flex', flexDirection: 'row'}}>
+          <div style={{display: 'flex', flexDirection: 'row'}}>
             <Button
-            onClick={() => props.onEdit(contract)}
-            bsStyle="primary" style={{height:'35px', marginRight: '10px'}}>
-            Breyta
+              onClick={() => props.onDisplay(contract)}
+              bsStyle="primary" style={{ height:'35px', marginRight: '10px' }}>
+              Skoða
             </Button>
             <Button
-            onClick={() => props.onDelete(contract)}
-            bsStyle="primary" style={{height:'35px'}}>
-            Eyða
+              onClick={() => props.onEdit(contract)}
+              bsStyle="primary" style={{ height:'35px', marginRight: '10px' }}>
+              Breyta
             </Button>
-          </div>*/}
+            <Button
+              onClick={() => props.onDelete(contract)}
+              bsStyle="primary" style={{height:'35px'}}>
+              Eyða
+            </Button>
+          </div>
         </td>
       </tr>
     );

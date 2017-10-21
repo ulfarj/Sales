@@ -202,13 +202,34 @@ app.get('/contracts/:id', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
         var collection = db.collection('contracts');
-        var findParams = {};
+        var findParams = { };
         findParams.companyId = req.params.id;
+        findParams.deleted = { $exists: false };
 
         collection.find(findParams).toArray(function(err, docs) {
             res.jsonp(docs);
         });
     });
+});
+
+app.get('/deleteContract/:id', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+
+    try{
+      db.collection("contracts").update(
+       { _id: ObjectID(req.params.id) },
+       {
+         $set:
+         {
+           "deleted": true
+         }
+       });
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     res.jsonp({status: 'error', error: e});
+   }
+  });
 });
 
 app.post('/createUser', function(req, res) {

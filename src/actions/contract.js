@@ -62,7 +62,7 @@ function createContractSuccess(response) {
 
 function createContractFailure(error) {
   return {
-    type: types.CREATE_CONTRACT_SUCCESS,
+    type: types.CREATE_CONTRACT_FAILURE,
     error,
   }
 }
@@ -117,5 +117,50 @@ export function updateContract(contract) {
           dispatch(fetchContracts(contract.companyId));
         }
      });
+  }
+}
+
+function deleteContractRequest(contract) {
+  return {
+    type: types.DELETE_CONTRACT_REQUEST,
+    contract,
+  }
+}
+
+function deleteContractSuccess(response) {
+  return {
+    type: types.DELETE_CONTRACT_SUCCESS,
+    response,
+  }
+}
+
+function deleteContractFailure(error) {
+  return {
+    type: types.DELETE_CONTRACT_FAILURE,
+    error,
+  }
+}
+
+export function deleteContract(contract) {
+  const config = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json'
+    },
+  }
+
+  return (dispatch) => {
+    dispatch(deleteContractRequest(contract))
+    return fetch(webconfig.apiUrl+'/deleteContract/'+contract._id, config)
+      .then(response => response.json())
+      .then(function(response) {
+        if(response.error){
+          dispatch(deleteContractFailure(response.error));
+        } else {
+          dispatch(deleteContractSuccess(response));
+          dispatch(fetchContracts(contract.companyId));
+        }
+     });    
   }
 }

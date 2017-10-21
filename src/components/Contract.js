@@ -58,6 +58,8 @@ class Contract extends Component {
       contactbilling: this.refs.contactbilling.getValue(),
     };
 
+    alert(this.refs.legalmarked.getValue());
+
     onCreate(contract);
   }
 
@@ -172,8 +174,16 @@ class Contract extends Component {
             </div>
 
             <div style={{ paddingTop: 30 }}>
-              <Input type="checkbox" label="Lögfræðimerkt" ref="legalmarked" />
-              <Input type="checkbox" label="Tala við innheimtu áður en selt er" ref="contactbilling" />
+              <Input  
+                type="checkbox"
+                label="Lögfræðimerkt"
+                ref="legalmarked"
+               />
+              <Input
+                type="checkbox"
+                label="Tala við innheimtu áður en selt er"
+                ref="contactbilling"
+              />
             </div>
           </Panel>
         </PanelGroup>

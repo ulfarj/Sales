@@ -13,9 +13,10 @@ import Sales from './Sales';
 import { addComment } from '../actions/company';
 import { updateCompanyComment } from '../actions/companies';
 import Contract from './Contract';
-import { createContract, fetchContracts, updateContract } from '../actions/contract';
+import { createContract, fetchContracts, updateContract, deleteContract } from '../actions/contract';
 import Contracts from './Contracts';
 import EditContract from './EditContract';
+import DisplayContract from './DisplayContract';
 import Groups from './Groups';
 
 class EditCompany extends React.Component {
@@ -94,11 +95,17 @@ class EditCompany extends React.Component {
 	cancelContract = () => {
 		this.setState({contractStatus: 'init'});
 		this.setState({editContract: null});
+		this.setState({displayContract: null});
 	}
 
 	editContract = (contract) => {
 		this.setState({editContract: contract});
 		this.setState({contractStatus: 'edit'});
+	}
+
+	displayContract = (contract) => {
+		this.setState({displayContract: contract});
+		this.setState({contractStatus: 'display'});		
 	}
 
 	onUpdateContract = (contract) => {
@@ -108,7 +115,8 @@ class EditCompany extends React.Component {
 	}
 
 	deleteContract = (contract) => {
-		console.log(contract);
+		const { dispatch } = this.props;
+		dispatch(deleteContract(contract));
 	}
 
 	render() {
@@ -221,6 +229,7 @@ class EditCompany extends React.Component {
 									onEdit={this.onUpdateContract}
 								/>
 							}
+
 							{(this.state.contractStatus === 'create') &&
 								<Contract
 									salesmen={this.props.salesmen}
@@ -230,6 +239,18 @@ class EditCompany extends React.Component {
 									companyId={company._id}
 									onCreate={this.createTheContract}
 									onCancel={this.cancelContract}
+								/>
+							}
+
+							{(this.state.contractStatus === 'display') &&
+								<DisplayContract
+									salesmen={this.props.salesmen}
+									statuses={this.props.statuses}
+									categories={this.props.categories}
+									groups={this.props.groups}
+									companyId={company._id}		
+									onCancel={this.cancelContract}	
+									contract={this.state.displayContract}						
 								/>
 							}
 
@@ -243,6 +264,7 @@ class EditCompany extends React.Component {
 											categories={this.props.categories}
 											onEdit={this.editContract}
 											onDelete={this.deleteContract}
+											onDisplay={this.displayContract}
 										/>
 									}
 									<div style={{ paddingTop: 20 }}>
