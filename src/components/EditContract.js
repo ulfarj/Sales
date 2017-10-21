@@ -7,13 +7,14 @@ import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import Dropzone from 'react-dropzone';
 import { createContract, fetchContracts } from '../actions/contract';
+import { downloadFileFromBase64 } from '../utils/files';
 
 class EditContract extends Component {
 
   constructor(props) {
      super(props);
      this.state = {
-       parent: null,
+       parent: null,       
      }
   }
 
@@ -24,8 +25,24 @@ class EditContract extends Component {
   }
 
   editContract = (e) => {
-    const { dispatch, companyId, onEdit } = this.props;
+    const { dispatch, companyId, onEdit } = this.props;    
     onEdit(this.state.contract);
+  }
+
+  uploadFile = (event) => {
+    const file = event.target.files[0];
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function () {
+      const contract = this.state.contract;
+      contract.file = reader.result;   
+      console.log(contract.file);
+      this.setState({ contract });
+    }.bind(this), false);
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    }    
   }
 
   handleInputChange = (event) => {
@@ -112,7 +129,16 @@ class EditContract extends Component {
               >
                 <option value='choose'>Veljið undirflokk</option>
                 {subGroups}
-              </Input>
+              </Input>               
+              {val.file &&             
+                <div style={{ paddingTop: 24 }}>   
+                  <Button 
+                    onClick={() => downloadFileFromBase64(val.file)}
+                  >
+                    Sækja núverandi samning
+                  </Button>
+                </div>                
+              }
             </div>
             <div style={{ display: 'flex', paddingTop: 10 }}>
               <Input
@@ -145,13 +171,14 @@ class EditContract extends Component {
                 style={{width: 160}}
                 value={val.contractnumber}
                 onChange={this.handleInputChange}
-              />
+              />             
               <Input
                 type="file"
                 label="Samningur"
                 ref="file"
                 name="file"
-                onChange={this.handleInputChange}
+                value={val.file}
+                onChange={this.uploadFile}
               />
             </div>
             <div style={{ display: 'flex', paddingTop: 10 }}>

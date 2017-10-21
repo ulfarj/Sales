@@ -16,6 +16,7 @@ class Contract extends Component {
      this.state = {
        parent: null,
        contract: {},
+       file: null,
      }
   }
 
@@ -23,7 +24,20 @@ class Contract extends Component {
 		const { contract } = this.state;
 		contract[field] = (contract[field] === true) ? false : true;
 		this.setState({ contract });
-	};
+  };
+  
+  uploadFile = (event) => {
+    const file = event.target.files[0];
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function () {
+      this.setState({ file: reader.result });
+    }.bind(this), false);
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    }    
+  }
 
   createContract = (e) => {
     const { dispatch, companyId, onCreate } = this.props;
@@ -34,7 +48,7 @@ class Contract extends Component {
       contractmaincategory: this.refs.contractmaincategory.getValue(),
       contractsubcategory: this.refs.contractsubcategory.getValue(),
       contractnumber: this.refs.contractnumber.getValue(),
-      file: this.refs.file.getValue(),
+      file: this.state.file,
       salesman: this.refs.salesman.getValue(),
       salesday: this.refs.salesday.getValue(),
       type: this.refs.type.getValue(),
@@ -64,7 +78,7 @@ class Contract extends Component {
       legalmarked: (this.state.contract['legalmarked'] === true) ? true : false,
       contactbilling: (this.state.contract['contactbilling'] === true) ? true : false,
     };
-
+    
     onCreate(contract);
   }
 
@@ -127,7 +141,15 @@ class Contract extends Component {
               </Input>
               <Input ref="salesday" type="text" maxLength="10" label="Söludagur" placeholder="Söludagur" style={{width: 160}} />
               <Input type="text" label="Samningsnúmer" placeholder="Samningsnúmer" ref="contractnumber" style={{width: 160}} />
-              <Input type="file" label="Samningur" ref="file" />
+              
+              <Input
+                type="file"
+                label="Samningur"
+                ref="file"
+                accept="application/pdf"
+                onChange={this.uploadFile} 
+              />
+
             </div>
             <div style={{ display: 'flex', paddingTop: 10 }}>
               <Input type="select" style={{width: '160px'}} label="Tegund" ref="type">

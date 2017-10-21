@@ -6,7 +6,9 @@ import Calendar from 'react-widgets/lib/Calendar';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import Dropzone from 'react-dropzone';
+//import b64toBlob from 'b64-to-blob';
 import { createContract, fetchContracts } from '../actions/contract';
+import { downloadFileFromBase64 } from '../utils/files';
 
 class DisplayContract extends Component {
 
@@ -42,7 +44,7 @@ class DisplayContract extends Component {
     const subGroups = _.filter(this.props.groups, { 'type': 'Undirflokkur', 'parent': val.contractmaincategory}).map(group =>
       <option value={group.name}>{group.name}</option>
     );
-
+   
     return(
       <div style={{ paddingTop: 10 }}>
         <PanelGroup>
@@ -120,14 +122,15 @@ class DisplayContract extends Component {
                 onChange={this.handleInputChange}
                 disabled
               />
-              <Input
-                type="file"
-                label="Samningur"
-                ref="file"
-                name="file"
-                onChange={this.handleInputChange}
-                disabled
-              />
+              {val.file &&
+                <div style={{ paddingTop: 24 }}>
+                  <Button 
+                    onClick={() => downloadFileFromBase64(val.file)}
+                  >
+                    Sækja samning
+                  </Button>
+                </div>
+              }
             </div>
             <div style={{ display: 'flex', paddingTop: 10 }}>
               <Input
