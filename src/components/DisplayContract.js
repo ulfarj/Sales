@@ -439,7 +439,7 @@ class DisplayContract extends Component {
         <Button
           onClick={this.props.onCancel}
           bsStyle="primary" style={{height:'35px'}}>
-          Loka
+          Til baka
         </Button>
         </div>              
       </div>

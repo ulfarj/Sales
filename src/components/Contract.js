@@ -15,8 +15,15 @@ class Contract extends Component {
      super(props);
      this.state = {
        parent: null,
+       contract: {},
      }
   }
+
+  onClick = (e, field) => {
+		const { contract } = this.state;
+		contract[field] = (contract[field] === true) ? false : true;
+		this.setState({ contract });
+	};
 
   createContract = (e) => {
     const { dispatch, companyId, onCreate } = this.props;
@@ -54,11 +61,9 @@ class Contract extends Component {
       approved: this.refs.approved.getValue(),
       app: this.refs.app.getValue(),
       location: this.refs.location.getValue(),
-      legalmarked: this.refs.legalmarked.getValue(),
-      contactbilling: this.refs.contactbilling.getValue(),
+      legalmarked: (this.state.contract['legalmarked'] === true) ? true : false,
+      contactbilling: (this.state.contract['contactbilling'] === true) ? true : false,
     };
-
-    alert(this.refs.legalmarked.getValue());
 
     onCreate(contract);
   }
@@ -174,15 +179,17 @@ class Contract extends Component {
             </div>
 
             <div style={{ paddingTop: 30 }}>
-              <Input  
+              <Input
                 type="checkbox"
                 label="Lögfræðimerkt"
                 ref="legalmarked"
+                onClick={e => this.onClick(e, 'legalmarked')}
                />
               <Input
                 type="checkbox"
                 label="Tala við innheimtu áður en selt er"
                 ref="contactbilling"
+                onClick={e => this.onClick(e, 'contactbilling')}
               />
             </div>
           </Panel>
