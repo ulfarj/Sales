@@ -28,6 +28,8 @@ class Users extends Component {
         return 'Admin';
       case 'supervisor':
         return 'Yfirmaður';
+      case 'supervisorlimited':
+        return 'Yfirmaður -takmarkað';
       case 'salesman':
         return 'Sölumaður';
       case 'salesmanLimited':
@@ -89,6 +91,7 @@ class Users extends Component {
                 <Input type="select" ref="type">
                   <option value="admin">Admin</option>
                   <option value="supervisor">Yfirmaður</option>
+                  <option value="supervisorlimited">Yfirmaður -takmarkað</option>
                   <option value="salesman">Sölumaður</option>
                   <option value="salesmanLimited">Sölumaður - takmarkað</option>
                 </Input>

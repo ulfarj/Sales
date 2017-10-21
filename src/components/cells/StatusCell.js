@@ -25,7 +25,9 @@ class StatusCell extends Component {
     let token = jwtDecode(sessionStorage.token);
     let assigned = (token.type !== "salesman") ? true : false;
 
-    let sales = companies[rowIndex].sales.map(sale => {
+    let sales = [];
+
+    companies[rowIndex].sales.map(sale => {
 
       let selected = _.indexOf(filter.categories, sale.categoryId) > -1;
       let category = _.find(this.props.categories, ['_id', sale.categoryId]);
@@ -36,13 +38,20 @@ class StatusCell extends Component {
         assigned = true;
       }
 
-      return {
+      
+      if(token.type === 'supervisorlimited') {
+        if(category && category.name && category.name === 'Ísland atvinnuhættir og menning') {
+          return;
+        }        
+      }
+
+      sales.push({
         'selected': selected,
         'category': category ? category.name : '',
         'status': status ? status.name : '',
         'salesman': salesman ? salesman.name : '',
         'color': status ? status.color : '',
-      }
+      });
     });
 
     sales = _.sortBy(sales, function(o) { return o.category; });

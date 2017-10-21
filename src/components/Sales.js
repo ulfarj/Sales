@@ -73,7 +73,7 @@ class Sales extends React.Component {
   render() {
 
 		let token = jwtDecode(sessionStorage.token);
-    let supervisor = (token.type === "supervisor" || token.type === "salesman" || token.type === "salesmanLimited") ? true : false;
+    let supervisor = (token.type === "supervisor" || token.type === "supervisorlimited" || token.type === "salesman" || token.type === "salesmanLimited") ? true : false;
 
     let salesmen = this.props.salesmen.map(salesman => {
       return (<option key={salesman._id} value={salesman._id}>{salesman.name}</option>);
@@ -105,6 +105,12 @@ class Sales extends React.Component {
 
     let sales = this.state.sales.map(sale => {
 
+			const categoryName = _.find(this.props.categories, ['_id', sale.categoryId]).name;
+			
+			if((token.type === "supervisorlimited") && (categoryName === 'Ísland atvinnuhættir og menning')) {
+				return (<div />);
+			}			
+
 			let disableYes = (
 				(_.find(this.props.statuses, ['_id', sale.statusId]).name === "Já") &&
 				(supervisor)
@@ -112,7 +118,7 @@ class Sales extends React.Component {
 
 			return(
 				<tr>
-					<td>{_.find(this.props.categories, ['_id', sale.categoryId]).name}</td>
+					<td>{categoryName}</td>
 					<td>
 						<Input disabled={disableYes} type="select" onChange={e => this.changeSalesman(e, sale.categoryId)} value={sale.salesmanId} style={{width: '150px'}}>
 							{salesmen}
