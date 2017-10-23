@@ -5,19 +5,33 @@ import { find } from 'lodash';
 const Contracts = (props) => {
 
   const contracts = props.contracts.map(contract => {    
+
+    let amount = 0;
+    if(contract.contractamount) {
+      amount = contract.contractamount;
+    } else if(contract.subscriptionamount) {
+      amount = (contract.subscriptionamount * 12);
+    }
+
     return (
       <tr>
-        <td 
+        {/*<td 
           style={{ fontSize: '14px', paddingBottom: '10px' }}
         >
           {find(props.salesmen, ['_id', contract.salesman]).name}
-        </td>
+        </td>*/}
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
           {find(props.categories, ['_id', contract.category]).name}
         </td>
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
-          {contract.contractnumber}
+          {contract.firstdisplaydate}
         </td>
+        <td style={{fontSize: '14px', paddingBottom: '10px'}}>
+          {contract.lastdisplaydate}
+        </td>
+        <td style={{fontSize: '14px', paddingBottom: '10px'}}>
+          {amount}
+        </td>        
         <td>
           <div style={{display: 'flex', flexDirection: 'row'}}>
             <Button
@@ -48,13 +62,11 @@ const Contracts = (props) => {
   return (
     <Table style={{padding: '20px;'}} striped bordered>
       <thead>
-        <tr>
-          <td>Sölumaður</td>
+        <tr>          
           <td>Verk</td>
-          <td>Samningsnúmer</td>
-          <td>
-
-          </td>
+          <td>Fyrsta birting</td>
+          <td>Síðasta birting</td>
+          <td>Upphæð</td>
         </tr>
       </thead>
       <tbody>

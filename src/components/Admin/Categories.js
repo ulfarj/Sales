@@ -37,8 +37,6 @@ class Categories extends Component {
     );
 
     return (
-      <div style={{}}>
-        <h3>Flokkar</h3>
         <Table>
           <tbody>
             <tr>
@@ -54,7 +52,6 @@ class Categories extends Component {
             </tr>
           </tbody>
         </Table>
-      </div>
     );
   }
 }

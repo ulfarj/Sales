@@ -70,9 +70,7 @@ class Users extends Component {
       );
     });
 
-    return (
-      <div style={{ }}>
-        <h3>Notendur</h3>
+    return (      
         <Table>
           <thead>
             <tr style={{fontWeight: 'bold'}}>
@@ -113,8 +111,7 @@ class Users extends Component {
             </tr>
             {users}
           </tbody>
-        </Table>
-      </div>
+        </Table>      
     );
   }
 }

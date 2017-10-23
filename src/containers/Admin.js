@@ -5,12 +5,13 @@ import { fetchCurrentSalesmen } from '../actions/salesmen';
 import { fetchCurrentStatuses } from '../actions/statuses';
 import { fetchCurrentUsers } from '../actions/admin/users';
 import _ from 'lodash';
-import { Table, Button, Input } from 'react-bootstrap';
+import { Table, Button, Input, PanelGroup, Panel } from 'react-bootstrap';
 import Salesmen from '../components/Admin/Salesmen';
 import Statuses from '../components/Admin/Statuses';
 import Categories from '../components/Admin/Categories';
 import Users from '../components/Admin/Users';
 import Groups from '../components/Admin/Groups';
+import ResetStatuses from '../components/Admin/ResetStatuses';
 
 
 class Admin extends Component {
@@ -30,19 +31,26 @@ class Admin extends Component {
     }
 
     return (
-      <div>
-        <div>
+      <PanelGroup style={{ padding: 20 }}>
+        <Panel header="+ Notendur" collapsible>
           <Users />
-        </div>
-        <div style={{display: 'flex', flexDirection: 'row'}}>
+        </Panel>
+        <Panel header="+ Sölumenn" collapsible>
           <Salesmen />
+        </Panel>
+        <Panel header="+ Flokkar" collapsible>
           <Categories />
+        </Panel>
+        <Panel header="+ Stöður" collapsible>
           <Statuses />
-        </div>
-        <div style={{ width: 800 }}>
+        </Panel>
+        <Panel header="+ Flokkar" collapsible>
           <Groups />
-        </div>
-      </div>
+        </Panel>
+        <Panel header="+ Núlstilla stöður" collapsible>
+          <ResetStatuses />
+        </Panel>
+      </PanelGroup>
     );
   }
 }

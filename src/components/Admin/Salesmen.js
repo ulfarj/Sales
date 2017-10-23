@@ -37,8 +37,6 @@ class Salesmen extends Component {
     );
 
     return (
-        <div style={{}}>
-          <h3>Sölumenn</h3>
           <Table>
             <tbody>
               <tr>
@@ -56,7 +54,6 @@ class Salesmen extends Component {
               {salesmen}
             </tbody>
           </Table>
-        </div>
     );
   }
 }

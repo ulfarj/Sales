@@ -39,8 +39,6 @@ class Statuses extends Component {
     );
 
     return (
-      <div style={{ }}>
-        <h3>Stöður</h3>
         <Table>
           <tbody>
             <tr>
@@ -57,7 +55,6 @@ class Statuses extends Component {
             </tr>
           </tbody>
         </Table>
-      </div>
     );
   }
 }

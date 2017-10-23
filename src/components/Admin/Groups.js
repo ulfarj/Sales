@@ -58,9 +58,7 @@ class Groups extends Component {
       </tr>
     );
 
-    return (
-        <div style={{}}>
-          <h3>Flokkar</h3>
+    return (      
           <Table>
             <thead>
               <th>Nafn</th>
@@ -103,7 +101,6 @@ class Groups extends Component {
               {groups}
             </tbody>
           </Table>
-        </div>
     );
   }
 }
