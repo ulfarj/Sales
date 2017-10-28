@@ -494,6 +494,7 @@ app.post('/resetStatuses', function (req, res) {
 
     MongoClient.connect(url, function(err, db) {
 
+      console.log(req.body.statuses);
       var findParams = {};
       findParams.sales = {
         $elemMatch: {
@@ -503,50 +504,27 @@ app.post('/resetStatuses', function (req, res) {
         }
       };
 
-      console.log(req.body);
-
       var collection = db.collection('companies');
-      collection.find(findParams).toArray(function(err, docs) {
-        res.jsonp(docs);
-      });
+      // collection.find(findParams).toArray(function(err, docs) {
+      //   res.jsonp(docs);
+      // });
       
-      // collection.update(
-      //   findParams,
-      //   {
-      //     "$set": {
-      //        "postalCode": "909",
-      //        "sales.$.periodname": req.body.name,
-      //        "sales.$.periodset": Date.now(),             
-      //      }
-      //   },
-      //   {
-      //     // "arrayFilters": [
-      //     //   { 
-      //     //     "elem.categoryId": {$eq: req.body.category},
-      //     //     "elem.statusId": {$in: req.body.statuses},      
-      //     //   }
-      //     // ],
-      //     multi: true,
-      //   }
-      // );
-      
-      // res.jsonp({status: 'success'});
-
-      // db.collection.update(
-      //   { "events.profile":10 },
-      //   { "$set": { "events.$[elem].handled": 0 } },
-      //   { "arrayFilters": [{ "elem.profile": 10 }], "multi": true }
-      // )
-
-      // db.collection("companies").update(
-      //   {
-      //     "_id": ObjectID(req.body.id),
-      //     "sales.categoryId": req.body.categoryId
-      //   },
-      //   { "$set":
-      //       {"sales.$": req.body.sale}
-      //   });
-
+      var result = collection.update(
+        findParams,
+        {
+          "$set": {             
+             "sales.$.salesperiod": req.body.name,
+             "sales.$.salesperiodadded": Date.now(),             
+           }
+        },
+        {          
+          multi: true,
+        },
+        function (err, result) {
+          if (err) throw err;          
+          res.jsonp(result);
+        }
+      );      
     });
 
   }catch(err){
@@ -622,7 +600,7 @@ app.post('/companies', function (req, res) {
                       categoryId: {$in: req.body.categories},
                       statusId: {$in: req.body.statuses},
                       salesmanId: {$in: req.body.salesmen},
-                      salesperiod: { $exists: false }
+                      // salesperiod: { $exists: false }
                     }
                   }
                 }

@@ -105,6 +105,10 @@ class Sales extends React.Component {
 
     let sales = this.state.sales.map(sale => {
 
+			if(sale.salesperiod) {
+				return (<div />);
+			}
+
 			const categoryName = _.find(this.props.categories, ['_id', sale.categoryId]).name;
 			
 			if((token.type === "supervisorlimited") && (categoryName === 'Ísland atvinnuhættir og menning')) {

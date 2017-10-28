@@ -30,9 +30,11 @@ class ResetStatuses extends Component {
     const periodname = this.refs.periodname.getValue();  
     if(category && periodname && periodname.length > 0) {
       //All nema já, hættir, sagt upp
-      let statuses = this.props.statuses.filter(status => 
+      const filteredStatuses = this.props.statuses.filter(status => 
         (status.name !== "Já" && status.name !== "Hættir" && status.name !== "Sagt upp")
       );
+      const statuses = filteredStatuses.map(status => status._id);
+
       dispatch(deleteCategoryStatuses(category, periodname, statuses));
       this.setState({ showModal: false });      
     } else {

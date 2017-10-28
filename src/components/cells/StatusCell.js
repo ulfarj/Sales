@@ -34,10 +34,13 @@ class StatusCell extends Component {
       let status = _.find(this.props.statuses, ['_id', sale.statusId]);
       let salesman = _.find(this.props.salesmen, ['_id', sale.salesmanId]);
 
+      if(sale.salesperiod) {
+        return;
+      }
+
       if(salesman && (salesman._id === token.salesman)) {
         assigned = true;
       }
-
       
       if(token.type === 'supervisorlimited') {
         if(category && category.name && category.name === 'Ísland atvinnuhættir og menning') {
