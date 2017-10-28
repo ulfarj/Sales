@@ -486,6 +486,75 @@ app.get('/sales/:id', function (req, res) {
     });
 });
 
+app.post('/resetStatuses', function (req, res) {
+
+  try {
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token, 'moveon');
+
+    MongoClient.connect(url, function(err, db) {
+
+      var findParams = {};
+      findParams.sales = {
+        $elemMatch: {
+          categoryId: {$eq: req.body.category},
+          statusId: {$in: req.body.statuses},          
+          salesperiod: { $exists: false }
+        }
+      };
+
+      console.log(req.body);
+
+      var collection = db.collection('companies');
+      collection.find(findParams).toArray(function(err, docs) {
+        res.jsonp(docs);
+      });
+      
+      // collection.update(
+      //   findParams,
+      //   {
+      //     "$set": {
+      //        "postalCode": "909",
+      //        "sales.$.periodname": req.body.name,
+      //        "sales.$.periodset": Date.now(),             
+      //      }
+      //   },
+      //   {
+      //     // "arrayFilters": [
+      //     //   { 
+      //     //     "elem.categoryId": {$eq: req.body.category},
+      //     //     "elem.statusId": {$in: req.body.statuses},      
+      //     //   }
+      //     // ],
+      //     multi: true,
+      //   }
+      // );
+      
+      // res.jsonp({status: 'success'});
+
+      // db.collection.update(
+      //   { "events.profile":10 },
+      //   { "$set": { "events.$[elem].handled": 0 } },
+      //   { "arrayFilters": [{ "elem.profile": 10 }], "multi": true }
+      // )
+
+      // db.collection("companies").update(
+      //   {
+      //     "_id": ObjectID(req.body.id),
+      //     "sales.categoryId": req.body.categoryId
+      //   },
+      //   { "$set":
+      //       {"sales.$": req.body.sale}
+      //   });
+
+    });
+
+  }catch(err){
+    return res.jsonp({ success: false, message: 'Failed to authenticate token.'});
+  }
+
+});
+
 app.post('/companies', function (req, res) {
     try {
       const token = req.headers.authorization;
@@ -552,7 +621,8 @@ app.post('/companies', function (req, res) {
                     $elemMatch: {
                       categoryId: {$in: req.body.categories},
                       statusId: {$in: req.body.statuses},
-                      salesmanId: {$in: req.body.salesmen}
+                      salesmanId: {$in: req.body.salesmen},
+                      salesperiod: { $exists: false }
                     }
                   }
                 }
@@ -564,7 +634,8 @@ app.post('/companies', function (req, res) {
                 $elemMatch: {
                   categoryId: {$in: req.body.categories},
                   statusId: {$in: req.body.statuses},
-                  salesmanId: {$in: req.body.salesmen}
+                  salesmanId: {$in: req.body.salesmen},
+                  salesperiod: { $exists: false }
                 }
               };
           }

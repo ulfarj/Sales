@@ -87,3 +87,52 @@ export function deleteCategory(id) {
       });
   }
 }
+
+function deleteCategoryStatusesRequest(category, name, statuses) {
+  return {
+    type: types.RESET_CATEGORY_STATUSES_REQUEST,
+    category,
+    name,
+    statuses,
+  }
+}
+
+function deleteCategoryStatusesSuccess(response) {
+  return {
+    type: types.RESET_CATEGORY_STATUSES_SUCCESS,
+    response,
+  }
+}
+
+function deleteCategoryStatusesFailure(error) {
+  return {
+    type: types.RESET_CATEGORY_STATUSES_FAILURE,
+    error,
+  }
+}
+
+export function deleteCategoryStatuses(category, name, statuses) {
+
+  let config = {
+		method: 'POST',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+       Authorization: sessionStorage.token,
+    },
+    body: JSON.stringify({ name, category, statuses })
+  }
+
+  return (dispatch, getState) => {
+    dispatch(deleteCategoryStatusesRequest(category, name, statuses))
+    return fetch(webconfig.apiUrl+'/resetStatuses/', config)
+      .then(response => response.json())
+      .then(function(response) {
+        if(response.error){
+          dispatch(deleteCategoryStatusesFailure(error));
+        } else {
+          dispatch(deleteCategoryStatusesSuccess(response));          
+        }
+      });
+  }
+}
