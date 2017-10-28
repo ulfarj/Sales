@@ -40,13 +40,13 @@ class StatusCell extends Component {
 
       if(salesman && (salesman._id === token.salesman)) {
         assigned = true;
-      }
-      
-      if(token.type === 'supervisorlimited') {
-        if(category && category.name && category.name === 'Ísland atvinnuhættir og menning') {
-          return;
-        }        
-      }
+      } else {
+        if(token.type === 'supervisorlimited') {
+          if(category && category.name && category.name === 'Ísland atvinnuhættir og menning') {
+            return;
+          }        
+        }
+      }            
 
       sales.push({
         'selected': selected,

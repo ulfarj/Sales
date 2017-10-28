@@ -101,8 +101,8 @@ class Sales extends React.Component {
       return (
         <option key={category._id} value={category._id}>{category.name}</option>
       )
-    });
-
+		});
+	
     let sales = this.state.sales.map(sale => {
 
 			if(sale.salesperiod) {
@@ -111,7 +111,10 @@ class Sales extends React.Component {
 
 			const categoryName = _.find(this.props.categories, ['_id', sale.categoryId]).name;
 			
-			if((token.type === "supervisorlimited") && (categoryName === 'Ísland atvinnuhættir og menning')) {
+			if(
+				(sale.salesmanId !== token.salesman) &&
+				(token.type === "supervisorlimited") && 
+				(categoryName === 'Ísland atvinnuhættir og menning')) {
 				return (<div />);
 			}			
 
