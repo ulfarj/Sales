@@ -34,7 +34,7 @@ class StatusCell extends Component {
       let status = _.find(this.props.statuses, ['_id', sale.statusId]);
       let salesman = _.find(this.props.salesmen, ['_id', sale.salesmanId]);
 
-      if(sale.salesperiod) {
+      if(sale.salesperiod) {        
         return;
       }
 

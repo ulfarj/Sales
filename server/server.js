@@ -592,8 +592,8 @@ app.post('/companies', function (req, res) {
             [{
               $or: [
                 {
-                  sales: { $eq: [] }
-                },
+                  sales: { $eq: [] }                  
+                },                
                 {
                   sales: {
                     $elemMatch: {
@@ -603,7 +603,7 @@ app.post('/companies', function (req, res) {
                       // salesperiod: { $exists: false }
                     }
                   }
-                }
+                },                
               ]
             }];
           }
@@ -613,7 +613,7 @@ app.post('/companies', function (req, res) {
                   categoryId: {$in: req.body.categories},
                   statusId: {$in: req.body.statuses},
                   salesmanId: {$in: req.body.salesmen},
-                  salesperiod: { $exists: false }
+                  // salesperiod: { $exists: false }
                 }
               };
           }
@@ -621,9 +621,8 @@ app.post('/companies', function (req, res) {
           //findParams.$and = {deleted: { $exists: false }};
           findParams.deleted = { $exists: false };
 
-          var collection = db.collection('companies');
-          collection.find(findParams).toArray(function(err, docs) {
-            //console.log(docs);
+          var collection = db.collection('companies');         
+          collection.find(findParams).toArray(function(err, docs) {            
             var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
 
             res.jsonp({companies: companies, requestAt: req.body.requestAt});
