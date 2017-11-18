@@ -539,35 +539,41 @@ app.post('/resetStatuses', function (req, res) {
               statusId: item.sales[0].statusId,
               date: Date.now(),
             }
-            db.collection('salesperiods').insert(sale);            
-          })
-          var count = db.collection('salesperiods').count();
-          resolve(count);
+            db.collection('salesperiods').insert(sale);
+
+            collection.update(
+              { _id: ObjectID(item._id) },
+              { "$pull": {"sales": item.sales[0]}
+            });    
+          })                    
+          resolve(docs.length);
         });
       });
 
-      insertPromise.then(count => {
-        // console.log('DONE');
-        // console.log(db.collection('salesperiods').count())
-        console.log(count);
-        return res.jsonp({ success: true, updateMessage: count + ' Færslur uppfærðar' });
+      var deletePromise = new Promise(function(resolve, reject) {              
+        var res = collection.update(
+          { },
+          { $pull: 
+            { sales: 
+              { $elemMatch: 
+                { 
+                  categoryId: {$eq: req.body.category}, 
+                  statusId: {$in: req.body.statuses} 
+                } 
+              } 
+            } 
+          },
+          { multi: true }
+        )        
+        resolve(res);
+      });
+      
+      insertPromise.then(count => {                       
+        return res.jsonp({ 
+          success: true,           
+          updateMessage: count + ' Færslur uppfærðar' 
+        });        
       })
-
-      // collection.update(
-      //   { _id: ObjectID(req.body.id) },
-      //   { "$pull":
-      //     { 
-      //       sales: {
-      //         $elemMatch: {
-      //           categoryId: {$eq: req.body.category},
-      //           statusId: {$in: req.body.statuses},                 
-      //         }
-      //       }
-      //     }
-      // });
-
-
-
 
       // collection.update(
       //   { _id: ObjectID(req.body.id) },

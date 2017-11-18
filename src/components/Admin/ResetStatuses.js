@@ -18,11 +18,6 @@ class ResetStatuses extends Component {
     }
   }
 
-  // componentWillMount = () => {
-  //   const { dispatch } = this.props;
-    
-  // }
-
   resetStatuses = (e) => {
     const { categories, dispatch } = this.props;
     dispatch(initForm());
