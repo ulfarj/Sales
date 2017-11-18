@@ -36,96 +36,72 @@ var url = 'mongodb://localhost:27017/ssdb';
 
 
 app.get('/import', function (req, res) {
-       
-    var importPromise = new Promise(importCompanies()); 
-    importPromise.then(() => {
-        return res.jsonp({status: 'success'});
-    });
-});
 
+    var contracts = require('./contracts.json');
 
-function importCompanies(resolve, reject) {
+    var importPromise = new Promise((resolve, reject) => {      
+        
+        MongoClient.connect(url, function(err, db) {
+            const imports = []; 
+            _(contracts).forEach(function(contract) {
+                imports.push(contract.kennitala)
 
-     var contracts = require('./contracts.json');
-
-     MongoClient.connect(url, function(err, db) {
-        _(contracts).forEach(function(contract) {   
-
-            db.collection("contracts").insertOne(
-            {
-                companyId: db.companies.findOne({ssn: contract.Kennitala}),
-                    // category: this.refs.category.getValue(),
-                    // contractmaincategory: this.refs.contractmaincategory.getValue(),
-                    // contractsubcategory: this.refs.contractsubcategory.getValue(),
-                    // contractnumber: this.refs.contractnumber.getValue(),
-                    // file: this.state.file,
-                    // salesman: this.refs.salesman.getValue(),
-                    // salesday: this.refs.salesday.getValue(),
-                    // type: this.refs.type.getValue(),
-                    // contractamount: this.refs.contractamount.getValue(),
-                    // subscriptionamount: this.refs.subscriptionamount.getValue(),
-                    // firstpaydate: this.refs.firstpaydate.getValue(),
-                    // firstdisplaydate: this.refs.firstdisplaydate.getValue(),
-                    // lastdisplaydate: this.refs.lastdisplaydate.getValue(),
-                    // termination: this.refs.termination.getValue(),
-                    // lastpaydate: this.refs.lastpaydate.getValue(),
-                    // contact: this.refs.contact.getValue(),
-                    // contactphone: this.refs.contactphone.getValue(),
-                    // contactemail: this.refs.contactemail.getValue(),
-                    // article: this.refs.article.getValue(),
-                    // advertisement: this.refs.advertisement.getValue(),
-                    // coverage: this.refs.coverage.getValue(),
-                    // photography: this.refs.photography.getValue(),
-                    // articlewriting: this.refs.articlewriting.getValue(),
-                    // contentready: this.refs.contentready.getValue(),
-                    // email: this.refs.email.getValue(),
-                    // contentready: this.refs.contentready.getValue(),
-                    // proofs: this.refs.proofs.getValue(),
-                    // corrected: this.refs.corrected.getValue(),
-                    // approved: this.refs.approved.getValue(),
-                    // app: this.refs.app.getValue(),
-                    // location: this.refs.location.getValue(),
-                    // legalmarked: (this.state.contract['legalmarked'] === true) ? true : false,
-                    // contactbilling: (this.state.contract['contactbilling'] === true) ? true : false,
-                  });
-              });
-    });
-
-    resolve();
-}
-
-
-function getCategories(){
-    MongoClient.connect(url, function(err, db) {
-        var collection = db.collection('categories');
-
-        collection.find({}).toArray(function(err, docs) {
-            return docs;
+                var companyId = db.collection("companies").findOne({ssn: contract.kennitala.replace('-','')});
+                if (companyId) {
+                    db.collection("contracts").insertOne({
+                    companyId: companyId,
+                    });
+                }
+            });
+            resolve(imports);    
         });
     });
-}
 
-function getSalesmen(){
-    MongoClient.connect(url, function(err, db) {
-        var collection = db.collection('salesmen');
-
-        collection.find({}).toArray(function(err, docs) {
-            return docs;
-        });
+    importPromise.then((response) => {
+        return res.jsonp({ response });
     });
-}
+})
+        // _(contracts).forEach(function(contract) {   
 
-function getStatuses(){
-    MongoClient.connect(url, function(err, db) {
-        var collection = db.collection('statuses');
-
-        collection.find({}).toArray(function(err, docs) {
-            return docs;
-        });
-    });
-}
-
-
+        //     // db.collection("contracts").insertOne(
+        //     // {
+        //     //     companyId: db.companies.findOne({ssn: contract.Kennitala}),
+        //     //         // category: this.refs.category.getValue(),
+        //     //         // contractmaincategory: this.refs.contractmaincategory.getValue(),
+        //     //         // contractsubcategory: this.refs.contractsubcategory.getValue(),
+        //     //         // contractnumber: this.refs.contractnumber.getValue(),
+        //     //         // file: this.state.file,
+        //     //         // salesman: this.refs.salesman.getValue(),
+        //     //         // salesday: this.refs.salesday.getValue(),
+        //     //         // type: this.refs.type.getValue(),
+        //     //         // contractamount: this.refs.contractamount.getValue(),
+        //     //         // subscriptionamount: this.refs.subscriptionamount.getValue(),
+        //     //         // firstpaydate: this.refs.firstpaydate.getValue(),
+        //     //         // firstdisplaydate: this.refs.firstdisplaydate.getValue(),
+        //     //         // lastdisplaydate: this.refs.lastdisplaydate.getValue(),
+        //     //         // termination: this.refs.termination.getValue(),
+        //     //         // lastpaydate: this.refs.lastpaydate.getValue(),
+        //     //         // contact: this.refs.contact.getValue(),
+        //     //         // contactphone: this.refs.contactphone.getValue(),
+        //     //         // contactemail: this.refs.contactemail.getValue(),
+        //     //         // article: this.refs.article.getValue(),
+        //     //         // advertisement: this.refs.advertisement.getValue(),
+        //     //         // coverage: this.refs.coverage.getValue(),
+        //     //         // photography: this.refs.photography.getValue(),
+        //     //         // articlewriting: this.refs.articlewriting.getValue(),
+        //     //         // contentready: this.refs.contentready.getValue(),
+        //     //         // email: this.refs.email.getValue(),
+        //     //         // contentready: this.refs.contentready.getValue(),
+        //     //         // proofs: this.refs.proofs.getValue(),
+        //     //         // corrected: this.refs.corrected.getValue(),
+        //     //         // approved: this.refs.approved.getValue(),
+        //     //         // app: this.refs.app.getValue(),
+        //     //         // location: this.refs.location.getValue(),
+        //     //         // legalmarked: (this.state.contract['legalmarked'] === true) ? true : false,
+        //     //         // contactbilling: (this.state.contract['contactbilling'] === true) ? true : false,
+        //     //       });
+        //       });
+        
 http.createServer(app).listen(3030, function () {
   console.log('Server listening on port 3030');
 });
