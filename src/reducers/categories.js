@@ -4,6 +4,7 @@ import {
   RESET_CATEGORY_STATUSES_REQUEST,
   RESET_CATEGORY_STATUSES_SUCCESS,
   RESET_CATEGORY_STATUSES_FAILURE,
+  RESET_CATEGORY_STATUSES_INIT,
 } from '../constants/ActionTypes';
 
 export default function categories(state = {}, action) {
@@ -25,12 +26,13 @@ export default function categories(state = {}, action) {
       return Object.assign({}, state, {
         isResetting: true,        
         resetDone: false,
+        response: null,
         category: action.category,
         name: action.name,
         statuses: action.statuses,        
       })
-     case RESET_CATEGORY_STATUSES_SUCCESS:
-      return Object.assign({}, state, {
+     case RESET_CATEGORY_STATUSES_SUCCESS:     
+      return Object.assign({}, state, {        
         isResetting: false,        
         resetDone: true,
         response: action.response,
@@ -39,7 +41,13 @@ export default function categories(state = {}, action) {
         return Object.assign({}, state, {
           isResetting: false,        
           resetDone: true,
-          error: action.error,
+          error: action.error,          
+        })
+      case RESET_CATEGORY_STATUSES_INIT:     
+        return Object.assign({}, state, {        
+          isResetting: false,        
+          resetDone: false,
+          response: null,
         })
     default:
       return state

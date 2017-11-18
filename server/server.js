@@ -7,9 +7,11 @@ var _ = require('lodash');
 var moment = require('moment');
 var passwordHash = require('password-hash');
 var jwt = require('jsonwebtoken');
+var Promise = require('promise');
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID
+
 
 var app = express();
 
@@ -486,6 +488,21 @@ app.get('/sales/:id', function (req, res) {
     });
 });
 
+// async function saveCurrentStatuses(docs, db) {
+//   await Promise.all(docs.forEach(function(item){
+//     var sale = {
+//       periodName: req.body.name,            
+//       companyId: item._id,
+//       companyName: item.name,
+//       salesmanId: item.sales[0].salesmanId,
+//       categoryId: item.sales[0].categoryId,
+//       statusId: item.sales[0].statusId,
+//       date: Date.now(),
+//     }
+//     db.collection('salesperiods').insert(sale);
+//   }))                
+// }
+
 app.post('/resetStatuses', function (req, res) {
 
   try {
@@ -493,38 +510,101 @@ app.post('/resetStatuses', function (req, res) {
     const decoded = jwt.verify(token, 'moveon');
 
     MongoClient.connect(url, function(err, db) {
-
-      console.log(req.body.statuses);
+      
       var findParams = {};
       findParams.sales = {
         $elemMatch: {
           categoryId: {$eq: req.body.category},
-          statusId: {$in: req.body.statuses},          
-          salesperiod: { $exists: false }
+          statusId: {$in: req.body.statuses},                
         }
       };
 
+      var fields = {
+        '_id': 1,
+        'name': 1, 
+        'sales.$': 1,        
+      };
+
       var collection = db.collection('companies');
-      // collection.find(findParams).toArray(function(err, docs) {
-      //   res.jsonp(docs);
-      // });
       
-      var result = collection.update(
-        findParams,
-        {
-          "$set": {             
-             "sales.$.salesperiod": req.body.name,
-             "sales.$.salesperiodadded": Date.now(),             
-           }
-        },
-        {          
-          multi: true,
-        },
-        function (err, result) {
-          if (err) throw err;          
-          res.jsonp(result);
-        }
-      );      
+      var insertPromise = new Promise(function(resolve, reject) {
+        collection.find(findParams, fields).toArray(function(err, docs) {
+          docs.forEach(function(item, index){
+            var sale = {
+              periodName: req.body.name,            
+              companyId: item._id,
+              companyName: item.name,
+              salesmanId: item.sales[0].salesmanId,
+              categoryId: item.sales[0].categoryId,
+              statusId: item.sales[0].statusId,
+              date: Date.now(),
+            }
+            db.collection('salesperiods').insert(sale);            
+          })
+          var count = db.collection('salesperiods').count();
+          resolve(count);
+        });
+      });
+
+      insertPromise.then(count => {
+        // console.log('DONE');
+        // console.log(db.collection('salesperiods').count())
+        console.log(count);
+        return res.jsonp({ success: true, updateMessage: count + ' Færslur uppfærðar' });
+      })
+
+      // collection.update(
+      //   { _id: ObjectID(req.body.id) },
+      //   { "$pull":
+      //     { 
+      //       sales: {
+      //         $elemMatch: {
+      //           categoryId: {$eq: req.body.category},
+      //           statusId: {$in: req.body.statuses},                 
+      //         }
+      //       }
+      //     }
+      // });
+
+
+
+
+      // collection.update(
+      //   { _id: ObjectID(req.body.id) },
+      //   { "$pull":
+      //       {"sales": {'categoryId': req.body.categoryId}}
+      // });            
+
+      // collection.find(findParams, fields).forEach(function(doc){
+      //   //db.collection('salesperiods').insert()
+      //   // collection.remove(doc);
+      //   items.push(doc)
+      //   // console.log(doc);
+      // });
+
+      // var items = [];
+      // var x = collection.find(findParams, fields, (err, data) => {
+        
+      //   data.forEach((doc) => { 
+      //     items.push(doc);
+      //   });        
+      // });      
+    //   var result = collection.update(
+    //     findParams,
+    //     {
+    //       "$set": {             
+    //          "sales.$.salesperiod": req.body.name,
+    //          "sales.$.salesperiodadded": Date.now(),             
+    //        }
+    //     },
+    //     {          
+    //       multi: true,
+    //     },
+    //     function (err, result) {
+    //       if (err) throw err;          
+    //       res.jsonp(result);
+    //     }
+    //   );    
     });
 
   }catch(err){

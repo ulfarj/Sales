@@ -97,7 +97,7 @@ function deleteCategoryStatusesRequest(category, name, statuses) {
   }
 }
 
-function deleteCategoryStatusesSuccess(response) {
+function deleteCategoryStatusesSuccess(response) {    
   return {
     type: types.RESET_CATEGORY_STATUSES_SUCCESS,
     response,
@@ -108,6 +108,12 @@ function deleteCategoryStatusesFailure(error) {
   return {
     type: types.RESET_CATEGORY_STATUSES_FAILURE,
     error,
+  }
+}
+
+export function initForm() {
+  return {
+    type: types.RESET_CATEGORY_STATUSES_INIT,
   }
 }
 
@@ -130,8 +136,8 @@ export function deleteCategoryStatuses(category, name, statuses) {
       .then(function(response) {
         if(response.error){
           dispatch(deleteCategoryStatusesFailure(error));
-        } else {
-          dispatch(deleteCategoryStatusesSuccess(response));          
+        } else {          
+          dispatch(deleteCategoryStatusesSuccess(response.updateMessage));          
         }
       });
   }

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { deleteCategoryStatuses } from '../../actions/admin/categories';
+import { deleteCategoryStatuses, initForm } from '../../actions/admin/categories';
 import _ from 'lodash';
 import { Table, Button, Input, Modal } from 'react-bootstrap';
 
@@ -10,15 +10,22 @@ class ResetStatuses extends Component {
   constructor(props){
     super(props);
     this.state = {
-      showModal: false,
+      showModal: false,      
       category: '',
       invalidname: null,
       loading: false,
+      updateStatus: null,
     }
   }
 
+  // componentWillMount = () => {
+  //   const { dispatch } = this.props;
+    
+  // }
+
   resetStatuses = (e) => {
-    const { categories } = this.props;
+    const { categories, dispatch } = this.props;
+    dispatch(initForm());
     const category = _.find(categories, ['_id', this.refs.category.getValue()]).name;    
     this.setState({ category });
     this.setState({ showModal: true});        
@@ -36,7 +43,7 @@ class ResetStatuses extends Component {
       const statuses = filteredStatuses.map(status => status._id);
 
       dispatch(deleteCategoryStatuses(category, periodname, statuses));
-      this.setState({ showModal: false });      
+      //this.setState({ showModal: false });      
     } else {
       this.setState({ invalidname: true })
     }
@@ -46,15 +53,53 @@ class ResetStatuses extends Component {
 
     const { dispatch, resetDone, isResetting } = this.props;
 
-
     let categories = this.props.categories.map(category =>
       <option value={category._id}>
         {category.name}
       </option>        
-    );
+    );    
+
+    let modalBody = null;
+
+    if(this.props.response && this.props.resetDone) {
+      modalBody = (
+        <Modal.Body>
+        <div style={{ padding: 20, fontSize: 14 }}>
+          {this.props.response}  
+        </div>
+        </Modal.Body> 
+      )
+    } else if(isResetting) {
+      modalBody = (
+        <div style={{ padding: 20, fontSize: 14 }}>
+          Verið að núllstilla stöður
+        </div>
+      )  
+    } else {
+      modalBody = (
+        <Modal.Body>
+          <div>
+            <Input
+              type="text"
+              ref="periodname"
+              label="Nafn núverandi tímabils"
+              style={{ maxWidth: 360 }}
+              bsStyle={this.state.invalidname ? 'error' : ''}
+            />
+          </div>
+          <div>
+            <Button
+                onClick={e => this.reset(e)}
+                bsStyle="primary" style={{ height:'35px' }}>
+                Núllstilla
+            </Button>
+          </div>
+        </Modal.Body>
+      )
+    }
 
     return (
-        <div style={{ paddingTop: 20, paddingBottom: 20 }}>            
+        <div style={{ paddingTop: 20, paddingBottom: 20 }}>          
             <Modal
               show={this.state.showModal}
               onHide={e => this.setState({showModal: false})}
@@ -62,24 +107,7 @@ class ResetStatuses extends Component {
               <Modal.Header closeButton>
                 <Modal.Title>Núllstilla stöður fyrir flokk {this.state.category}</Modal.Title>
               </Modal.Header>
-              <Modal.Body>                
-                <div>
-                  <Input
-                    type="text"
-                    ref="periodname"
-                    label="Nafn núverandi tímabils"
-                    style={{ maxWidth: 360 }}
-                    bsStyle={this.state.invalidname ? 'error' : ''}
-                  />
-                </div>
-                <div>
-                  <Button
-                      onClick={e => this.reset(e)}
-                      bsStyle="primary" style={{ height:'35px' }}>
-                      Núllstilla
-                  </Button>
-                </div>
-              </Modal.Body>
+              {modalBody}
             </Modal>
             <Input type="select" ref="category">                
                 {categories}
@@ -99,7 +127,8 @@ function mapStateToProps(state) {
     const resetDone = state.categories.resetDone;
     const isResetting = state.categories.isResetting;
     const statuses = state.statuses.items;
-    return { categories, resetDone, isResetting, statuses }
+    const response = state.categories.response;
+    return { categories, resetDone, isResetting, statuses, response }
 }
 
 export default connect(mapStateToProps)(ResetStatuses);
