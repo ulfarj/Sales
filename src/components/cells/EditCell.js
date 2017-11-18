@@ -23,7 +23,7 @@ class EditCell extends Component {
    }
 
   onClick = (e) => {
-    const { dispatch, companies, rowIndex, column } = this.props;
+    const { dispatch, companies, rowIndex, column } = this.props;    
     dispatch(updateCompanyComment(companies[rowIndex]._id, ''));
   };
 
@@ -34,7 +34,7 @@ class EditCell extends Component {
 
   onChange = (e) => {
     const { dispatch, companies, rowIndex, column} = this.props;
-    dispatch(updateCompanyComment(companies[rowIndex]._id, e.target.value));
+    dispatch(updateCompanyComment(companies[rowIndex]._id, e.target.value));        
   };
 
   onKeyPress = (e) => {
@@ -46,7 +46,10 @@ class EditCell extends Component {
   updateComment = () => {
     const { dispatch, companies, rowIndex, column } = this.props;
     let id = companies[rowIndex]['_id'];
-    dispatch(addComment(id, companies[rowIndex][column]));
+    const comment = companies[rowIndex][column];
+    if(comment) {
+      dispatch(addComment(id, comment));
+    }
   };
 
   render() {
