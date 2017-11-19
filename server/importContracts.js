@@ -42,18 +42,40 @@ app.get('/import', function (req, res) {
     var importPromise = new Promise((resolve, reject) => {      
         
         MongoClient.connect(url, function(err, db) {
-            const imports = []; 
-            _(contracts).forEach(function(contract) {
-                imports.push(contract.kennitala)
-
-                var companyId = db.collection("companies").findOne({ssn: contract.kennitala.replace('-','')});
-                if (companyId) {
-                    db.collection("contracts").insertOne({
-                    companyId: companyId,
+            const imports = [];
+            
+            var contractsPromise = Promise.all(_(contracts).forEach(function(contract) {                  
+                
+                var companyPromise = new Promise((resolve, reject) => {
+                    db.collection('companies').findOne({ssn: contract.kennitala.replace('-','') },(err, result) => {                
+                        if(err) {
+                            reject(err)
+                        }
+                        resolve(result) 
                     });
-                }
-            });
-            resolve(imports);    
+                })
+
+                // companyPromise.then((company) => {
+                //     // console.log('1');
+                //     imports.push(company);                    
+                // })
+            }));
+
+            contractsPromise.then((values) => {
+                console.log('XXX')
+                resolve(values);                
+            })
+
+            // if (company._id) {
+            //     // db.collection("contracts").insertOne({
+            //     //     companyId: company._id,
+            //     // });                    
+            // }            
+
+            // _(contracts).forEach(function(contract) {                
+            //     //var company = db.collection("companies").findOne({ssn: contract.kennitala.replace('-','')});                
+            // });
+                
         });
     });
 
