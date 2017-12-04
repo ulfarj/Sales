@@ -54,15 +54,9 @@ app.get('/import', function (req, res) {
                         resolve(result) 
                     });
                 })
-
-                // companyPromise.then((company) => {
-                //     // console.log('1');
-                //     imports.push(company);                    
-                // })
             }));
 
             contractsPromise.then((values) => {
-                console.log('XXX')
                 resolve(values);                
             })
 
