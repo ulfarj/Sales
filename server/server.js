@@ -526,6 +526,8 @@ app.post('/resetStatuses', function (req, res) {
       };
 
       var collection = db.collection('companies');
+
+      // db.statuses.find({name: 'Engin staða'})
       
       var insertPromise = new Promise(function(resolve, reject) {
         collection.find(findParams, fields).toArray(function(err, docs) {
@@ -541,40 +543,48 @@ app.post('/resetStatuses', function (req, res) {
             }
             db.collection('salesperiods').insert(sale);
 
-            collection.update(
-              { _id: ObjectID(item._id) },
-              { "$pull": {"sales": item.sales[0]}
-            });    
+            // collection.update(
+            //   { _id: ObjectID(item._id) },
+            //   { "$pull": {"sales": item.sales[0]}
+            // });            
           })                    
           resolve(docs.length);
         });
       });
 
-      var deletePromise = new Promise(function(resolve, reject) {              
-        var res = collection.update(
-          { },
-          { $pull: 
-            { sales: 
-              { $elemMatch: 
-                { 
-                  categoryId: {$eq: req.body.category}, 
-                  statusId: {$in: req.body.statuses} 
-                } 
-              } 
-            } 
-          },
-          { multi: true }
-        )        
-        resolve(res);
-      });
-      
-      insertPromise.then(count => {                       
-        return res.jsonp({ 
-          success: true,           
-          updateMessage: count + ' Færslur uppfærðar' 
-        });        
+      insertPromise.then(count => {
+        try {
+          collection.update(
+            findParams, { "$set": { "sales.$.statusId": req.body.noStatus }}, { multi: true }
+          );
+          
+          return res.jsonp({ 
+            success: true,           
+            updateMessage: count + ' Færslur uppfærðar' 
+          });        
+        } catch (error) {
+          return res.jsonp({ success: false, updateMessage: 'Villa kom upp, ekki tókst að uppfæra færslur'});      
+        }
       })
 
+      // var deletePromise = new Promise(function(resolve, reject) {              
+      //   var res = collection.update(
+      //     { },
+      //     { $pull: 
+      //       { sales: 
+      //         { $elemMatch: 
+      //           { 
+      //             categoryId: {$eq: req.body.category}, 
+      //             statusId: {$in: req.body.statuses} 
+      //           } 
+      //         } 
+      //       } 
+      //     },
+      //     { multi: true }
+      //   )        
+      //   resolve(res);
+      // });
+      
       // collection.update(
       //   { _id: ObjectID(req.body.id) },
       //   { "$pull":
