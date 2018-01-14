@@ -55,8 +55,10 @@ class Contract extends Component {
       contractamount: this.refs.contractamount.getValue(),
       subscriptionamount: this.refs.subscriptionamount.getValue(),
       firstpaydate: this.refs.firstpaydate.getValue(),
-      firstdisplaydate: this.refs.firstdisplaydate.getValue(),
-      lastdisplaydate: this.refs.lastdisplaydate.getValue(),
+      firstdisplaydatepublish: this.refs.firstdisplaydatepublish.getValue(),
+      firstdisplaydateyear: this.refs.firstdisplaydateyear.getValue(),
+      lastdisplaydatepublish: this.refs.lastdisplaydatepublish.getValue(),
+      lastdisplaydateyear: this.refs.lastdisplaydateyear.getValue(),
       termination: this.refs.termination.getValue(),
       lastpaydate: this.refs.lastpaydate.getValue(),
       contact: this.refs.contact.getValue(),
@@ -160,9 +162,15 @@ class Contract extends Component {
               <Input type="number" label="Upphæð áskriftar" placeholder="Upphæð áskriftar" ref="subscriptionamount" style={{width: 160}} />
             </div>
             <div style={{ display: 'flex', paddingTop: 10 }}>
-              <Input type="text" label="Fyrsta birting" maxLength="10" placeholder="Fyrsta birting" ref="firstdisplaydate" style={{width: 160}} />
+              <Input type="text" label="Fyrsta birting" maxLength="4" placeholder="Útgáfa" ref="firstdisplaydatepublish" style={{width: 80}} />
+              <div style={{ paddingTop: 25}}>
+                <Input type="text" maxLength="4" placeholder="Ár" ref="firstdisplaydateyear" style={{width: 80}} />
+              </div>
               <Input type="text" label="Uppsögn" maxLength="10" placeholder="Uppsögn" ref="termination" style={{width: 160}} />
-              <Input type="text" label="Síðasta birting" maxLength="10" placeholder="Síðasta birting" ref="lastdisplaydate" style={{width: 160}} />
+              <Input type="text" label="Síðasta birting" maxLength="4" placeholder="Útgáfa" ref="lastdisplaydatepublish" style={{width: 80}} />
+              <div style={{ paddingTop: 25}}>
+                <Input type="text" maxLength="4" placeholder="Ár" ref="lastdisplaydateyear" style={{width: 80}} />
+              </div>              
             </div>
             <div style={{ display: 'flex', paddingTop: 10 }}>
               <Input type="text" label="Fyrsti gjalddagi" maxLength="10" placeholder="Fyrsti gjalddagi" ref="firstpaydate" style={{width: 160}} />

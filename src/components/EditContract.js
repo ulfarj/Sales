@@ -219,14 +219,26 @@ class EditContract extends Component {
               <Input
                 type="text"
                 label="Fyrsta birting"
-                maxLength="10"
-                placeholder="Fyrsta birting"
-                ref="firstdisplaydate"
-                value={val.firstdisplaydate}
-                style={{width: 160}}
-                name="firstdisplaydate"
+                maxLength="4"
+                placeholder="Útgáfa"
+                ref="firstdisplaydatepublish"
+                value={val.firstdisplaydatepublish}
+                style={{width: 80}}
+                name="firstdisplaydatepublish"
                 onChange={this.handleInputChange}
               />
+              <div style={{paddingTop: 25}}>
+                <Input
+                  type="text"                
+                  maxLength="4"
+                  placeholder="Ár"
+                  ref="firstdisplaydateyear"
+                  value={val.firstdisplaydateyear}
+                  style={{width: 80}}
+                  name="firstdisplaydateyear"
+                  onChange={this.handleInputChange}
+                />
+              </div>
               <Input
                 type="text"
                 label="Uppsögn"
@@ -241,14 +253,26 @@ class EditContract extends Component {
               <Input
                 type="text"
                 label="Síðasta birting"
-                maxLength="10"
-                placeholder="Síðasta birting"
-                ref="lastdisplaydate"
-                name="lastdisplaydate"
-                value={val.lastdisplaydate}
-                style={{width: 160}}
+                maxLength="4"
+                placeholder="Útfáfa"
+                ref="lastdisplaydatepublish"
+                name="lastdisplaydatepublish"
+                value={val.lastdisplaydatepublish}
+                style={{width: 80}}
                 onChange={this.handleInputChange}
               />
+              <div style={{paddingTop: 25}}>
+                <Input
+                  type="text"                  
+                  maxLength="10"
+                  placeholder="Ár"
+                  ref="lastdisplaydateyear"
+                  name="lastdisplaydateyear"
+                  value={val.lastdisplaydateyear}
+                  style={{width: 80}}
+                  onChange={this.handleInputChange}
+                />
+              </div>
             </div>
             <div style={{ display: 'flex', paddingTop: 10 }}>
               <Input

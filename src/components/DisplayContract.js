@@ -176,7 +176,7 @@ class DisplayContract extends Component {
                 maxLength="10"
                 placeholder="Fyrsta birting"
                 ref="firstdisplaydate"
-                value={val.firstdisplaydate}
+                value={`${val.firstdisplaydatepublish}${'-'}${val.firstdisplaydateyear}`}
                 style={{width: 160}}
                 name="firstdisplaydate"
                 onChange={this.handleInputChange}
@@ -201,7 +201,7 @@ class DisplayContract extends Component {
                 placeholder="Síðasta birting"
                 ref="lastdisplaydate"
                 name="lastdisplaydate"
-                value={val.lastdisplaydate}
+                value={`${val.lastdisplaydatepublish}${'-'}${val.lastdisplaydateyear}`}
                 style={{width: 160}}
                 onChange={this.handleInputChange}
                 disabled

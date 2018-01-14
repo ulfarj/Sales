@@ -24,10 +24,10 @@ const Contracts = (props) => {
           {find(props.categories, ['_id', contract.category]).name}
         </td>
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
-          {contract.firstdisplaydate}
+        {contract.firstdisplaydatepublish}-{contract.firstdisplaydateyear}
         </td>
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
-          {contract.lastdisplaydate}
+        {contract.lastdisplaydatepublish}-{contract.lastdisplaydateyear}
         </td>
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
           {amount}
