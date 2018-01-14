@@ -3,10 +3,19 @@ import {
   UPDATE_COMPANY_REQUEST, UPDATE_COMPANY_SUCCESS, UPDATE_COMPANY_FAILURE,
   ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
   FIND_COMPANY_BY_ID_REQUEST, FIND_COMPANY_BY_ID_SUCCESS, FIND_COMPANY_BY_ID_FAILURE,
+  COMPANY_INITIALISE,
 } from '../constants/ActionTypes';
 
-export default function company(state = {}, action) {
+const initialState = {
+  ssn: null,
+};
+
+export default function company(state = initialState, action) {
   switch (action.type) {
+    case COMPANY_INITIALISE:      
+      return Object.assign({}, state, {        
+        ssn: null,
+      })
     case CREATE_COMPANY_REQUEST:
        return Object.assign({}, state, {
         isFetching: true,

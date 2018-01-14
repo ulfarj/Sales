@@ -5,6 +5,12 @@ import { fetchCompanies, updateCompanyItem } from './companies';
 import { fetchComments } from './comments';
 import webconfig from 'config';
 
+export function initCompany() {
+  return {
+    type: types.COMPANY_INITIALISE,
+  }
+}
+
 function findCompanyRequest(ssn) {
   return {
     type: types.FIND_COMPANY_BY_ID_REQUEST,

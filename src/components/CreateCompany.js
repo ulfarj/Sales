@@ -3,10 +3,11 @@ import { Input, Button, Alert, DropDown, Col, Modal } from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import ToggleDisplay from 'react-toggle-display';
-import { createCompany, findCompany } from '../actions/company';
+import { createCompany, findCompany, initCompany } from '../actions/company';
 import webconfig from 'config';
 import CreateSales from './CreateSales';
 import update from 'react-addons-update';
+import jwtDecode from 'jwt-decode';
 
 class CreateCompany extends React.Component {
 
@@ -22,8 +23,9 @@ class CreateCompany extends React.Component {
    }
 
   componentWillMount(){
-    const {salesmen} = this.props;
+    const { salesmen, dispatch } = this.props;
     this.setState({salesman: salesmen[0]._id});
+    dispatch(initCompany());
   }
 
   validateUserId = (userId) => {
@@ -58,7 +60,7 @@ class CreateCompany extends React.Component {
     this.props.onCreate();
   }
 
-  confirm = (userId) => {
+  confirm = (userId) => {    
     const { ssn, loaded, company } = this.props;
     setTimeout(function() {
       if(ssn && loaded) {
@@ -123,6 +125,28 @@ class CreateCompany extends React.Component {
   }
 
 	render() {
+
+    const token = jwtDecode(sessionStorage.token);
+    const supervisor = (token.type === "supervisor" || token.type === "admin");
+
+    let modalBody = supervisor ? (
+      <div>
+        Ertu viss um að þú viljir skrá þessa færslu
+        <div style={{display: 'flex', paddingTop: 20}}>
+          <div>
+            <Button onClick={this.onCreate} bsStyle="primary">Já</Button>
+          </div>
+          <div style={{paddingLeft: 15}}>
+            <Button onClick={e => this.setState({showCompanyExistsModal: false})} bsStyle="secondary">Nei</Button>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div style={{paddingTop: 20}}>        
+        <Button onClick={e => this.setState({showCompanyExistsModal: false})} bsStyle="primary">Loka glugga</Button>        
+      </div>    
+    )
+
 		return(
 			<div>
         <div style={{display: 'flex', flexDirection: 'row',}}>
@@ -161,17 +185,9 @@ class CreateCompany extends React.Component {
             <Modal.Title>Kennitala er þegar skráð</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Ertu viss um að þú viljir skrá þessa færslu
-            <div style={{display: 'flex', paddingTop: 20}}>
-              <div>
-                <Button onClick={this.onCreate} bsStyle="primary">Já</Button>
-              </div>
-              <div style={{paddingLeft: 15}}>
-                <Button onClick={e => this.setState({showCompanyExistsModal: false})} bsStyle="secondary">Nei</Button>
-              </div>
-            </div>
+            {modalBody}
           </Modal.Body>
-        </Modal>
+        </Modal>        
 
 			</div>
 		);
@@ -194,7 +210,7 @@ function mapStateToProps(state) {
   var salesmen = state.salesmen.items;
   const companies = state.companies.items;
   const ssn = state.company.ssn;
-  const company = state.company.company;
+  const company = state.company.company;  
 
   let loaded = false;
 

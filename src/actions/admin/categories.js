@@ -119,17 +119,20 @@ export function initForm() {
 
 export function deleteCategoryStatuses(category, name, statuses) {
 
-  let config = {
-		method: 'POST',
-		headers: {
-      'Accept': 'application/json',
-      'Content-Type':'application/json',
-       Authorization: sessionStorage.token,
-    },
-    body: JSON.stringify({ name, category, statuses })
-  }
+  return (dispatch, getState) => {  
 
-  return (dispatch, getState) => {
+    const noStatus = _.find(getState().statuses.items, { name: 'Engin staða' })._id
+    
+    let config = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type':'application/json',
+        Authorization: sessionStorage.token,
+      },
+      body: JSON.stringify({ name, category, statuses, noStatus })
+    }
+  
     dispatch(deleteCategoryStatusesRequest(category, name, statuses))
     return fetch(webconfig.apiUrl+'/resetStatuses/', config)
       .then(response => response.json())
