@@ -34,42 +34,82 @@ app.use(function(req, res, next) {
 
 var url = 'mongodb://localhost:27017/ssdb';
 
-
 app.get('/import', function (req, res) {
 
     var contracts = require('./contracts.json');
 
-    var importPromise = new Promise((resolve, reject) => {      
-        
+    MongoClient.connect(url, function(err, db) {
+
+    var importPromise = new Promise((resolveImport, rejectImport) => {
+
+      const imports = [];
+
+      var contractsPromises = []
+      contracts.map((contract) => {
+        var ssn = contract.ssn.replace('-','');
+        var category = new Promise((resolve, reject) => {
+          db.collection('categories').findOne({name: contract.category },(err, result) => {
+          if(err) {
+            reject(err)
+          }
+          const id = result ? result._id : null;
+            resolve(id)
+          });
+        });
+
+        contractsPromises.push(Promise.all([ssn, category]))
+       })
+
+       Promise.all(contractsPromises).then((values => {
+         resolveImport(values)
+       }))
+    })
+
+    importPromise.then((response) => {
+      return res.jsonp({ response });
+    });
+
+  })
+})
+
+app.get('/importContracts', function (req, res) {
+
+    var contracts = require('./contracts.json');
+
+    var importPromise = new Promise((resolve, reject) => {
+
         MongoClient.connect(url, function(err, db) {
             const imports = [];
-            
-            var contractsPromise = Promise.all(_(contracts).forEach(function(contract) {                  
-                
+
+            var contractsPromise = Promise.all(
+
+                _(contracts).forEach(function(contract) {
+
                 var companyPromise = new Promise((resolve, reject) => {
-                    db.collection('companies').findOne({ssn: contract.kennitala.replace('-','') },(err, result) => {                
+                    db.collection('companies').findOne({ssn: contract.kennitala.replace('-','') },(err, result) => {
                         if(err) {
                             reject(err)
                         }
-                        resolve(result) 
+                        resolve(result)
                     });
                 })
+
             }));
 
             contractsPromise.then((values) => {
-                resolve(values);                
+                resolve(values);
             })
 
             // if (company._id) {
             //     // db.collection("contracts").insertOne({
             //     //     companyId: company._id,
-            //     // });                    
-            // }            
+            //     // });
+            // }
 
-            // _(contracts).forEach(function(contract) {                
-            //     //var company = db.collection("companies").findOne({ssn: contract.kennitala.replace('-','')});                
+            // _(contracts).forEach(function(contract) {
+            //     //var company = db.collection("companies").findOne({ssn: contract.kennitala.replace('-','')});
             // });
-                
+
         });
     });
 
@@ -77,7 +117,7 @@ app.get('/import', function (req, res) {
         return res.jsonp({ response });
     });
 })
-        // _(contracts).forEach(function(contract) {   
+        // _(contracts).forEach(function(contract) {
 
         //     // db.collection("contracts").insertOne(
         //     // {
@@ -117,7 +157,7 @@ app.get('/import', function (req, res) {
         //     //         // contactbilling: (this.state.contract['contactbilling'] === true) ? true : false,
         //     //       });
         //       });
-        
-http.createServer(app).listen(3030, function () {
-  console.log('Server listening on port 3030');
+
+http.createServer(app).listen(4040, function () {
+  console.log('Server listening on port 4040');
 });
