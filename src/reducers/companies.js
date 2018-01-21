@@ -65,6 +65,7 @@ export default function companies(state = {}, action) {
            [action.index]: {
              maingroup: { $set: action.group.maingroup },
              subgroup: { $set: action.group.subgroup },
+             subsubgroup: { $set: action.group.subsubgroup },
            },
          })
        })

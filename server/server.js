@@ -973,6 +973,7 @@ app.post('/setGroups', function (req, res) {
            {
              "maingroup": req.body.maingroup,
              "subgroup": req.body.subgroup,
+             "subsubgroup": req.body.subsubgroup,
            }
          });
 

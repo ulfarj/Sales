@@ -11,6 +11,7 @@ class Groups extends Component {
      super(props);
      this.state = {
        showMainGroups: false,
+       type: 'Yfirflokkur',
      }
   }
 
@@ -37,7 +38,13 @@ class Groups extends Component {
   };
 
   onChange = (e) => {
-    this.setState({showMainGroups: (this.refs.type.getValue() === 'Undirflokkur')});
+
+    this.setState(
+      {
+        showMainGroups: (this.refs.type.getValue() !== 'Yfirflokkur'),
+        type: this.refs.type.getValue() === 'Undirflokkur' ? 'Yfirflokkur' : 'Undirflokkur',
+      }
+    );
   };
 
   render() {
@@ -58,7 +65,7 @@ class Groups extends Component {
       </tr>
     );
 
-    return (      
+    return (
           <Table>
             <thead>
               <th>Nafn</th>
@@ -79,12 +86,13 @@ class Groups extends Component {
                   >
                     <option value="Yfirflokkur">Yfirflokkur</option>
                     <option value="Undirflokkur">Undirflokkur</option>
+                    <option value="Undirundirflokkur">Undir undirflokkur</option>
                   </Input>
                 </td>
                 <td>
                   {this.state.showMainGroups &&
                     <Input type="select" ref="parent" style={{width: '160px'}}>
-                      {_.filter(this.props.groups, ['type', "Yfirflokkur"]).map(group =>
+                      {_.filter(this.props.groups, ['type', this.state.type]).map(group =>
                         <option value={group.name}>{group.name}</option>
                       )}
                     </Input>

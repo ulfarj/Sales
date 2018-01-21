@@ -110,12 +110,12 @@ class Companies extends Component {
 
   render() {
     const { rowCount, sorting, width, height } = this.props;
-    
-    const nrColumns = 14;
-    const md = (width/13); // 7
-    const lg = (width/11);
+
+    const nrColumns = 15;
+    const md = (width/13) // 7
+    const lg = (width/12);
     const sm = (width/16);
-    
+
     return(
         <Table
           rowHeight={30}
@@ -129,13 +129,13 @@ class Companies extends Component {
             header={<Cell></Cell>}
             cell={props => (<SignCell {...props} />)}
             fixed={true}
-            width={sm}
+            width={sm - 40}
           />
           <Column
             header={<SalesmanFilter label="SM" column="salesman" filter={this.filter} />}
             cell={props => (<SalesmenCell {...props} />)}
             fixed={true}
-            width={sm}
+            width={sm - 25}
           />
           <Column
             header={<StatusFilter label="Staða" column="status" filter={this.filter} />}
@@ -171,7 +171,7 @@ class Companies extends Component {
             header={<TextFilter label="Sími" column="phone" filter={this.filterRow} sorting={this.sortIcon('phone')} onSort={this.onSort} />}
             cell={props => (<PhoneCell {...props} column="phone" />)}
             fixed={true}
-            width={md}
+            width={md - 10}
           />
           <Column
             header={<TextFilter label="Netfang" column="email" filter={this.filterRow} sorting={this.sortIcon('email')} onSort={this.onSort} />}
@@ -200,6 +200,12 @@ class Companies extends Component {
           <Column
             header={<TextFilter label="Undirflokkur" column="subgroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
             cell={props => (<TextTooltipCell {...props} column="subgroup" />)}
+            fixed={true}
+            width={md}
+          />
+          <Column
+            header={<TextFilter label="Undirflokkur" column="subsubgroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
+            cell={props => (<TextTooltipCell {...props} column="subsubgroup" />)}
             fixed={true}
             width={md}
           />

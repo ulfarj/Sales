@@ -41,7 +41,6 @@ const cp = (collection, findParams) => {
     if(err) {
       reject(err)
     }
-    // console.log(result)
     const id = result ? result._id : null;
       resolve(id)
     });
@@ -189,6 +188,6 @@ app.get('/importContracts', function (req, res) {
   })
 })
 
-http.createServer(app).listen(4040, function () {
-  console.log('Server listening on port 4040');
+http.createServer(app).listen(3030, function () {
+  console.log('Server listening on port 3030');
 });

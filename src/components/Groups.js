@@ -11,6 +11,7 @@ class Groups extends Component {
      super(props);
      this.state = {
        parent: null,
+       subparent: null,
      }
   }
 
@@ -29,6 +30,7 @@ class Groups extends Component {
     const group = {
       maingroup: this.refs.maingroup.getValue(),
       subgroup: this.refs.subgroup.getValue(),
+      subsubgroup: this.refs.subsubgroup.getValue(),
       companyId: company._id,
     };
 
@@ -40,6 +42,10 @@ class Groups extends Component {
 
   setMainGroup = () => {
     this.setState({parent: this.refs.maingroup.getValue()});
+  }
+
+  setSubGroup = () => {
+    this.setState({subparent: this.refs.subgroup.getValue()});
   }
 
   getSubGroups = () => {
@@ -57,6 +63,10 @@ class Groups extends Component {
     );
 
     const subGroups = _.filter(groups, { 'type': 'Undirflokkur', 'parent': this.state.parent}).map(group =>
+      <option value={group.name}>{group.name}</option>
+    );
+
+    const subSubGroups = _.filter(groups, { 'type': 'Undirundirflokkur', 'parent': this.state.subparent}).map(group =>
       <option value={group.name}>{group.name}</option>
     );
 
@@ -79,9 +89,26 @@ class Groups extends Component {
                   </Input>
                 </td>
                 <td>
-                  <Input label="Undirflokkur" type="select" ref="subgroup" style={{width: '160px'}}>
+                  <Input
+                    label="Undirflokkur"
+                    type="select"
+                    ref="subgroup"
+                    style={{width: '160px'}}
+                    onChange={this.setSubGroup}
+                  >
                     <option value='choose'>Veljið undirflokk</option>
                     {subGroups}
+                  </Input>
+                </td>
+                <td>
+                  <Input
+                    label="Undir undirflokkur"
+                    type="select"
+                    ref="subsubgroup"
+                    style={{width: '160px'}}
+                  >
+                    <option value='choose'>Veljið undir undirflokk</option>
+                    {subSubGroups}
                   </Input>
                 </td>
                 <td style={{ paddingTop: 20 }}>
@@ -95,6 +122,7 @@ class Groups extends Component {
               <tr>
                 <td>{company.maingroup}</td>
                 <td>{company.subgroup}</td>
+                <td>{company.subsubgroup}</td>
               </tr>
             </tbody>
           </Table>
