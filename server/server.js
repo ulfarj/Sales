@@ -687,6 +687,10 @@ app.post('/companies', function (req, res) {
             findParams.subgroup = new RegExp(req.body.subgroup, 'i');
           }
 
+          if(req.body.subsubgroup) {
+            findParams.subsubgroup = new RegExp(req.body.subsubgroup, 'i');
+          }
+
           if(req.body.nosale)
           {
             findParams.$and =

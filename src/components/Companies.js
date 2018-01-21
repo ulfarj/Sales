@@ -12,6 +12,7 @@ import TextFilter from './cells/TextFilter';
 import SalesmanFilter from './cells/SalesmanFilter';
 import StatusFilter from './cells/StatusFilter';
 import SalesmenCell from './cells/SalesmenCell';
+import GroupFilter from './cells/GroupFilter';
 import StatusCell from './cells/StatusCell';
 import { fetchCompanies } from '../actions/companies';
 import jwtDecode from 'jwt-decode';
@@ -192,7 +193,9 @@ class Companies extends Component {
             width={lg}
           />
           <Column
-            header={<TextFilter label="Yfirflokkur" column="maingroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
+            header={
+              <TextFilter label="Yfirflokkur" column="maingroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />
+            }
             cell={props => (<TextTooltipCell {...props} column="maingroup" />)}
             fixed={true}
             width={md}

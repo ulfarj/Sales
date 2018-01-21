@@ -15,10 +15,10 @@ class Groups extends Component {
      }
   }
 
-  componentWillMount = () => {
-    const { dispatch } = this.props;
-    dispatch(fetchGroups());
-  }
+  // componentWillMount = () => {
+  //   const { dispatch } = this.props;
+  //   dispatch(fetchGroups());
+  // }
 
   deleteGroup = (e, id) => {
     const { dispatch } = this.props;
