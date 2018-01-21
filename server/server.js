@@ -211,6 +211,8 @@ app.get('/contracts/:id', function (req, res) {
         findParams.companyId = req.params.id;
         findParams.deleted = { $exists: false };
 
+        console.log(findParams)
+
         collection.find(findParams).toArray(function(err, docs) {
             res.jsonp(docs);
         });
@@ -494,7 +496,7 @@ app.get('/sales/:id', function (req, res) {
 // async function saveCurrentStatuses(docs, db) {
 //   await Promise.all(docs.forEach(function(item){
 //     var sale = {
-//       periodName: req.body.name,            
+//       periodName: req.body.name,
 //       companyId: item._id,
 //       companyName: item.name,
 //       salesmanId: item.sales[0].salesmanId,
@@ -503,7 +505,7 @@ app.get('/sales/:id', function (req, res) {
 //       date: Date.now(),
 //     }
 //     db.collection('salesperiods').insert(sale);
-//   }))                
+//   }))
 // }
 
 app.post('/resetStatuses', function (req, res) {
@@ -513,30 +515,30 @@ app.post('/resetStatuses', function (req, res) {
     const decoded = jwt.verify(token, 'moveon');
 
     MongoClient.connect(url, function(err, db) {
-      
+
       var findParams = {};
       findParams.sales = {
         $elemMatch: {
           categoryId: {$eq: req.body.category},
-          statusId: {$in: req.body.statuses},                
+          statusId: {$in: req.body.statuses},
         }
       };
 
       var fields = {
         '_id': 1,
-        'name': 1, 
-        'sales.$': 1,        
+        'name': 1,
+        'sales.$': 1,
       };
 
       var collection = db.collection('companies');
 
       // db.statuses.find({name: 'Engin staða'})
-      
+
       var insertPromise = new Promise(function(resolve, reject) {
         collection.find(findParams, fields).toArray(function(err, docs) {
           docs.forEach(function(item, index){
             var sale = {
-              periodName: req.body.name,            
+              periodName: req.body.name,
               companyId: item._id,
               companyName: item.name,
               salesmanId: item.sales[0].salesmanId,
@@ -549,8 +551,8 @@ app.post('/resetStatuses', function (req, res) {
             // collection.update(
             //   { _id: ObjectID(item._id) },
             //   { "$pull": {"sales": item.sales[0]}
-            // });            
-          })                    
+            // });
+          })
           resolve(docs.length);
         });
       });
@@ -560,39 +562,39 @@ app.post('/resetStatuses', function (req, res) {
           collection.update(
             findParams, { "$set": { "sales.$.statusId": req.body.noStatus }}, { multi: true }
           );
-          
-          return res.jsonp({ 
-            success: true,           
-            updateMessage: count + ' Færslur uppfærðar' 
-          });        
+
+          return res.jsonp({
+            success: true,
+            updateMessage: count + ' Færslur uppfærðar'
+          });
         } catch (error) {
-          return res.jsonp({ success: false, updateMessage: 'Villa kom upp, ekki tókst að uppfæra færslur'});      
+          return res.jsonp({ success: false, updateMessage: 'Villa kom upp, ekki tókst að uppfæra færslur'});
         }
       })
 
-      // var deletePromise = new Promise(function(resolve, reject) {              
+      // var deletePromise = new Promise(function(resolve, reject) {
       //   var res = collection.update(
       //     { },
-      //     { $pull: 
-      //       { sales: 
-      //         { $elemMatch: 
-      //           { 
-      //             categoryId: {$eq: req.body.category}, 
-      //             statusId: {$in: req.body.statuses} 
-      //           } 
-      //         } 
-      //       } 
+      //     { $pull:
+      //       { sales:
+      //         { $elemMatch:
+      //           {
+      //             categoryId: {$eq: req.body.category},
+      //             statusId: {$in: req.body.statuses}
+      //           }
+      //         }
+      //       }
       //     },
       //     { multi: true }
-      //   )        
+      //   )
       //   resolve(res);
       // });
-      
+
       // collection.update(
       //   { _id: ObjectID(req.body.id) },
       //   { "$pull":
       //       {"sales": {'categoryId': req.body.categoryId}}
-      // });            
+      // });
 
       // collection.find(findParams, fields).forEach(function(doc){
       //   //db.collection('salesperiods').insert()
@@ -603,27 +605,27 @@ app.post('/resetStatuses', function (req, res) {
 
       // var items = [];
       // var x = collection.find(findParams, fields, (err, data) => {
-        
-      //   data.forEach((doc) => { 
+
+      //   data.forEach((doc) => {
       //     items.push(doc);
-      //   });        
-      // });      
+      //   });
+      // });
     //   var result = collection.update(
     //     findParams,
     //     {
-    //       "$set": {             
+    //       "$set": {
     //          "sales.$.salesperiod": req.body.name,
-    //          "sales.$.salesperiodadded": Date.now(),             
+    //          "sales.$.salesperiodadded": Date.now(),
     //        }
     //     },
-    //     {          
+    //     {
     //       multi: true,
     //     },
     //     function (err, result) {
-    //       if (err) throw err;          
+    //       if (err) throw err;
     //       res.jsonp(result);
     //     }
-    //   );    
+    //   );
     });
 
   }catch(err){
@@ -691,8 +693,8 @@ app.post('/companies', function (req, res) {
             [{
               $or: [
                 {
-                  sales: { $eq: [] }                  
-                },                
+                  sales: { $eq: [] }
+                },
                 {
                   sales: {
                     $elemMatch: {
@@ -702,7 +704,7 @@ app.post('/companies', function (req, res) {
                       // salesperiod: { $exists: false }
                     }
                   }
-                },                
+                },
               ]
             }];
           }
@@ -720,8 +722,8 @@ app.post('/companies', function (req, res) {
           //findParams.$and = {deleted: { $exists: false }};
           findParams.deleted = { $exists: false };
 
-          var collection = db.collection('companies');         
-          collection.find(findParams).toArray(function(err, docs) {            
+          var collection = db.collection('companies');
+          collection.find(findParams).toArray(function(err, docs) {
             var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
 
             res.jsonp({companies: companies, requestAt: req.body.requestAt});

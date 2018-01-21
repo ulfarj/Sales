@@ -4,7 +4,7 @@ import { find } from 'lodash';
 
 const Contracts = (props) => {
 
-  const contracts = props.contracts.map(contract => {    
+  const contracts = props.contracts.map(contract => {
 
     let amount = 0;
     if(contract.contractamount) {
@@ -15,13 +15,13 @@ const Contracts = (props) => {
 
     return (
       <tr>
-        {/*<td 
+        {/*<td
           style={{ fontSize: '14px', paddingBottom: '10px' }}
         >
           {find(props.salesmen, ['_id', contract.salesman]).name}
         </td>*/}
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
-          {find(props.categories, ['_id', contract.category]).name}
+          {find(props.categories, ['_id', contract.category]) ? find(props.categories, ['_id', contract.category]).name : null}
         </td>
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
         {contract.firstdisplaydatepublish}-{contract.firstdisplaydateyear}
@@ -31,7 +31,7 @@ const Contracts = (props) => {
         </td>
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
           {amount}
-        </td>        
+        </td>
         <td>
           <div style={{display: 'flex', flexDirection: 'row'}}>
             <Button
@@ -62,7 +62,7 @@ const Contracts = (props) => {
   return (
     <Table style={{padding: '20px;'}} striped bordered>
       <thead>
-        <tr>          
+        <tr>
           <td>Verk</td>
           <td>Fyrsta birting</td>
           <td>Síðasta birting</td>

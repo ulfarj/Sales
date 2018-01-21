@@ -34,10 +34,10 @@ app.use(function(req, res, next) {
 
 var url = 'mongodb://localhost:27017/ssdb';
 
-const cp = (collection, search) => {
-  // console.log(search)
+const cp = (collection, findParams) => {
+  findParams.deleted = { $exists: false };
   return new Promise((resolve, reject) => {
-    collection.findOne(search,(err, result) => {
+    collection.findOne(findParams,(err, result) => {
     if(err) {
       reject(err)
     }
@@ -48,7 +48,7 @@ const cp = (collection, search) => {
   });
 }
 
-app.get('/import', function (req, res) {
+app.get('/importContracts', function (req, res) {
 
     var contracts = require('./contracts.json');
 
@@ -62,6 +62,7 @@ app.get('/import', function (req, res) {
       contracts.map((contract) => {
 
         var ssn = contract.ssn.replace('-','');
+        var company = cp(db.collection('companies'), { ssn })
 
         var category = cp(db.collection('categories'), { name: contract.category });
         var contractmaincategory = cp(db.collection('groups'), { name: contracts.contractmaincategory, type: 'Yfirflokkur' })
@@ -99,7 +100,7 @@ app.get('/import', function (req, res) {
         contractsPromises.push(
           Promise.all(
             [
-              ssn,
+              company,
               category,
               contractmaincategory,
               contractsubcategory,
@@ -142,52 +143,51 @@ app.get('/import', function (req, res) {
     })
 
     importPromise.then((response) => {
-      return res.jsonp({ response });
+
+       const contracts = response.map(c =>(
+         {
+            companyId: c[0] ? c[0].toString() : "",
+            category: c[1] ? c[1].toString() : "",
+            contractmaincategory: c[2] ? c[2].toString() : "",
+            contractsubcategory: c[3] ? c[3].toString() : "",
+            salesman: c[4],
+            salesday: c[5],
+            contractnumber: c[6],
+            type: c[7],
+            contractamount: c[8],
+            subscriptionamount: c[9],
+            firstdisplaydatepublish: c[10],
+            firstdisplaydateyear: c[11],
+            termination: c[12],
+            lastdisplaydatepublish: c[13],
+            lastdisplaydateyear: c[14],
+            firstpaydate: c[15],
+            lastpaydate: c[16],
+            contact: c[17],
+            contactphone: c[18],
+            contactemail: c[19],
+            article: c[20],
+            advertisement: c[21],
+            coverage: c[22],
+            photography: c[23],
+            articlewriting: c[24],
+            email: c[25],
+            contentready: c[26],
+            proofs: c[27],
+            corrected: c[28],
+            approved: c[29],
+            app: c[30],
+            location: c[31],
+         }
+      ))
+
+      db.collection("contracts").insert(contracts);
+
+      return res.jsonp(contracts);
     });
 
   })
 })
-
-        // _(contracts).forEach(function(contract) {
-
-        //     // db.collection("contracts").insertOne(
-        //     // {
-        //     //     companyId: db.companies.findOne({ssn: contract.Kennitala}),
-        //     //         // category: this.refs.category.getValue(),
-        //     //         // contractmaincategory: this.refs.contractmaincategory.getValue(),
-        //     //         // contractsubcategory: this.refs.contractsubcategory.getValue(),
-        //     //         // contractnumber: this.refs.contractnumber.getValue(),
-        //     //         // file: this.state.file,
-        //     //         // salesman: this.refs.salesman.getValue(),
-        //     //         // salesday: this.refs.salesday.getValue(),
-        //     //         // type: this.refs.type.getValue(),
-        //     //         // contractamount: this.refs.contractamount.getValue(),
-        //     //         // subscriptionamount: this.refs.subscriptionamount.getValue(),
-        //     //         // firstpaydate: this.refs.firstpaydate.getValue(),
-        //     //         // firstdisplaydate: this.refs.firstdisplaydate.getValue(),
-        //     //         // lastdisplaydate: this.refs.lastdisplaydate.getValue(),
-        //     //         // termination: this.refs.termination.getValue(),
-        //     //         // lastpaydate: this.refs.lastpaydate.getValue(),
-        //     //         // contact: this.refs.contact.getValue(),
-        //     //         // contactphone: this.refs.contactphone.getValue(),
-        //     //         // contactemail: this.refs.contactemail.getValue(),
-        //     //         // article: this.refs.article.getValue(),
-        //     //         // advertisement: this.refs.advertisement.getValue(),
-        //     //         // coverage: this.refs.coverage.getValue(),
-        //     //         // photography: this.refs.photography.getValue(),
-        //     //         // articlewriting: this.refs.articlewriting.getValue(),
-        //     //         // contentready: this.refs.contentready.getValue(),
-        //     //         // email: this.refs.email.getValue(),
-        //     //         // contentready: this.refs.contentready.getValue(),
-        //     //         // proofs: this.refs.proofs.getValue(),
-        //     //         // corrected: this.refs.corrected.getValue(),
-        //     //         // approved: this.refs.approved.getValue(),
-        //     //         // app: this.refs.app.getValue(),
-        //     //         // location: this.refs.location.getValue(),
-        //     //         // legalmarked: (this.state.contract['legalmarked'] === true) ? true : false,
-        //     //         // contactbilling: (this.state.contract['contactbilling'] === true) ? true : false,
-        //     //       });
-        //       });
 
 http.createServer(app).listen(4040, function () {
   console.log('Server listening on port 4040');
