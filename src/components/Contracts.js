@@ -13,6 +13,9 @@ const Contracts = (props) => {
       amount = (contract.subscriptionamount * 12);
     }
 
+    const firstseperator = contract.firstdisplaydatepublish ? "-" : "";
+    const lastseperator = contract.lastdisplaydatepublish ? "-" : "";
+
     return (
       <tr>
         {/*<td
@@ -24,10 +27,10 @@ const Contracts = (props) => {
           {find(props.categories, ['_id', contract.category]) ? find(props.categories, ['_id', contract.category]).name : null}
         </td>
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
-        {contract.firstdisplaydatepublish}-{contract.firstdisplaydateyear}
+        {contract.firstdisplaydatepublish}{firstseperator}{contract.firstdisplaydateyear}
         </td>
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
-        {contract.lastdisplaydatepublish}-{contract.lastdisplaydateyear}
+        {contract.lastdisplaydatepublish}{lastseperator}{contract.lastdisplaydateyear}
         </td>
         <td style={{fontSize: '14px', paddingBottom: '10px'}}>
           {amount}

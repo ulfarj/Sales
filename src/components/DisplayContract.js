@@ -14,7 +14,7 @@ class DisplayContract extends Component {
 
  componentWillMount = () => {
     const { contract } = this.props;
-    this.setState({contract});   
+    this.setState({contract});
  }
 
  render() {
@@ -44,7 +44,10 @@ class DisplayContract extends Component {
     const subGroups = _.filter(this.props.groups, { 'type': 'Undirflokkur', 'parent': val.contractmaincategory}).map(group =>
       <option value={group.name}>{group.name}</option>
     );
-   
+
+    const firstseperator = val.firstdisplaydatepublish ? "-" : "";
+    const lastseperator = val.lastdisplaydatepublish ? "-" : "";
+
     return(
       <div style={{ paddingTop: 10 }}>
         <PanelGroup>
@@ -56,7 +59,7 @@ class DisplayContract extends Component {
                 style={{width: '160px'}}
                 ref="category"
                 name="category"
-                value={val.category}                
+                value={val.category}
                 disabled
               >
                 {categories}
@@ -124,7 +127,7 @@ class DisplayContract extends Component {
               />
               {val.file &&
                 <div style={{ paddingTop: 24 }}>
-                  <Button 
+                  <Button
                     onClick={() => downloadFileFromBase64(val.file)}
                   >
                     Sækja samning
@@ -176,7 +179,7 @@ class DisplayContract extends Component {
                 maxLength="10"
                 placeholder="Fyrsta birting"
                 ref="firstdisplaydate"
-                value={`${val.firstdisplaydatepublish}${'-'}${val.firstdisplaydateyear}`}
+                value={`${val.firstdisplaydatepublish}${firstseperator}${val.firstdisplaydateyear}`}
                 style={{width: 160}}
                 name="firstdisplaydate"
                 onChange={this.handleInputChange}
@@ -201,7 +204,7 @@ class DisplayContract extends Component {
                 placeholder="Síðasta birting"
                 ref="lastdisplaydate"
                 name="lastdisplaydate"
-                value={`${val.lastdisplaydatepublish}${'-'}${val.lastdisplaydateyear}`}
+                value={`${val.lastdisplaydatepublish}${lastseperator}${val.lastdisplaydateyear}`}
                 style={{width: 160}}
                 onChange={this.handleInputChange}
                 disabled
@@ -432,19 +435,19 @@ class DisplayContract extends Component {
                 label="Tala við innheimtu áður en selt er"
                 ref="contactbilling"
                 name="contactbilling"
-                checked={val.contactbilling}                
+                checked={val.contactbilling}
                 disabled
               />
             </div>
           </Panel>
-        </PanelGroup>  
+        </PanelGroup>
         <div>
         <Button
           onClick={this.props.onCancel}
           bsStyle="primary" style={{height:'35px'}}>
           Til baka
         </Button>
-        </div>              
+        </div>
       </div>
     )
   }
@@ -458,7 +461,7 @@ DisplayContract.propTypes = {
   companyId: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  contract: PropTypes.object.isRequired,  
+  contract: PropTypes.object.isRequired,
 }
 
 export default connect()(DisplayContract);
