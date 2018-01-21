@@ -34,6 +34,20 @@ app.use(function(req, res, next) {
 
 var url = 'mongodb://localhost:27017/ssdb';
 
+const cp = (collection, search) => {
+  // console.log(search)
+  return new Promise((resolve, reject) => {
+    collection.findOne(search,(err, result) => {
+    if(err) {
+      reject(err)
+    }
+    // console.log(result)
+    const id = result ? result._id : null;
+      resolve(id)
+    });
+  });
+}
+
 app.get('/import', function (req, res) {
 
     var contracts = require('./contracts.json');
@@ -46,18 +60,80 @@ app.get('/import', function (req, res) {
 
       var contractsPromises = []
       contracts.map((contract) => {
-        var ssn = contract.ssn.replace('-','');
-        var category = new Promise((resolve, reject) => {
-          db.collection('categories').findOne({name: contract.category },(err, result) => {
-          if(err) {
-            reject(err)
-          }
-          const id = result ? result._id : null;
-            resolve(id)
-          });
-        });
 
-        contractsPromises.push(Promise.all([ssn, category]))
+        var ssn = contract.ssn.replace('-','');
+
+        var category = cp(db.collection('categories'), { name: contract.category });
+        var contractmaincategory = cp(db.collection('groups'), { name: contracts.contractmaincategory, type: 'Yfirflokkur' })
+        var contractsubcategory = cp(db.collection('groups'), { name: contracts.contractsubcategory, type: 'Undirflokkur' })
+        var salesman = cp(db.collection('salesmen'), { name: contract.salesman });
+
+        var salesday = contract.salesday;
+        var contractnumber = contract.contractnumber;
+        var type = contract.type;
+        var contractamount = contract.contractamount ? contract.contractamount.toString() : "";
+        var subscriptionamount = contract.subscriptionamount ? contract.subscriptionamount.toString() : "";
+        var firstdisplaydatepublish = contract.firstdisplaydatepublish ? contract.firstdisplaydatepublish.toString() : "";
+        var firstdisplaydateyear = contract.firstdisplaydateyear;
+        var termination = contract.termination;
+        var lastdisplaydatepublish = contract.lastdisplaydatepublish ? contract.lastdisplaydatepublish.toString() : "";
+        var lastdisplaydateyear = contract.lastdisplaydateyear ? contract.lastdisplaydateyear.toString() : "";
+        var firstpaydate = contract.firstpaydate;
+        var lastpaydate = contract.lastpaydate;
+        var contact = contract.contact;
+        var contactphone = contract.contactphone;
+        var contactemail = contract.contactemail;
+        var article = contract.article;
+        var advertisement = contract.advertisement;
+        var coverage = contract.coverage;
+        var photography = contract.photography;
+        var articlewriting = contract.articlewriting;
+        var email = contract.email;
+        var contentready = contract.contentready;
+        var proofs = contract.proofs;
+        var corrected = contract.corrected;
+        var approved = contract.approved;
+        var app = contract.app;
+        var location = contract.location;
+
+        contractsPromises.push(
+          Promise.all(
+            [
+              ssn,
+              category,
+              contractmaincategory,
+              contractsubcategory,
+              salesman,
+              salesday,
+              contractnumber,
+              type,
+              contractamount,
+              subscriptionamount,
+              firstdisplaydatepublish,
+              firstdisplaydateyear,
+              termination,
+              lastdisplaydatepublish,
+              lastdisplaydateyear,
+              firstpaydate,
+              lastpaydate,
+              contact,
+              contactphone,
+              contactemail,
+              article,
+              advertisement,
+              coverage,
+              photography,
+              articlewriting,
+              email,
+              contentready,
+              proofs,
+              corrected,
+              approved,
+              app,
+              location,
+            ]
+          )
+        )
        })
 
        Promise.all(contractsPromises).then((values => {
@@ -72,51 +148,6 @@ app.get('/import', function (req, res) {
   })
 })
 
-app.get('/importContracts', function (req, res) {
-
-    var contracts = require('./contracts.json');
-
-    var importPromise = new Promise((resolve, reject) => {
-
-        MongoClient.connect(url, function(err, db) {
-            const imports = [];
-
-            var contractsPromise = Promise.all(
-
-                _(contracts).forEach(function(contract) {
-
-                var companyPromise = new Promise((resolve, reject) => {
-                    db.collection('companies').findOne({ssn: contract.kennitala.replace('-','') },(err, result) => {
-                        if(err) {
-                            reject(err)
-                        }
-                        resolve(result)
-                    });
-                })
-
-            }));
-
-            contractsPromise.then((values) => {
-                resolve(values);
-            })
-
-            // if (company._id) {
-            //     // db.collection("contracts").insertOne({
-            //     //     companyId: company._id,
-            //     // });
-            // }
-
-            // _(contracts).forEach(function(contract) {
-            //     //var company = db.collection("companies").findOne({ssn: contract.kennitala.replace('-','')});
-            // });
-
-        });
-    });
-
-    importPromise.then((response) => {
-        return res.jsonp({ response });
-    });
-})
         // _(contracts).forEach(function(contract) {
 
         //     // db.collection("contracts").insertOne(
