@@ -181,14 +181,15 @@ app.get('/importContracts', function (req, res) {
          }
       ))
 
-      // db.collection("contracts").insert(contracts);
+      // console.log(contractsResult.length)
 
+      db.collection("contracts").insert(contractsResult);
       return res.jsonp(contractsResult);
     });
 
   })
 })
 
-http.createServer(app).listen(3030, function () {
-  console.log('Server listening on port 3030');
+http.createServer(app).listen(4040, function () {
+  console.log('Server listening on port 4040');
 });
