@@ -47,6 +47,7 @@ const cp = (collection, findParams) => {
   });
 }
 
+
 app.get('/importContracts', function (req, res) {
 
     var contracts = require('./contracts.json');
@@ -71,8 +72,8 @@ app.get('/importContracts', function (req, res) {
         var salesday = contract.salesday;
         var contractnumber = contract.contractnumber;
         var type = contract.type;
-        var contractamount = contract.contractamount ? contract.contractamount.toString() : "";
-        var subscriptionamount = contract.subscriptionamount ? contract.subscriptionamount.toString() : "";
+        var contractamount = contract.contractamount ? (1000 * contract.contractamount).toLocaleString('is').replace(',', '.') : "";
+        var subscriptionamount = contract.subscriptionamount ? (1000 * contract.subscriptionamount).toLocaleString('is').replace(',', '.') : "";
         var firstdisplaydatepublish = contract.firstdisplaydatepublish ? contract.firstdisplaydatepublish.toString() : "";
         var firstdisplaydateyear = contract.firstdisplaydateyear;
         var termination = contract.termination;
@@ -143,7 +144,7 @@ app.get('/importContracts', function (req, res) {
 
     importPromise.then((response) => {
 
-       const contracts = response.map(c =>(
+       const contractsResult = response.map(c =>(
          {
             companyId: c[0] ? c[0].toString() : "",
             category: c[1] ? c[1].toString() : "",
@@ -180,9 +181,9 @@ app.get('/importContracts', function (req, res) {
          }
       ))
 
-      db.collection("contracts").insert(contracts);
+      // db.collection("contracts").insert(contracts);
 
-      return res.jsonp(contracts);
+      return res.jsonp(contractsResult);
     });
 
   })
