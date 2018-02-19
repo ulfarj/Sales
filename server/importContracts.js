@@ -50,7 +50,7 @@ const cp = (collection, findParams) => {
 
 app.get('/importContracts', function (req, res) {
 
-    var contracts = require('./contracts.json');
+    var contracts = require('./newContracts.json');
 
     MongoClient.connect(url, function(err, db) {
 
@@ -72,13 +72,15 @@ app.get('/importContracts', function (req, res) {
         var salesday = contract.salesday;
         var contractnumber = contract.contractnumber;
         var type = contract.type;
-        var contractamount = contract.contractamount ? (1000 * contract.contractamount).toLocaleString('is').replace(',', '.') : "";
-        var subscriptionamount = contract.subscriptionamount ? (1000 * contract.subscriptionamount).toLocaleString('is').replace(',', '.') : "";
-        var firstdisplaydatepublish = contract.firstdisplaydatepublish ? contract.firstdisplaydatepublish.toString() : "";
+
+        var contractamount = contract.contractamount ? (Number(contract.contractamount)).toLocaleString('is').replace(',', '.') : "";
+        var subscriptionamount = contract.subscriptionamount ? (Number(contract.subscriptionamount)).toLocaleString('is').replace(',', '.') : "";
+
+        var firstdisplaydatepublish = contract.firstdisplaydatepublish;
         var firstdisplaydateyear = contract.firstdisplaydateyear;
         var termination = contract.termination;
-        var lastdisplaydatepublish = contract.lastdisplaydatepublish ? contract.lastdisplaydatepublish.toString() : "";
-        var lastdisplaydateyear = contract.lastdisplaydateyear ? contract.lastdisplaydateyear.toString() : "";
+        var lastdisplaydatepublish = contract.lastdisplaydatepublish;
+        var lastdisplaydateyear = contract.lastdisplaydateyear;
         var firstpaydate = contract.firstpaydate;
         var lastpaydate = contract.lastpaydate;
         var contact = contract.contact;
@@ -144,8 +146,12 @@ app.get('/importContracts', function (req, res) {
 
     importPromise.then((response) => {
 
-       const contractsResult = response.map(c =>(
-         {
+      const contractsResult = [];
+
+      response.map(c => {
+        if(c[0]) {
+          contractsResult.push(
+          {
             companyId: c[0] ? c[0].toString() : "",
             category: c[1] ? c[1].toString() : "",
             contractmaincategory: c[2] ? c[2].toString() : "",
@@ -178,12 +184,12 @@ app.get('/importContracts', function (req, res) {
             approved: c[29],
             app: c[30],
             location: c[31],
-         }
-      ))
+         })
+        }
+      });
 
       // console.log(contractsResult.length)
-
-      db.collection("contracts").insert(contractsResult);
+      // db.collection("contracts").insert(contractsResult);
       return res.jsonp(contractsResult);
     });
 

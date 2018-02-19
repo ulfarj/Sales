@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 
 const styles = {
   input: {
-    border: 0
+    border: 0,
+    paddingLeft: 2,
+    paddingRight: 2,
   }
 };
 

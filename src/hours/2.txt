@@ -1,0 +1,42 @@
+
+Núllstilla stöður
+------------------
+11.5 tímar (6 tímar)
+
+Útfærsla á samningshluta:
+-------------------------
+6 tímar (3)
+
+Samningsgögn, útbúa import scriptu og importa samningsgögnum
+------------------------------------------------------------
+8 tímar (6 .,.,)
+
+Gera vef responsive
+-------------------
+4 tímar (3)
+
+Bæta við takmarkaðari yfirmannsheimild:
+---------------------------------------
+1,5 tímar
+
+Athugasemda box
+----------------
+0.5 tími
+
+Lagfæra stofna fyrirtæki check
+------------------------------
+0.5 tími
+
+Bæta við undir undir flokk:
+---------------------------
+1 Ttími
+
+Kerfis uppfærslur:
+------------------
+3
+
+
+36 * 15.000 = 540.000
+
+540.000 - 60.000 = 480.000
+
