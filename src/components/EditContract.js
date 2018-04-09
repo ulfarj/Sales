@@ -14,7 +14,7 @@ class EditContract extends Component {
   constructor(props) {
      super(props);
      this.state = {
-       parent: null,       
+       parent: null,
      }
   }
 
@@ -25,7 +25,7 @@ class EditContract extends Component {
   }
 
   editContract = (e) => {
-    const { dispatch, companyId, onEdit } = this.props;    
+    const { dispatch, companyId, onEdit } = this.props;
     onEdit(this.state.contract);
   }
 
@@ -35,14 +35,14 @@ class EditContract extends Component {
 
     reader.addEventListener("load", function () {
       const contract = this.state.contract;
-      contract.file = reader.result;   
+      contract.file = reader.result;
       console.log(contract.file);
       this.setState({ contract });
     }.bind(this), false);
-  
+
     if (file) {
       reader.readAsDataURL(file);
-    }    
+    }
   }
 
   handleInputChange = (event) => {
@@ -129,15 +129,15 @@ class EditContract extends Component {
               >
                 <option value='choose'>Veljið undirflokk</option>
                 {subGroups}
-              </Input>               
-              {val.file &&             
-                <div style={{ paddingTop: 24 }}>   
-                  <Button 
+              </Input>
+              {val.file &&
+                <div style={{ paddingTop: 24 }}>
+                  <Button
                     onClick={() => downloadFileFromBase64(val.file)}
                   >
                     Sækja núverandi samning
                   </Button>
-                </div>                
+                </div>
               }
             </div>
             <div style={{ display: 'flex', paddingTop: 10 }}>
@@ -171,7 +171,7 @@ class EditContract extends Component {
                 style={{width: 160}}
                 value={val.contractnumber}
                 onChange={this.handleInputChange}
-              />             
+              />
               <Input
                 type="file"
                 label="Samningur"
@@ -195,7 +195,7 @@ class EditContract extends Component {
                 <option>Tímabundinn</option>
               </Input>
               <Input
-                type="number"
+                type="text"
                 label="Upphæð samnings"
                 placeholder="Upphæð samnings"
                 ref="contractamount"
@@ -205,7 +205,7 @@ class EditContract extends Component {
                 value={val.contractamount}
               />
               <Input
-                type="number"
+                type="text"
                 label="Upphæð áskriftar"
                 placeholder="Upphæð áskriftar"
                 ref="subscriptionamount"
@@ -229,7 +229,7 @@ class EditContract extends Component {
               />
               <div style={{paddingTop: 25}}>
                 <Input
-                  type="text"                
+                  type="text"
                   maxLength="4"
                   placeholder="Ár"
                   ref="firstdisplaydateyear"
@@ -263,7 +263,7 @@ class EditContract extends Component {
               />
               <div style={{paddingTop: 25}}>
                 <Input
-                  type="text"                  
+                  type="text"
                   maxLength="10"
                   placeholder="Ár"
                   ref="lastdisplaydateyear"

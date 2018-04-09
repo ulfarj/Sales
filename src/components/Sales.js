@@ -20,6 +20,10 @@ class Sales extends React.Component {
 		 }
 	}
 
+	componentDidMount = () => {
+		this.setState({ sales: this.props.sales });
+	}
+
   addSale = () => {
 		if(
 			this.refs.category.getValue() &&
@@ -102,21 +106,17 @@ class Sales extends React.Component {
         <option key={category._id} value={category._id}>{category.name}</option>
       )
 		});
-	
+
     let sales = this.state.sales.map(sale => {
 
-			// if(sale.salesperiod) {
-			// 	return (<div />);
-			// }
-
 			const categoryName = _.find(this.props.categories, ['_id', sale.categoryId]).name;
-			
+
 			if(
 				(sale.salesmanId !== token.salesman) &&
-				(token.type === "supervisorlimited") && 
+				(token.type === "supervisorlimited") &&
 				(categoryName === 'Ísland atvinnuhættir og menning')) {
 				return (<div />);
-			}			
+			}
 
 			let disableYes = (
 				(_.find(this.props.statuses, ['_id', sale.statusId]).name === "Já") &&

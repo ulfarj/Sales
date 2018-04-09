@@ -47,11 +47,11 @@ class EditCompany extends React.Component {
 		dispatch(updateCompany(
 			this.props.company._id,
 			this.refs.ssn.getValue(),
-      this.refs.name.getValue(),
-      this.refs.address.getValue(),
-      this.refs.postalCode.getValue(),
-      this.refs.phone.getValue(),
-      this.refs.email.getValue(),
+			this.refs.name.getValue(),
+			this.refs.address.getValue(),
+			this.refs.postalCode.getValue(),
+			this.refs.phone.getValue(),
+			this.refs.email.getValue(),
 			this.state.company.legal,
 			this.state.company.dontcontact,
 			this.refs.contact.getValue(),
@@ -105,7 +105,7 @@ class EditCompany extends React.Component {
 
 	displayContract = (contract) => {
 		this.setState({displayContract: contract});
-		this.setState({contractStatus: 'display'});		
+		this.setState({contractStatus: 'display'});
 	}
 
 	onUpdateContract = (contract) => {
@@ -121,6 +121,10 @@ class EditCompany extends React.Component {
 
 	render() {
 		const { company } = this.state;
+
+		// if(!this.props.loaded) {
+		// 	return (<div />);
+		// }
 
 		let sortedComments = _.sortBy( this.props.comments, function(o) { return o.created; }).reverse();
 		let comments = sortedComments.map(comment => {
@@ -145,7 +149,7 @@ class EditCompany extends React.Component {
 								</div>
 
 								<div style={{display: 'flex', flexDirection: 'row'}}>
-									<Input type="text" label="Kennitala" onChange={e => this.onChange(e, 'ssn')} value={company.ssn} placeholder="Kennitala" ref="ssn" style={{width: 250}} />
+									<Input type="text" label="Kennitala" enabled={false} value={company.ssn} placeholder="Kennitala" ref="ssn" style={{width: 250}} />
 									<Input type="text" label="Heimilisfang" onChange={e => this.onChange(e, 'address')} value={company.address} placeholder="Heimilisfang" ref="address" style={{width: 250}} />
 									<Input type="text" label="Póstnúmer" onChange={e => this.onChange(e, 'postalCode')} value={company.postalCode} placeholder="Póstnúmer" ref="postalCode" style={{width: 120}} />
 								</div>
@@ -180,12 +184,16 @@ class EditCompany extends React.Component {
 								</Button>
 							</div>
 			      </Tab>
-			      <Tab eventKey={2} title="Verk">
+				  <Tab eventKey={2} title="Verk">
+				   {this.props.salesLoaded &&
 							<div style={{paddingTop: '10px'}}>
 								<Sales items={this.props.sales} company={this.props.company} />
 							</div>
+				   }
 			      </Tab>
 						<Tab eventKey={3} title="Athugasemdir">
+						{this.props.commentsLoaded &&
+							<div>
 							<div style={{ paddingTop: 20, display: 'flex' }}>
 								<Input type="text" placeholder="Athugasemd" ref="comment" style={{width: 400}} />
 								<Button
@@ -205,6 +213,8 @@ class EditCompany extends React.Component {
 									{comments}
 								</tbody>
 							</Table>
+							</div>
+						}
 						</Tab>
 						<Tab eventKey={4} title="Stjórnandi">
 							<div style={{paddingTop: '20px'}}>
@@ -216,7 +226,8 @@ class EditCompany extends React.Component {
 							</div>
 						</Tab>
 						<Tab eventKey={5} title="Samningar">
-
+						{this.props.contractsLoaded &&
+							<div>
 							{((this.state.contractStatus === 'edit') && (this.state.editContract)) &&
 								<EditContract
 									salesmen={this.props.salesmen}
@@ -248,9 +259,9 @@ class EditCompany extends React.Component {
 									statuses={this.props.statuses}
 									categories={this.props.categories}
 									groups={this.props.groups}
-									companyId={company._id}		
-									onCancel={this.cancelContract}	
-									contract={this.state.displayContract}						
+									companyId={company._id}
+									onCancel={this.cancelContract}
+									contract={this.state.displayContract}
 								/>
 							}
 
@@ -276,7 +287,8 @@ class EditCompany extends React.Component {
 									</div>
 								</div>
 							}
-
+						  </div>
+						}
 						</Tab>
 						<Tab eventKey={6} title="Flokkar">
 							<Groups
@@ -295,8 +307,8 @@ EditCompany.propTypes = {
   categories: PropTypes.array.isRequired,
   salesmen: PropTypes.array.isRequired,
   statuses: PropTypes.array.isRequired,
-	comments: PropTypes.array,
-	loaded: PropTypes.bool,
+  comments: PropTypes.array,
+  loaded: PropTypes.bool,
 	filter: PropTypes.array,
 	activeTab: PropTypes.int,
 	sales: PropTypes.array,
@@ -309,12 +321,19 @@ function mapStateToProps(state, ownProps) {
   let categories = state.categories.items;
   let salesmen = state.salesmen.items;
   let statuses = state.statuses.items;
-	let loaded = state.company.loaded && state.comments.loaded;
-	let filter = state.companies.filter;
-	let activeTab = ownProps.activeTab;
-	let comments = [];
-	let sales = [];
-	const contracts = state.contracts.items;
+
+//   && state.contracts.loaded
+  let loaded = state.sales.loaded && state.comments.loaded;
+  let filter = state.companies.filter;
+  let activeTab = ownProps.activeTab;
+  let comments = [];
+  let sales = [];
+  let contracts = [];
+
+
+  if(state.contracts && state.contracts.loaded) {
+  	contracts = state.contracts.items;
+  }
 
 	if(state.comments && state.comments.loaded) {
 			comments = state.comments.items;
@@ -337,6 +356,9 @@ function mapStateToProps(state, ownProps) {
 		sales,
 		contracts,
 		groups,
+		salesLoaded: state.sales.loaded,
+		commentsLoaded: state.comments.loaded,
+		contractsLoaded: state.contracts.loaded,
 	}
 }
 

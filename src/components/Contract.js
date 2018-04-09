@@ -25,7 +25,7 @@ class Contract extends Component {
 		contract[field] = (contract[field] === true) ? false : true;
 		this.setState({ contract });
   };
-  
+
   uploadFile = (event) => {
     const file = event.target.files[0];
     var reader = new FileReader();
@@ -33,10 +33,10 @@ class Contract extends Component {
     reader.addEventListener("load", function () {
       this.setState({ file: reader.result });
     }.bind(this), false);
-  
+
     if (file) {
       reader.readAsDataURL(file);
-    }    
+    }
   }
 
   createContract = (e) => {
@@ -80,7 +80,7 @@ class Contract extends Component {
       legalmarked: (this.state.contract['legalmarked'] === true) ? true : false,
       contactbilling: (this.state.contract['contactbilling'] === true) ? true : false,
     };
-    
+
     onCreate(contract);
   }
 
@@ -143,13 +143,13 @@ class Contract extends Component {
               </Input>
               <Input ref="salesday" type="text" maxLength="10" label="Söludagur" placeholder="Söludagur" style={{width: 160}} />
               <Input type="text" label="Samningsnúmer" placeholder="Samningsnúmer" ref="contractnumber" style={{width: 160}} />
-              
+
               <Input
                 type="file"
                 label="Samningur"
                 ref="file"
                 accept="application/pdf"
-                onChange={this.uploadFile} 
+                onChange={this.uploadFile}
               />
 
             </div>
@@ -158,8 +158,8 @@ class Contract extends Component {
                 <option>Ótímabundinn</option>
                 <option>Tímabundinn</option>
               </Input>
-              <Input type="number" label="Upphæð samnings" placeholder="Upphæð samnings" ref="contractamount" style={{width: 160}} />
-              <Input type="number" label="Upphæð áskriftar" placeholder="Upphæð áskriftar" ref="subscriptionamount" style={{width: 160}} />
+              <Input type="text" label="Upphæð samnings" placeholder="Upphæð samnings" ref="contractamount" style={{width: 160}} />
+              <Input type="text" label="Upphæð áskriftar" placeholder="Upphæð áskriftar" ref="subscriptionamount" style={{width: 160}} />
             </div>
             <div style={{ display: 'flex', paddingTop: 10 }}>
               <Input type="text" label="Fyrsta birting" maxLength="4" placeholder="Útgáfa" ref="firstdisplaydatepublish" style={{width: 80}} />
@@ -170,7 +170,7 @@ class Contract extends Component {
               <Input type="text" label="Síðasta birting" maxLength="4" placeholder="Útgáfa" ref="lastdisplaydatepublish" style={{width: 80}} />
               <div style={{ paddingTop: 25}}>
                 <Input type="text" maxLength="4" placeholder="Ár" ref="lastdisplaydateyear" style={{width: 80}} />
-              </div>              
+              </div>
             </div>
             <div style={{ display: 'flex', paddingTop: 10 }}>
               <Input type="text" label="Fyrsti gjalddagi" maxLength="10" placeholder="Fyrsti gjalddagi" ref="firstpaydate" style={{width: 160}} />

@@ -60,11 +60,15 @@ class CreateCompany extends React.Component {
     this.props.onCreate();
   }
 
-  confirm = (userId) => {    
-    const { ssn, loaded, company } = this.props;
+  confirm = (userId) => {
+    const { ssn, loaded, company, companyLoaded, dispatch } = this.props;
     setTimeout(function() {
-      if(ssn && loaded) {
+      if(ssn && loaded && companyLoaded && company) {
+        console.log(company);
+        console.log({ ssn });
+        console.log({ userId });
         if(ssn === userId && company.length > 0) {
+          dispatch(initCompany());
           this.setState({showCompanyExistsModal: true});
         } else {
           this.onCreate();
@@ -142,9 +146,9 @@ class CreateCompany extends React.Component {
         </div>
       </div>
     ) : (
-      <div style={{paddingTop: 20}}>        
-        <Button onClick={e => this.setState({showCompanyExistsModal: false})} bsStyle="primary">Loka glugga</Button>        
-      </div>    
+      <div style={{paddingTop: 20}}>
+        <Button onClick={e => this.setState({showCompanyExistsModal: false})} bsStyle="primary">Loka glugga</Button>
+      </div>
     )
 
 		return(
@@ -187,8 +191,7 @@ class CreateCompany extends React.Component {
           <Modal.Body>
             {modalBody}
           </Modal.Body>
-        </Modal>        
-
+        </Modal>
 			</div>
 		);
 	}
@@ -203,6 +206,7 @@ CreateCompany.propTypes = {
   companies: PropTypes.array.isRequired,
   ssn: PropTypes.string,
   company: PropTypes.array,
+  companyLoaded: PropTypes.bool.isRequired,
 }
 
 function mapStateToProps(state) {
@@ -210,7 +214,10 @@ function mapStateToProps(state) {
   var salesmen = state.salesmen.items;
   const companies = state.companies.items;
   const ssn = state.company.ssn;
-  const company = state.company.company;  
+  const company = state.company.company;
+  const companyLoaded = state.company.companyLoaded;
+
+  console.log({ssn});
 
   let loaded = false;
 
@@ -218,7 +225,7 @@ function mapStateToProps(state) {
     loaded = true;
   }
 
-  return { categories, salesmen, loaded, companies, ssn, company }
+  return { categories, salesmen, loaded, companies, ssn, company, companyLoaded }
 }
 
 export default connect(mapStateToProps)(CreateCompany);

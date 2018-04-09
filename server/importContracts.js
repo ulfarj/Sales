@@ -189,7 +189,7 @@ app.get('/importContracts', function (req, res) {
       });
 
       // console.log(contractsResult.length)
-      // db.collection("contracts").insert(contractsResult);
+      db.collection("contracts").insert(contractsResult);
       return res.jsonp(contractsResult);
     });
 

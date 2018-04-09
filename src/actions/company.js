@@ -117,7 +117,8 @@ export function createCompany(ssn, name, address, postalCode, phone, email, comm
 		method: 'POST',
 		headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(company)
   }

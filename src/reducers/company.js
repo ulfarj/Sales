@@ -8,13 +8,17 @@ import {
 
 const initialState = {
   ssn: null,
+  companyLoaded: false,
 };
 
 export default function company(state = initialState, action) {
   switch (action.type) {
-    case COMPANY_INITIALISE:      
-      return Object.assign({}, state, {        
+    case COMPANY_INITIALISE:
+      return Object.assign({}, state, {
         ssn: null,
+        loaded: false,
+        company: null,
+        companyLoaded: false,
       })
     case CREATE_COMPANY_REQUEST:
        return Object.assign({}, state, {
@@ -66,18 +70,18 @@ export default function company(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: true,
         ssn: action.ssn,
-        loaded: false
+        companyLoaded: false
       })
     case FIND_COMPANY_BY_ID_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         company: action.company,
-        loaded: true
+        companyLoaded: true
       })
     case FIND_COMPANY_BY_ID_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        loaded: true,
+        companyLoaded: true,
         error: action.error,
       })
     default:

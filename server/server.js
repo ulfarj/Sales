@@ -767,37 +767,59 @@ app.get('/company/:id', function (req, res) {
 
 app.post('/company', function(req, res) {
 
+  const token = req.headers.authorization;
+  const decodedToken = jwt.verify(token, 'moveon');
+
+  const supervisor = (decodedToken.type === "supervisor" || decodedToken.type === "admin");
+
   MongoClient.connect(url, function(err, db) {
 
     var id = req.params.id;
 
     try{
-      db.collection("companies").insertOne(
-        {
-          "ssn": req.body.ssn,
-          "name": req.body.name,
-          "address": req.body.address,
-          "postalCode": req.body.postalCode,
-          "phone": req.body.phone,
-          "email": req.body.email,
-          "comment": req.body.comment,
-          "namersk": req.body.namersk,
-          "sales": req.body.sales,
-          "contact": req.body.contact,
-        },
-        function (err, result){
 
-          for (var i = 0; i < req.body.sales.length; i++) {
-              insertSale(
-                result.insertedId,
-                req.body.sales[i].categoryId,
-                req.body.sales[i].salesmanId,
-                req.body.sales[i].statusId
-              );
-          }
-       });
+      db.collection("companies").findOne({
+        ssn: req.body.ssn,
+      }, function(err, company) {
 
-      res.jsonp({status: 'success'});
+        if (err) throw err;
+
+        if(err) {
+          res.status(500).json({error: "Internal server error"});
+        }
+
+        if (!company || supervisor) {
+
+          db.collection("companies").insertOne(
+            {
+              "ssn": req.body.ssn,
+              "name": req.body.name,
+              "address": req.body.address,
+              "postalCode": req.body.postalCode,
+              "phone": req.body.phone,
+              "email": req.body.email,
+              "comment": req.body.comment,
+              "namersk": req.body.namersk,
+              "sales": req.body.sales,
+              "contact": req.body.contact,
+            },
+            function (err, result){
+
+              for (var i = 0; i < req.body.sales.length; i++) {
+                  insertSale(
+                    result.insertedId,
+                    req.body.sales[i].categoryId,
+                    req.body.sales[i].salesmanId,
+                    req.body.sales[i].statusId
+                  );
+              }
+          });
+          res.jsonp({status: 'success'});
+        } else {
+          res.jsonp({status: 'error', error: 'Fyrirtæki er þegar skráð'});
+        }
+
+      });
    }
    catch(e) {
      console.log(e);

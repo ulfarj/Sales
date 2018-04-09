@@ -150,7 +150,7 @@ class DisplayContract extends Component {
                 <option>Tímabundinn</option>
               </Input>
               <Input
-                type="number"
+                type="text"
                 label="Upphæð samnings"
                 placeholder="Upphæð samnings"
                 ref="contractamount"
@@ -161,7 +161,7 @@ class DisplayContract extends Component {
                 disabled
               />
               <Input
-                type="number"
+                type="text"
                 label="Upphæð áskriftar"
                 placeholder="Upphæð áskriftar"
                 ref="subscriptionamount"
