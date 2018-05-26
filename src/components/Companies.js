@@ -166,7 +166,7 @@ class Companies extends Component {
             header={<TextFilter label="Pnr" column="postalCode" filter={this.filterRow} sorting={this.sortIcon('postalCode')} onSort={this.onSort} /> }
             cell={props => (<TextCell {...props} column="postalCode" />)}
             fixed={true}
-            width={sm -40}
+            width={sm - 30}
           />
           <Column
             header={<TextFilter label="Sími" column="phone" filter={this.filterRow} sorting={this.sortIcon('phone')} onSort={this.onSort} />}
@@ -198,19 +198,19 @@ class Companies extends Component {
             }
             cell={props => (<TextTooltipCell {...props} column="maingroup" />)}
             fixed={true}
-            width={md}
+            width={md -3}
           />
           <Column
             header={<TextFilter label="Undirflokkur" column="subgroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
             cell={props => (<TextTooltipCell {...props} column="subgroup" />)}
             fixed={true}
-            width={md}
+            width={md - 3}
           />
           <Column
             header={<TextFilter label="Undirflokkur" column="subsubgroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
             cell={props => (<TextTooltipCell {...props} column="subsubgroup" />)}
             fixed={true}
-            width={md}
+            width={md - 3}
           />
         </Table>
     )
