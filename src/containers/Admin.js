@@ -11,7 +11,8 @@ import Statuses from '../components/Admin/Statuses';
 import Categories from '../components/Admin/Categories';
 import Users from '../components/Admin/Users';
 import Groups from '../components/Admin/Groups';
-import ResetStatuses from '../components/Admin/ResetStatuses';
+import ResetStatuses from '../components/Admin/ResetStatuses'
+import Access from '../components/Admin/Access';
 
 
 class Admin extends Component {
@@ -49,6 +50,9 @@ class Admin extends Component {
         </Panel>
         <Panel header="+ Núlstilla stöður" collapsible>
           <ResetStatuses />
+        </Panel>
+        <Panel header="+ Aðgangur" collapsible>
+          <Access />
         </Panel>
       </PanelGroup>
     );
