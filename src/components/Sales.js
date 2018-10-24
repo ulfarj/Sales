@@ -118,10 +118,15 @@ class Sales extends React.Component {
 				return (<div />);
 			}
 
-			let disableYes = (
-				(_.find(this.props.statuses, ['_id', sale.statusId]).name === "Já") &&
-				(supervisor)
-			);
+			// let disableYes = (
+			// 	(_.find(this.props.statuses, ['_id', sale.statusId]).name === "Já") &&
+			// 	(supervisor)
+			// );
+
+			const currentStatus = _.find(this.props.statuses, ['_id', sale.statusId]);
+			const currentStatusName = currentStatus ? currentStatus.name : '';
+
+			let disableYes = (currentStatusName === "Já") && (supervisor);
 
 			return(
 				<tr>

@@ -42,7 +42,7 @@
    ],
    resolve: {
       alias: {
-          config: path.join(__dirname, '/config/dev')
+          config: path.join(__dirname, '/config/prod')
       }
    }
 };

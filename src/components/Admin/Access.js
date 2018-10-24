@@ -13,14 +13,8 @@ class Access extends Component {
 
     filter = (user, name, value) => {
         const current = this.state[user._id];
-        // current[name] = value;
-        // console.log({ ...current, [name]: value });
-        // console.log(current);
-        // current = { ...curent, [name]: value };
         this.setState({[user._id]: { ...current, [name]: value }});
-        // this.setState({[user._id]: {[name]: value }});
     };
-
 
     update = () => {
         console.log(this.state);
