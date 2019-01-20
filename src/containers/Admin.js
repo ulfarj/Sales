@@ -4,6 +4,7 @@ import { fetchCurrentCategories } from '../actions/categories';
 import { fetchCurrentSalesmen } from '../actions/salesmen';
 import { fetchCurrentStatuses } from '../actions/statuses';
 import { fetchCurrentUsers } from '../actions/admin/users';
+import { fetchCurrentFocusGroups } from '../actions/focusGroups';
 import _ from 'lodash';
 import { Table, Button, Input, PanelGroup, Panel } from 'react-bootstrap';
 import Salesmen from '../components/Admin/Salesmen';
@@ -13,6 +14,7 @@ import Users from '../components/Admin/Users';
 import Groups from '../components/Admin/Groups';
 import ResetStatuses from '../components/Admin/ResetStatuses'
 import Access from '../components/Admin/Access';
+import FocusGroups from '../components/Admin/FocusGroups';
 
 
 class Admin extends Component {
@@ -22,6 +24,7 @@ class Admin extends Component {
     dispatch(fetchCurrentSalesmen());
     dispatch(fetchCurrentStatuses());
     dispatch(fetchCurrentUsers());
+    dispatch(fetchCurrentFocusGroups());
   }
 
   render() {
@@ -54,6 +57,9 @@ class Admin extends Component {
         <Panel header="+ Aðgangur" collapsible>
           <Access />
         </Panel>
+        <Panel header="+ Markhópar" collapsible>
+          <FocusGroups />
+        </Panel>
       </PanelGroup>
     );
   }
@@ -70,7 +76,8 @@ function mapStateToProps(state) {
   if(state.categories.loaded &&
      state.salesmen.loaded &&
      state.statuses.loaded &&
-     state.users.loaded
+     state.users.loaded &&
+     state.focusGroups.loaded
    ) {
     loaded = true;
   }

@@ -12,6 +12,7 @@ import users from './admin/users';
 import contracts from './contracts';
 import groups from './groups';
 import common from './common';
+import focusGroups from './focusGroups';
 
 export default combineReducers({
 	categories,
@@ -26,5 +27,6 @@ export default combineReducers({
 	contracts,
 	groups,
 	common,
+	focusGroups,
 	routing: routerReducer,
 });

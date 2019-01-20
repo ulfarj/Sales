@@ -14,6 +14,7 @@ import StatusFilter from './cells/StatusFilter';
 import SalesmenCell from './cells/SalesmenCell';
 import GroupFilter from './cells/GroupFilter';
 import StatusCell from './cells/StatusCell';
+import CommentCell from './cells/CommentCell';
 import { fetchCompanies } from '../actions/companies';
 import jwtDecode from 'jwt-decode';
 
@@ -187,10 +188,17 @@ class Companies extends Component {
             width={md}
           />
           <Column
-            header={<TextFilter label="Athugasemd" column="comment" filter={this.filterRow} sorting={this.sortIcon('comment')} onSort={this.onSort} />}
-            cell={props => (<EditCell style={{padding: '0'}} {...props} column="comment" onClick={this.onClick} />)}
+            header={
+              <Cell>
+                <div>
+                 Ath
+                </div>
+                <div style={{ height: 42 }} />
+              </Cell>
+            }
+            cell={props => (<CommentCell style={{padding: '0'}} {...props} column="comment" onClick={this.onClick} />)}
             fixed={true}
-            width={lg}
+            width={sm - 40}
           />
           <Column
             header={
@@ -211,6 +219,19 @@ class Companies extends Component {
             cell={props => (<TextTooltipCell {...props} column="subsubgroup" />)}
             fixed={true}
             width={md - 3}
+          />
+          <Column
+            header={
+              <Cell>
+                <div>
+                 Markh
+                </div>
+                <div style={{ height: 42 }} />
+              </Cell>
+            }
+            cell={props => (<Cell />)}
+            fixed={true}
+            width={sm}
           />
         </Table>
     )

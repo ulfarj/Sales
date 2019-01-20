@@ -313,6 +313,22 @@ app.post('/createStatus', function(req, res) {
   });
 });
 
+app.post('/createFocusGroup', function(req, res) {
+
+  MongoClient.connect(url, function(err, db) {
+    try{
+      db.collection("focusGroups").insertOne(
+        {"name": req.body.name, "color": req.body.color}
+       );
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+  });
+});
+
 app.get('/deleteUser/:id', function (req, res) {
   MongoClient.connect(url, function(err, db) {
 
@@ -365,6 +381,29 @@ app.get('/deleteStatus/:id', function (req, res) {
 
     try{
       db.collection("statuses").update(
+       { _id: ObjectID(req.params.id) },
+       {
+         $set:
+         {
+           "deleted": true
+         }
+       });
+
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     console.log(e);
+     res.jsonp({status: 'error', error: e});
+   }
+
+  });
+});
+
+app.get('/deleteFocusGroup/:id', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+
+    try{
+      db.collection("focusGroups").update(
        { _id: ObjectID(req.params.id) },
        {
          $set:
@@ -466,6 +505,19 @@ app.get('/statuses', function (req, res) {
             res.jsonp(docs);
         });
     });
+});
+
+app.get('/focusGroups', function (req, res) {
+
+  MongoClient.connect(url, function(err, db) {
+      var collection = db.collection('focusGroups');
+      var findParams = {};
+      findParams.deleted = { $exists: false };
+
+      collection.find(findParams).toArray(function(err, docs) {
+          res.jsonp(docs);
+      });
+  });
 });
 
 app.get('/comments/:id', function (req, res) {
