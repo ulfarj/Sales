@@ -18,6 +18,7 @@ import Contracts from './Contracts';
 import EditContract from './EditContract';
 import DisplayContract from './DisplayContract';
 import Groups from './Groups';
+import FocusGroups from './FocusGroups';
 
 class EditCompany extends React.Component {
 
@@ -296,6 +297,14 @@ class EditCompany extends React.Component {
 								onUpdate={this.props.onUpdate}
 							/>
 						</Tab>
+						<Tab eventKey={7} title="Markhópar">
+						  {this.props.focusGroupsLoaded &&
+							<FocusGroups
+								company={company}
+								focusGroups={this.props.focusGroups}
+							/>
+						  }
+						</Tab>
 					</Tabs>
 				</div>
 			</div>
@@ -315,6 +324,8 @@ EditCompany.propTypes = {
 	contracts: PropTypes.array,
 	groups: PropTypes.array,
   dispatch: PropTypes.func.isRequired,
+  focusGroups: PropTypes.array.isRequired,
+  focusGroupsLoaded: PropTypes.bool.isRequired,
 }
 
 function mapStateToProps(state, ownProps) {
@@ -359,6 +370,8 @@ function mapStateToProps(state, ownProps) {
 		salesLoaded: state.sales.loaded,
 		commentsLoaded: state.comments.loaded,
 		contractsLoaded: state.contracts.loaded,
+		focusGroups: state.focusGroups.items,
+		focusGroupsLoaded: state.focusGroups.loaded,
 	}
 }
 

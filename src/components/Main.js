@@ -8,6 +8,7 @@ import { fetchSalesmenIfNeeded } from '../actions/salesmen';
 import { fetchStatusesIfNeeded } from '../actions/statuses';
 import { fetchCompanies } from '../actions/companies';
 import { fetchGroups } from '../actions/groups';
+import { fetchFocusGoupsIfNeeded } from '../actions/focusGroups';
 import Companies from './Companies';
 import CreateCompany from './CreateCompany';
 import EditCompany from './EditCompany';
@@ -55,6 +56,7 @@ class Main extends Component {
       dispatch(fetchSalesmenIfNeeded());
       dispatch(fetchStatusesIfNeeded());
       dispatch(fetchGroups());
+      dispatch(fetchFocusGoupsIfNeeded());
     }
 
     componentDidMount(){

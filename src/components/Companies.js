@@ -17,6 +17,7 @@ import StatusCell from './cells/StatusCell';
 import CommentCell from './cells/CommentCell';
 import { fetchCompanies } from '../actions/companies';
 import jwtDecode from 'jwt-decode';
+import FocusGroupFilter from './cells/FocusGroupFilter';
 
 import 'fixed-data-table/dist/fixed-data-table.min.css';
 
@@ -221,14 +222,7 @@ class Companies extends Component {
             width={md - 3}
           />
           <Column
-            header={
-              <Cell>
-                <div>
-                 Markh
-                </div>
-                <div style={{ height: 42 }} />
-              </Cell>
-            }
+            header={<FocusGroupFilter label="MH" column="focusGroup" filter={this.filter} />}
             cell={props => (<Cell />)}
             fixed={true}
             width={sm}

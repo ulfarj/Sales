@@ -18,9 +18,18 @@ function receive(json) {
   }
 }
 
+export function fetchCurrentFocusGroups() {
+    return dispatch => {
+      dispatch(request())
+      return fetch(webconfig.apiUrl+'/focusGroups')
+        .then(response => response.json())
+        .then(json => dispatch(receive(json)))
+    }
+}
+
 function shouldFetch(state) {
 
-  const focusGroups = state.focusGroups;
+  const focusGroups = state.focusGroups.items;
 
   if (_.isEmpty(focusGroups)) {
     return true;
@@ -32,35 +41,12 @@ function shouldFetch(state) {
   return focusGroups.didInvalidate
 }
 
-function fetchFocusGroups() {
-  const config = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  }
-
-  return dispatch => {
-    dispatch(request())
-    return fetch(webconfig.apiUrl+'/focusGroups', config)
-      .then(response => response.json())
-      .then(json => dispatch(receive(json)))
-  }
-}
-
 export function fetchFocusGoupsIfNeeded() {
    return (dispatch, getState) => {
     if (shouldFetch(getState())) {
-        return dispatch(fetchFocusGroups())
+        return dispatch(fetchCurrentFocusGroups())
     }
   }
 }
 
-export function fetchCurrentFocusGroups() {
-  return dispatch => {
-    dispatch(request())
-    return fetch(webconfig.apiUrl+'/focusGroups')
-      .then(response => response.json())
-      .then(json => dispatch(receive(json)))
-  }
-}
+
