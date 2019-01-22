@@ -743,6 +743,10 @@ app.post('/companies', function (req, res) {
             findParams.subsubgroup = new RegExp(req.body.subsubgroup, 'i');
           }
 
+          if(req.body.focusGroups && req.body.focusGroups.length > 0) {
+            findParams.focusGroups = { $elemMatch: {$in: req.body.focusGroups }};
+          }
+
           if(req.body.nosale)
           {
             findParams.$and =
@@ -1042,10 +1046,6 @@ app.post('/deleteSale', function (req, res) {
 });
 
 app.post('/setFocusGroups', function (req, res) {
-
-  console.log(req.body.companyId);
-  console.log(req.body.focusGroups);
-
   MongoClient.connect(url, function(err, db) {
     try{
       db.collection("companies").update(

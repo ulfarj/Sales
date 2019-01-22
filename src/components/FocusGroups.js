@@ -13,9 +13,6 @@ class FocusGroups extends Component {
   }
 
   componentDidMount = () => {
-    // let items = this.props.items.map(item => {
-    //   return item;
-    // });
     const { items } = this.props;
     this.setState({ items });
   };

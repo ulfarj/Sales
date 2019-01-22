@@ -26,29 +26,28 @@ class FocusGroupFilter extends Component {
       filter: {},
       items: [],
       open: false,
-      showAll: true,
+      showAll: false,
     };
   }
 
   componentWillMount = () => {
-    const {dispatch} = this.props;
+    // const { dispatch } = this.props;
 
-    let items = this.props.items.map(item => {
-        return item._id;
-    });
+    // let items = this.props.items.map(item => {
+    //     return item._id;
+    // });
 
-    this.setState({ items });
+    // this.setState({ items });
   };
 
   changeItem = (e) => {
-
-    const items = this.state.items;
+    const { items } = this.state;
 
     if(e.target.checked) {
       items.push(e.target.value);
     }
     else{
-      items.splice(_.indexOf(salesmen, e.target.value), 1);
+      items.splice(_.indexOf(items, e.target.value), 1);
     }
 
     this.setItems(items);
@@ -61,7 +60,6 @@ class FocusGroupFilter extends Component {
 
 
   toggleAll = (e) => {
-
     var showAll = !this.state.showAll;
 
     let items = [];
@@ -77,7 +75,6 @@ class FocusGroupFilter extends Component {
   };
 
   handleTouchTap = (event) => {
-
    this.setState({
      open: true,
      anchorEl: event.currentTarget,
@@ -130,7 +127,7 @@ class FocusGroupFilter extends Component {
              <div style={{padding: '10px'}}>
                <Input
                  type="checkbox"
-                 label='Sýna allt'
+                 label='Velja allt'
                  value='showall'
                  checked={this.state.showAll}
                  onClick={e => this.toggleAll(e)} />
@@ -146,12 +143,12 @@ class FocusGroupFilter extends Component {
 
 FocusGroupFilter.propTypes = {
   items: PropTypes.array.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  filter: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {
   const items = state.focusGroups.items;
-
   return { items }
 }
 

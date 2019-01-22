@@ -4,27 +4,31 @@ import {Table, Column, Cell } from 'fixed-data-table';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import jwtDecode from 'jwt-decode';
+import {fetchGroups} from '../../actions/groups';
 
-class FocusGroupsCell extends Component {
-
-  onClick = () => {
-    const { companies, rowIndex} = this.props;
-    this.props.onClick(companies[rowIndex], 2);
-  };
+class FocusGroupCell extends Component {
 
   render() {
 
-    const { loaded, focusGroups, width } = this.props;
+    const { companies, loaded, width, rowIndex, focusGroups } = this.props;
 
     if(!loaded) {
       return(<Cell />);
     }
 
-    const icons = focusGroups.map(group => {
+
+    if(!companies[rowIndex].focusGroups || companies[rowIndex].focusGroups.length < 1){
+        return(<Cell></Cell>);
+    }
+
+    let x = 0;
+    let cx = 0;
+    const icons = companies[rowIndex].focusGroups.map(group => {
         x = x + 15;
+        const focus = _.find(focusGroups, ['_id', group])
         return (
-          <rect width="12" height="12" x={x} y="3" rx={8} ry={8} stroke="black" strokeWidth="1" fill={group.color}>
-            <title>{group.name}</title>
+          <rect width="12" height="12" x={x} y="3" rx={8} ry={8} stroke="black" strokeWidth="1" fill={focus.color}>
+            <title>{focus.name}</title>
           </rect>
         );
     });
@@ -37,9 +41,6 @@ class FocusGroupsCell extends Component {
               {icons}
             </svg>
           </div>
-          <div>
-            <Button bsSize="small" onClick={this.onClick} style={{border: '0'}}><Glyphicon style={{height: '5px'}} glyph="chevron-up" /></Button>
-          </div>
         </div>
       </Cell>
     );
@@ -47,15 +48,16 @@ class FocusGroupsCell extends Component {
 
 }
 
-StatusCell.propTypes = {
-  focusGroups: PropTypes.array.isRequired,
+FocusGroupCell.propTypes = {
+  companies: PropTypes.array.isRequired,
   loaded: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
+  focusGroups: PropTypes.array.isRequired,
 }
 
 function mapStateToProps(state) {
-  const focusGroups = state.focusGroups.items;
+  const companies = state.companies.items;
   let loaded = false;
   if(state.companies.loaded) {
     loaded = true;
@@ -63,7 +65,7 @@ function mapStateToProps(state) {
 
   const width = (state.common.width / 11)
 
-  return { loaded, focusGroup, width }
+  return { companies, loaded, width, focusGroups: state.focusGroups.items }
 }
 
 export default connect(mapStateToProps)(FocusGroupCell);

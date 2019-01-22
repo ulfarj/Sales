@@ -18,8 +18,10 @@ import CommentCell from './cells/CommentCell';
 import { fetchCompanies } from '../actions/companies';
 import jwtDecode from 'jwt-decode';
 import FocusGroupFilter from './cells/FocusGroupFilter';
+import FocusGroupCell from './cells/FocusGroupCell';
 
 import 'fixed-data-table/dist/fixed-data-table.min.css';
+import {fetchGroups} from '../actions/groups';
 
 const styles = {
   input: {
@@ -40,12 +42,13 @@ class Companies extends Component {
   }
 
   componentWillMount = () => {
-    const { dispatch, statuses, salesmen, categories } = this.props;
+    const { dispatch, statuses, salesmen, categories, focusGroups } = this.props;
 
     let filter = {};
     filter['statuses'] = statuses;
     filter['salesmen'] = salesmen;
     filter['categories'] = categories;
+    // filter['focusGroups'] = focusGroups;
 
     let sorting = {
       'column': 'name',
@@ -223,7 +226,7 @@ class Companies extends Component {
           />
           <Column
             header={<FocusGroupFilter label="MH" column="focusGroup" filter={this.filter} />}
-            cell={props => (<Cell />)}
+            cell={props => (<FocusGroupCell {...props} column="focusgroup"/>)}
             fixed={true}
             width={sm}
           />
@@ -241,6 +244,7 @@ Companies.propTypes = {
   dispatch: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
+  focusGroups: PropTypes.array.isRequired,
 }
 
 function mapStateToProps(state) {
@@ -263,10 +267,14 @@ function mapStateToProps(state) {
     sorting = state.companies.filter.sorting;
   }
 
+  const focusGroups = state.focusGroups.items.map(g => {
+    return g._id;
+});
+
   const width = (state.common.width - 40);
   const height = (state.common.height - 100);
 
-  return { statuses, salesmen, categories, sorting, width, height  }
+  return { statuses, salesmen, categories, sorting, width, height, focusGroups  }
 }
 
 export default connect(mapStateToProps)(Companies);
