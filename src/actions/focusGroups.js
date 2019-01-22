@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 import * as types from '../constants/ActionTypes';
 import webconfig from 'config';
-import {fetchGroups} from './groups';
+import { updateCompanyFocusGroup } from './companies';
 
 function request() {
   return {
@@ -81,7 +81,6 @@ export function setFocusGroups(companyId, focusGroups) {
     },
     body: JSON.stringify({ companyId, focusGroups }),
   }
-
   return (dispatch) => {
     dispatch(setGroupsRequest(focusGroups))
     return fetch(webconfig.apiUrl+'/setFocusGroups/', config)
@@ -91,7 +90,7 @@ export function setFocusGroups(companyId, focusGroups) {
           dispatch(setGroupsFailure(response.error));
         } else {
           dispatch(setGroupsSuccess(response));
-          // dispatch(updateCompanyGroup(groups));
+          dispatch(updateCompanyFocusGroup(companyId, focusGroups));
         }
      });
   }

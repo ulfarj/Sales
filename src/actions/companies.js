@@ -122,3 +122,19 @@ export function updateCompanyGroup(group){
     dispatch(updateCompanyItemGroup(index, group));
   }
 }
+
+function updateCompanyItemGroup(index, focusGroups) {
+  return {
+    type: types.UPDATE_COMPANY_ITEM_FOCUS_GROUP,
+    index,
+    focusGroups,
+  }
+}
+
+export function updateCompanyFocusGroup(companyId, focusGroups){
+  return (dispatch, getState) => {
+    let items = getState().companies.items;
+    let index = _.findIndex(items, ['_id', companyId]);
+    dispatch(updateCompanyItemGroup(index, focusGroups));
+  }
+}

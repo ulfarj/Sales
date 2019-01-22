@@ -126,6 +126,7 @@ class EditCompany extends React.Component {
 	  const { company } = this.state;
 	  console.log(company._id, groups);
 	 dispatch(setFocusGroups(company._id, groups));
+	 this.props.onUpdate();
 	}
 
 	render() {

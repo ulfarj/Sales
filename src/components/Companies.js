@@ -228,7 +228,7 @@ class Companies extends Component {
             header={<FocusGroupFilter label="MH" column="focusGroup" filter={this.filter} />}
             cell={props => (<FocusGroupCell {...props} column="focusgroup"/>)}
             fixed={true}
-            width={sm}
+            width={sm - 20}
           />
         </Table>
     )
