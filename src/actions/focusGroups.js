@@ -50,3 +50,49 @@ export function fetchFocusGoupsIfNeeded() {
 }
 
 
+function setGroupsRequest(groups) {
+  return {
+    type: types.SET_FOCUS_GROUPS_REQUEST,
+    groups,
+  }
+}
+
+function setGroupsSuccess(response) {
+  return {
+    type: types.SET_FOCUS_GROUPS_SUCCESS,
+    response,
+  }
+}
+
+function setGroupsFailure(error) {
+  return {
+    type: types.SET_FOCUS_GROUPS_FAILURE,
+    error,
+  }
+}
+
+export function setFocusGroups(companyId, focusGroups) {
+
+  const config = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify({ companyId, focusGroups }),
+  }
+
+  return (dispatch) => {
+    dispatch(setGroupsRequest(focusGroups))
+    return fetch(webconfig.apiUrl+'/setFocusGroups/', config)
+      .then(response => response.json())
+      .then(function(response) {
+        if(response.error){
+          dispatch(setGroupsFailure(response.error));
+        } else {
+          dispatch(setGroupsSuccess(response));
+          // dispatch(updateCompanyGroup(groups));
+        }
+     });
+  }
+}

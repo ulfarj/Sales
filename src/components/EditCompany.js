@@ -19,6 +19,7 @@ import EditContract from './EditContract';
 import DisplayContract from './DisplayContract';
 import Groups from './Groups';
 import FocusGroups from './FocusGroups';
+import { setFocusGroups } from '../actions/focusGroups';
 
 class EditCompany extends React.Component {
 
@@ -118,6 +119,13 @@ class EditCompany extends React.Component {
 	deleteContract = (contract) => {
 		const { dispatch } = this.props;
 		dispatch(deleteContract(contract));
+	}
+
+	setFocusGroups = groups => {
+	  const { dispatch } = this.props;
+	  const { company } = this.state;
+	  console.log(company._id, groups);
+	 dispatch(setFocusGroups(company._id, groups));
 	}
 
 	render() {
@@ -300,8 +308,9 @@ class EditCompany extends React.Component {
 						<Tab eventKey={7} title="Markhópar">
 						  {this.props.focusGroupsLoaded &&
 							<FocusGroups
-								company={company}
+								items={company.focusGroups}
 								focusGroups={this.props.focusGroups}
+								handleSubmit={this.setFocusGroups}
 							/>
 						  }
 						</Tab>

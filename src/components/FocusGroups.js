@@ -2,26 +2,57 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Input, Button} from 'react-bootstrap';
 
-// <Input
-//          checked={this.state.statuses.indexOf(status._id) >= 0}
-//          onClick={e => this.changeStatus(e)}
-//         />
-
-// <Button
-//                   onClick={e => this.createCategory(e)}
-//                   bsStyle="primary" style={{height:'35px'}}>
-//                   Stofna
-//                 </Button>
 
 class FocusGroups extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: [],
+    };
+  }
+
+  componentDidMount = () => {
+    // let items = this.props.items.map(item => {
+    //   return item;
+    // });
+    const { items } = this.props;
+    this.setState({ items });
+  };
+
+  toggle = (e) => {
+    const { value } = e.target;
+    const { items } = this.state;
+    const index = items.indexOf(value);
+    if(index === -1) {
+      items.push(value);
+    } else {
+      items.splice(index, 1);
+    }
+    this.setState({ items });
+  }
+
+  set = () => {
+    const { handleSubmit } = this.props;
+    const { items } = this.state;
+    handleSubmit(items);
+  }
+
   render() {
     const { focusGroups } = this.props;
-    const groups = this.props.focusGroups.map(group => (
+    const { items } = this.state;
+
+    console.log(items);
+    console.log(groups);
+
+    const groups = focusGroups.map(group => (
       <Input
         type="checkbox"
         label={group.name}
         value={group._id}
         key={group._id}
+        checked={items.indexOf(group._id) !== -1}
+        onClick={this.toggle}
       />
     ));
     return (
@@ -30,16 +61,23 @@ class FocusGroups extends Component {
         <Button
           bsStyle="primary"
           style={{ height:'35px' }}
+          onClick={this.set}
         >
-          Stofna
+          Uppfæra
         </Button>
       </div>
     )
   }
 }
 
+FocusGroups.defaultProps = {
+  items: [],
+}
+
 FocusGroups.propTypes = {
   focusGroups: PropTypes.array.isRequired,
+  items: PropTypes.array,
+  handleSubmit: PropTypes.func.isRequired,
 }
 
 export default FocusGroups;

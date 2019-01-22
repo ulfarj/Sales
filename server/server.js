@@ -1041,6 +1041,29 @@ app.post('/deleteSale', function (req, res) {
     });
 });
 
+app.post('/setFocusGroups', function (req, res) {
+
+  console.log(req.body.companyId);
+  console.log(req.body.focusGroups);
+
+  MongoClient.connect(url, function(err, db) {
+    try{
+      db.collection("companies").update(
+       { _id: ObjectID(req.body.companyId) },
+       {
+         $set:
+         {
+           "focusGroups": req.body.focusGroups,
+         }
+       });
+      res.jsonp({status: 'success'});
+   }
+   catch(e) {
+     res.jsonp({status: 'error', error: e});
+   }
+  });
+});
+
 app.post('/setGroups', function (req, res) {
     MongoClient.connect(url, function(err, db) {
       try{
