@@ -34,7 +34,7 @@ class StatusFilter extends Component {
     const {dispatch} = this.props;
 
     let statuses = this.props.statuses.map(status => {
-      if(status.name === 'Vinnsla' || status.name === 'Athuga' || status.name === 'Sagt upp' || status.name === 'Fundur'){
+      if(status.name === 'Vinnsla' || status.name === 'Engin staða' || status.name === 'Fundur' || status.name === 'Fylgja eftir'){
         return status._id;
       }
     });

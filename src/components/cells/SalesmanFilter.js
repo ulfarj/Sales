@@ -113,7 +113,7 @@ class SalesmanFilter extends Component {
       <Cell>
         <div style={{paddingTop: '15px'}}>
 
-          <div>
+          <div style={{ marginLeft: -6 }}>
             <Button
               bsStyle="secondary"
               onClick={this.handleTouchTap}>

@@ -39,7 +39,9 @@ class SalesmenCell extends Component {
 
       return (
         <div>
-          <Cell title={salesman}>{salesman.replace(/[^A-ZÀ-ÖØ-Þ]/g, '')}</Cell>
+          <Cell title={salesman}>
+            {salesman.replace(/[^A-ZÀ-ÖØ-Þ]/g, '')}
+          </Cell>
         </div>
       );
     }

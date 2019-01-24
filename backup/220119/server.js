@@ -313,22 +313,6 @@ app.post('/createStatus', function(req, res) {
   });
 });
 
-app.post('/createFocusGroup', function(req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("focusGroups").insertOne(
-        {"name": req.body.name, "color": req.body.color}
-       );
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-  });
-});
-
 app.get('/deleteUser/:id', function (req, res) {
   MongoClient.connect(url, function(err, db) {
 
@@ -381,29 +365,6 @@ app.get('/deleteStatus/:id', function (req, res) {
 
     try{
       db.collection("statuses").update(
-       { _id: ObjectID(req.params.id) },
-       {
-         $set:
-         {
-           "deleted": true
-         }
-       });
-
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     console.log(e);
-     res.jsonp({status: 'error', error: e});
-   }
-
-  });
-});
-
-app.get('/deleteFocusGroup/:id', function (req, res) {
-  MongoClient.connect(url, function(err, db) {
-
-    try{
-      db.collection("focusGroups").update(
        { _id: ObjectID(req.params.id) },
        {
          $set:
@@ -505,19 +466,6 @@ app.get('/statuses', function (req, res) {
             res.jsonp(docs);
         });
     });
-});
-
-app.get('/focusGroups', function (req, res) {
-
-  MongoClient.connect(url, function(err, db) {
-      var collection = db.collection('focusGroups');
-      var findParams = {};
-      findParams.deleted = { $exists: false };
-
-      collection.find(findParams).toArray(function(err, docs) {
-          res.jsonp(docs);
-      });
-  });
 });
 
 app.get('/comments/:id', function (req, res) {
@@ -686,27 +634,6 @@ app.post('/resetStatuses', function (req, res) {
 
 });
 
-app.get('/allcompanies', (req, res) => {
-  // try {
-  //   const token = req.headers.authorization;
-  //   const decoded = jwt.verify(token, 'moveon');
-
-    MongoClient.connect(url, function(err, db) {
-      var findParams = {};
-      findParams.deleted = { $exists: false };
-
-      var collection = db.collection('companies');
-          collection.find(findParams).toArray(function(err, docs) {
-
-          res.jsonp(docs);
-      });
-    });
-  // }
-  // catch(err){
-  //   return res.jsonp({ success: false, message: 'Failed to authenticate token.'});
-  // }
-})
-
 app.post('/companies', function (req, res) {
     try {
       const token = req.headers.authorization;
@@ -762,10 +689,6 @@ app.post('/companies', function (req, res) {
 
           if(req.body.subsubgroup) {
             findParams.subsubgroup = new RegExp(req.body.subsubgroup, 'i');
-          }
-
-          if(req.body.focusGroups && req.body.focusGroups.length > 0) {
-            findParams.focusGroups = { $elemMatch: {$in: req.body.focusGroups }};
           }
 
           if(req.body.nosale)
@@ -1064,25 +987,6 @@ app.post('/deleteSale', function (req, res) {
      }
 
     });
-});
-
-app.post('/setFocusGroups', function (req, res) {
-  MongoClient.connect(url, function(err, db) {
-    try{
-      db.collection("companies").update(
-       { _id: ObjectID(req.body.companyId) },
-       {
-         $set:
-         {
-           "focusGroups": req.body.focusGroups,
-         }
-       });
-      res.jsonp({status: 'success'});
-   }
-   catch(e) {
-     res.jsonp({status: 'error', error: e});
-   }
-  });
 });
 
 app.post('/setGroups', function (req, res) {

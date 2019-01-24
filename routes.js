@@ -5,7 +5,7 @@ import moment from 'moment';
 import App from './src/containers/app';
 import Main from './src/components/main';
 import Login from './src/components/login';
-import ImportCompanies from './src/containers/ImportCompanies';
+import ImportFG from './src/containers/import/ImportFG';
 import Admin from './src/containers/Admin';
 import { authenticated, notAuthenticated } from './src/actions/account';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -19,7 +19,7 @@ class Routes extends React.Component {
     window.addEventListener('resize', this.handleResize)
   }
 
-  handleResize = () => {    
+  handleResize = () => {
     const { dispatch } = this.props.store;
     dispatch(updateSize(window.innerWidth, window.innerHeight));
   };
@@ -44,7 +44,7 @@ class Routes extends React.Component {
       <Router history={history}>
         <Route path="/" component={App} onEnter={this.authenticate}>
           <IndexRoute component={Main} />
-          <Route path="ImportCompanies" component={ImportCompanies} />
+          <Route path="ImportFG" component={ImportFG} />
           <Route path="Admin" component={Admin} />
         </Route>
         <Route path="Login" component={Login} />

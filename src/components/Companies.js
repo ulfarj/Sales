@@ -141,7 +141,7 @@ class Companies extends Component {
             header={<SalesmanFilter label="SM" column="salesman" filter={this.filter} />}
             cell={props => (<SalesmenCell {...props} />)}
             fixed={true}
-            width={sm - 25}
+            width={sm - 35}
           />
           <Column
             header={<StatusFilter label="Staða" column="status" filter={this.filter} />}
@@ -202,7 +202,7 @@ class Companies extends Component {
             }
             cell={props => (<CommentCell style={{padding: '0'}} {...props} column="comment" onClick={this.onClick} />)}
             fixed={true}
-            width={sm - 40}
+            width={sm - 45}
           />
           <Column
             header={
@@ -228,7 +228,7 @@ class Companies extends Component {
             header={<FocusGroupFilter label="MH" column="focusGroup" filter={this.filter} />}
             cell={props => (<FocusGroupCell {...props} column="focusgroup"/>)}
             fixed={true}
-            width={sm - 20}
+            width={sm - 5}
           />
         </Table>
     )
