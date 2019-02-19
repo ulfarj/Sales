@@ -17,11 +17,14 @@ import StatusCell from './cells/StatusCell';
 import CommentCell from './cells/CommentCell';
 import { fetchCompanies } from '../actions/companies';
 import jwtDecode from 'jwt-decode';
-import FocusGroupFilter from './cells/FocusGroupFilter';
+import MultipleSelectFilter from './cells/MultipleSelectFilter';
 import FocusGroupCell from './cells/FocusGroupCell';
 
 import 'fixed-data-table/dist/fixed-data-table.min.css';
 import {fetchGroups} from '../actions/groups';
+
+import postalCodes from 'json!../../data/postalCodes.json';
+import focusGroups from '../reducers/focusGroups';
 
 const styles = {
   input: {
@@ -42,13 +45,12 @@ class Companies extends Component {
   }
 
   componentWillMount = () => {
-    const { dispatch, statuses, salesmen, categories, focusGroups } = this.props;
+    const { dispatch, statuses, salesmen, categories } = this.props;
 
     let filter = {};
     filter['statuses'] = statuses;
     filter['salesmen'] = salesmen;
     filter['categories'] = categories;
-    // filter['focusGroups'] = focusGroups;
 
     let sorting = {
       'column': 'name',
@@ -115,7 +117,12 @@ class Companies extends Component {
   };
 
   render() {
-    const { rowCount, sorting, width, height } = this.props;
+    const { rowCount, sorting, width, height, focusGroups } = this.props;
+
+    const postalCodeItems = postalCodes.map(code => ({
+      _id: code.code,
+      name: `${code.code}${' '}${code.place}`
+    }));
 
     const nrColumns = 15;
     const md = (width/13) // 7
@@ -168,7 +175,8 @@ class Companies extends Component {
             width={md}
           />
           <Column
-            header={<TextFilter label="Pnr" column="postalCode" filter={this.filterRow} sorting={this.sortIcon('postalCode')} onSort={this.onSort} /> }
+            //header={<TextFilter label="Pnr" column="postalCode" filter={this.filterRow} sorting={this.sortIcon('postalCode')} onSort={this.onSort} /> }
+            header={<MultipleSelectFilter items={postalCodeItems} label="Pnr" column="postalCode" filter={this.filter} field="postalCode" />}
             cell={props => (<TextCell {...props} column="postalCode" />)}
             fixed={true}
             width={sm - 30}
@@ -225,7 +233,7 @@ class Companies extends Component {
             width={md - 3}
           />
           <Column
-            header={<FocusGroupFilter label="MH" column="focusGroup" filter={this.filter} />}
+            header={<MultipleSelectFilter items={focusGroups} label="MH" column="focusGroup" filter={this.filter} field="focusGroups" />}
             cell={props => (<FocusGroupCell {...props} column="focusgroup"/>)}
             fixed={true}
             width={sm}
@@ -267,9 +275,7 @@ function mapStateToProps(state) {
     sorting = state.companies.filter.sorting;
   }
 
-  const focusGroups = state.focusGroups.items.map(g => {
-    return g._id;
-});
+  const focusGroups = state.focusGroups.items;
 
   const width = (state.common.width - 40);
   const height = (state.common.height - 100);

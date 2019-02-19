@@ -732,8 +732,12 @@ app.post('/companies', function (req, res) {
              findParams.address = new RegExp(req.body.address, 'i');
           }
 
-          if(req.body.postalCode) {
-             findParams.postalCode = new RegExp(req.body.postalCode, 'i');
+          // if(req.body.postalCode) {
+          //    findParams.postalCode = new RegExp(req.body.postalCode, 'i');
+          // }
+
+          if(req.body.postalCode && req.body.postalCode.length > 0) {
+            findParams.postalCode = { $elemMatch: {$in: req.body.postalCode }};
           }
 
           if(req.body.phone) {

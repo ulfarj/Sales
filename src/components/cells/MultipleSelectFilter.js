@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Input, Button} from 'react-bootstrap';
-import {Table, Column, Cell} from 'fixed-data-table';
+import { Cell } from 'fixed-data-table';
 import Multiselect from 'react-bootstrap-multiselect';
-import { connect } from 'react-redux';
 import Popover from 'material-ui/lib/popover/popover';
 import RaisedButton from 'material-ui/lib/raised-button';
 
@@ -17,7 +16,7 @@ const styles = {
 };
 
 
-class FocusGroupFilter extends Component {
+class MultipleSelectFilter extends Component {
 
   constructor(props) {
     super(props);
@@ -29,16 +28,6 @@ class FocusGroupFilter extends Component {
       showAll: false,
     };
   }
-
-  componentWillMount = () => {
-    // const { dispatch } = this.props;
-
-    // let items = this.props.items.map(item => {
-    //     return item._id;
-    // });
-
-    // this.setState({ items });
-  };
 
   changeItem = (e) => {
     const { items } = this.state;
@@ -54,8 +43,9 @@ class FocusGroupFilter extends Component {
   };
 
   setItems = (items) => {
+    const { field } = this.props;
     this.setState({ items });
-    this.props.filter('focusGroups', items);
+    this.props.filter(field, items);
   };
 
 
@@ -112,7 +102,7 @@ class FocusGroupFilter extends Component {
             <Button
               bsStyle="secondary"
               onClick={this.handleTouchTap}>
-                MH
+                {label}
             </Button>
           </div>
 
@@ -141,15 +131,11 @@ class FocusGroupFilter extends Component {
   }
 }
 
-FocusGroupFilter.propTypes = {
+MultipleSelectFilter.propTypes = {
   items: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
   filter: PropTypes.func.isRequired,
+  field: PropTypes.string.isRequired,
 }
 
-function mapStateToProps(state) {
-  const items = state.focusGroups.items;
-  return { items }
-}
-
-export default connect(mapStateToProps)(FocusGroupFilter);
+export default MultipleSelectFilter;
