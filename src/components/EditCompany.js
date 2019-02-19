@@ -145,6 +145,15 @@ class EditCompany extends React.Component {
 			)
 		});
 
+		if(company.comment && comments.length === 0) {
+		  comments.push(
+			 <tr>
+			  <td />
+			  <td>{company.comment}</td>
+			 </tr>
+		  );
+		}
+
 		return(
 			<div>
 				<div>
@@ -356,11 +365,11 @@ function mapStateToProps(state, ownProps) {
   }
 
 	if(state.comments && state.comments.loaded) {
-			comments = state.comments.items;
+		comments = state.comments.items;
 	}
 
 	if(state.sales && state.sales.loaded) {
-			sales = state.sales.items;
+		sales = state.sales.items;
 	}
 
 	const groups = state.groups.items;

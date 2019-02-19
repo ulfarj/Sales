@@ -44,7 +44,7 @@ class Routes extends React.Component {
       <Router history={history}>
         <Route path="/" component={App} onEnter={this.authenticate}>
           <IndexRoute component={Main} />
-          <Route path="ImportFG" component={ImportFG} />
+          {/* <Route path="ImportFG" component={ImportFG} /> */}
           <Route path="Admin" component={Admin} />
         </Route>
         <Route path="Login" component={Login} />

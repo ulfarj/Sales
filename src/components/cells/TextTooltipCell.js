@@ -34,7 +34,7 @@ class TextTooltipCell extends Component {
           <Button
             bsStyle="default"
             style={{ border: 0, padding: 0, margin: 0, cursor: 'auto' }}>
-            {text}
+            {text === 'choose' ? '' : text}
           </Button>
         </OverlayTrigger>
       </Cell>

@@ -686,26 +686,26 @@ app.post('/resetStatuses', function (req, res) {
 
 });
 
-app.get('/allcompanies', (req, res) => {
-  // try {
-  //   const token = req.headers.authorization;
-  //   const decoded = jwt.verify(token, 'moveon');
+// app.get('/allcompanies', (req, res) => {
+//   // try {
+//   //   const token = req.headers.authorization;
+//   //   const decoded = jwt.verify(token, 'moveon');
 
-    MongoClient.connect(url, function(err, db) {
-      var findParams = {};
-      findParams.deleted = { $exists: false };
+//     MongoClient.connect(url, function(err, db) {
+//       var findParams = {};
+//       findParams.deleted = { $exists: false };
 
-      var collection = db.collection('companies');
-          collection.find(findParams).toArray(function(err, docs) {
+//       var collection = db.collection('companies');
+//           collection.find(findParams).toArray(function(err, docs) {
 
-          res.jsonp(docs);
-      });
-    });
-  // }
-  // catch(err){
-  //   return res.jsonp({ success: false, message: 'Failed to authenticate token.'});
-  // }
-})
+//           res.jsonp(docs);
+//       });
+//     });
+//   // }
+//   // catch(err){
+//   //   return res.jsonp({ success: false, message: 'Failed to authenticate token.'});
+//   // }
+// })
 
 app.post('/companies', function (req, res) {
     try {
@@ -1084,6 +1084,34 @@ app.post('/setFocusGroups', function (req, res) {
    }
   });
 });
+
+// app.post('/setFocusGroupsBulk', function (req, res) {
+
+//   MongoClient.connect(url, function(err, db) {
+//     try{
+
+//       req.body.focusGroups.map((group) => {
+//         db.collection("companies").updateOne(
+//           { ssn: group.ssn },
+//           {
+//             $set:
+//             {
+//               "focusGroups": group.focusGroups,
+//             }
+//         });
+//      });
+
+//      // db.collection("companies").bulkWrite(req.body.focusGroups);
+//       res.jsonp({status: 'success'});
+//    }
+//    catch(e) {
+//      res.jsonp({status: 'error', error: e});
+//    }
+//   });
+
+// });
+
+
 
 app.post('/setGroups', function (req, res) {
     MongoClient.connect(url, function(err, db) {

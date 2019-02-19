@@ -95,3 +95,26 @@ export function setFocusGroups(companyId, focusGroups) {
      });
   }
 }
+
+
+export function setFocusGroupsBulk(focusGroups) {
+
+  const config = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify({ focusGroups }),
+  }
+  return (dispatch) => {
+    dispatch(setGroupsRequest(focusGroups))
+    return fetch(webconfig.apiUrl+'/setFocusGroupsBulk/', config)
+      .then(response => {
+        console.log('res', response.json())
+      })
+      .then(function(response) {
+        dispatch(setGroupsSuccess(response));
+     });
+  }
+}

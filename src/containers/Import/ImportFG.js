@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { fetchCurrentFocusGroups } from '../../actions/focusGroups';
+import { fetchCurrentFocusGroups, setFocusGroupsBulk } from '../../actions/focusGroups';
 
 import _ from 'lodash';
 import importFgFile from 'json!../../../server/import/fg.json';
 import companies from '../../reducers/companies';
 import focusGroups from '../../reducers/focusGroups';
+import FocusGroups from '../../components/Admin/FocusGroups';
 
 
 class ImportFG extends Component {
@@ -20,14 +21,10 @@ class ImportFG extends Component {
         return(<div>Loading</div>);
     }
 
-    // const first = "500/2015";
-    // const second = "500/2016";
-    // const third = "Framúrskarandi 2016";
-    // const fourt = "Framúrskarandi 2018";
-    // const firstId = _.find(focusGroups, { 'name': first })._id
+    const fg = [];
 
     const companies = importFgFile.map(company => {
-
+        const ssn = String(company.ssn);
         const arr = [];
         focusGroups.map(group => {
            if(company[group.name] === "X") {
@@ -35,18 +32,22 @@ class ImportFG extends Component {
            }
         });
 
-        console.log(company.ssn, arr);
+        // const update = {
+        //   updateOne :
+        //   {
+        //        "filter" : { ssn },
+        //        "update" : { $set : { "focusGroups": arr } }
+        //    }
+        // };
 
-        // if(company[first] === "X") {
-        //   arr.push(firstId);
-        // }
+        const update = { ssn, focusGroups: arr };
 
-        // "500/2016"
-        // "Framúrskarandi 2016"
-        // "Framúrskarandi 2018"
+        fg.push(update);
+
     });
 
-
+    console.log(fg);
+    dispatch(setFocusGroupsBulk(fg));
 
     return (
       <div>
