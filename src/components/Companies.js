@@ -117,12 +117,26 @@ class Companies extends Component {
   };
 
   render() {
-    const { rowCount, sorting, width, height, focusGroups } = this.props;
+    const { rowCount, sorting, width, height, focusGroups, groups } = this.props;
 
     const postalCodeItems = postalCodes.map(code => ({
-      _id: code.code,
+      _id: code.code.toString(),
       name: `${code.code}${' '}${code.place}`
     }));
+
+    const mainGroups = [];
+    const subGroups = [];
+    const subsubGroups = [];
+
+    groups.forEach(group => {
+      if (group.type === 'Yfirflokkur') {
+        mainGroups.push(group);
+      } else if (group.type === 'Undirflokkur') {
+        subGroups.push(group);
+      } else if (group.type === 'Undirundirflokkur') {
+        subsubGroups.push(group);
+      }
+    })
 
     const nrColumns = 15;
     const md = (width/13) // 7
@@ -214,20 +228,25 @@ class Companies extends Component {
           />
           <Column
             header={
-              <TextFilter label="Yfirflokkur" column="maingroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />
+              <MultipleSelectFilter items={mainGroups} label="Yfirflokkur" column="maingroup" filter={this.filter} field="maingroup" />
             }
             cell={props => (<TextTooltipCell {...props} column="maingroup" />)}
             fixed={true}
             width={md -3}
           />
           <Column
-            header={<TextFilter label="Undirflokkur" column="subgroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
+            header={
+              <MultipleSelectFilter items={subGroups} label="Undirflokkur" column="subgroup" filter={this.filter} field="subgroup" />
+            }
+            // header={<TextFilter label="Undirflokkur" column="subgroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
             cell={props => (<TextTooltipCell {...props} column="subgroup" />)}
             fixed={true}
             width={md - 3}
           />
           <Column
-            header={<TextFilter label="Undirflokkur" column="subsubgroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
+            header={
+              <MultipleSelectFilter items={subsubGroups} label="Undirflokkur" column="subsubgroup" filter={this.filter} field="subsubgroup" />
+            }
             cell={props => (<TextTooltipCell {...props} column="subsubgroup" />)}
             fixed={true}
             width={md - 3}
@@ -253,6 +272,7 @@ Companies.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   focusGroups: PropTypes.array.isRequired,
+  groups: PropTypes.array.isRequired,
 }
 
 function mapStateToProps(state) {
@@ -276,11 +296,12 @@ function mapStateToProps(state) {
   }
 
   const focusGroups = state.focusGroups.items;
+  const groups = state.groups.items;
 
   const width = (state.common.width - 40);
   const height = (state.common.height - 100);
 
-  return { statuses, salesmen, categories, sorting, width, height, focusGroups  }
+  return { statuses, salesmen, categories, sorting, width, height, focusGroups, groups  }
 }
 
 export default connect(mapStateToProps)(Companies);

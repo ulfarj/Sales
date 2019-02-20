@@ -64,9 +64,6 @@ class CreateCompany extends React.Component {
     const { ssn, loaded, company, companyLoaded, dispatch } = this.props;
     setTimeout(function() {
       if(ssn && loaded && companyLoaded && company) {
-        console.log(company);
-        console.log({ ssn });
-        console.log({ userId });
         if(ssn === userId && company.length > 0) {
           dispatch(initCompany());
           this.setState({showCompanyExistsModal: true});

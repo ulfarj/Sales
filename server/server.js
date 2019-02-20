@@ -735,6 +735,7 @@ app.post('/companies', function (req, res) {
           // if(req.body.postalCode) {
           //    findParams.postalCode = new RegExp(req.body.postalCode, 'i');
           // }
+          // console.log(req.body.postalCode);
 
           if(req.body.postalCode && req.body.postalCode.length > 0) {
             findParams.postalCode = { $elemMatch: {$in: req.body.postalCode }};
@@ -756,8 +757,10 @@ app.post('/companies', function (req, res) {
              findParams.contact = new RegExp(req.body.contact, 'i');
           }
 
-          if(req.body.maingroup) {
-            findParams.maingroup = new RegExp(req.body.maingroup, 'i');
+          console.log(req.body.maingroup);
+          if(req.body.maingroup && req.body.maingroup.length > 0) {
+            findParams.maingroup = { $elemMatch: {$in: req.body.maingroup }};
+            // findParams.maingroup = new RegExp(req.body.maingroup, 'i');
           }
 
           if(req.body.subgroup) {

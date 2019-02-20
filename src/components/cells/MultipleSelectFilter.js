@@ -78,7 +78,6 @@ class MultipleSelectFilter extends Component {
  };
 
   render() {
-
     const { label, column } = this.props;
 
     let items = this.props.items.map(item => {

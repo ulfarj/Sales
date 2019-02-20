@@ -39,9 +39,6 @@ class FocusGroups extends Component {
     const { focusGroups } = this.props;
     const { items } = this.state;
 
-    console.log(items);
-    console.log(groups);
-
     const groups = focusGroups.map(group => (
       <Input
         type="checkbox"
