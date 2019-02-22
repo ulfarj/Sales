@@ -129,12 +129,14 @@ class Companies extends Component {
     const subsubGroups = [];
 
     groups.forEach(group => {
+      const { name } = group;
+      const val = { _id: name, name: name };
       if (group.type === 'Yfirflokkur') {
-        mainGroups.push(group);
+        mainGroups.push(val);
       } else if (group.type === 'Undirflokkur') {
-        subGroups.push(group);
+        subGroups.push(val);
       } else if (group.type === 'Undirundirflokkur') {
-        subsubGroups.push(group);
+        subsubGroups.push(val);
       }
     })
 

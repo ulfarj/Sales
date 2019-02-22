@@ -716,7 +716,7 @@ app.post('/companies', function (req, res) {
 
           var findParams = {};
 
-          if(req.body.name) {
+          if(req.body.na8me) {
              findParams.name = new RegExp(req.body.name, 'i');
           }
 
@@ -732,13 +732,8 @@ app.post('/companies', function (req, res) {
              findParams.address = new RegExp(req.body.address, 'i');
           }
 
-          // if(req.body.postalCode) {
-          //    findParams.postalCode = new RegExp(req.body.postalCode, 'i');
-          // }
-          // console.log(req.body.postalCode);
-
           if(req.body.postalCode && req.body.postalCode.length > 0) {
-            findParams.postalCode = { $elemMatch: {$in: req.body.postalCode }};
+            findParams.postalCode = { $in: req.body.postalCode };
           }
 
           if(req.body.phone) {
@@ -757,18 +752,17 @@ app.post('/companies', function (req, res) {
              findParams.contact = new RegExp(req.body.contact, 'i');
           }
 
-          console.log(req.body.maingroup);
           if(req.body.maingroup && req.body.maingroup.length > 0) {
-            findParams.maingroup = { $elemMatch: {$in: req.body.maingroup }};
+            findParams.maingroup = {$in: req.body.maingroup };
             // findParams.maingroup = new RegExp(req.body.maingroup, 'i');
           }
 
           if(req.body.subgroup) {
-            findParams.subgroup = new RegExp(req.body.subgroup, 'i');
+            findParams.subgroup = {$in: req.body.subgroup };
           }
 
           if(req.body.subsubgroup) {
-            findParams.subsubgroup = new RegExp(req.body.subsubgroup, 'i');
+            findParams.subsubgroup = {$in: req.body.subsubgroup };
           }
 
           if(req.body.focusGroups && req.body.focusGroups.length > 0) {
