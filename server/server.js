@@ -757,11 +757,11 @@ app.post('/companies', function (req, res) {
             // findParams.maingroup = new RegExp(req.body.maingroup, 'i');
           }
 
-          if(req.body.subgroup) {
+          if(req.body.subgroup && req.body.subgroup.length > 0) {
             findParams.subgroup = {$in: req.body.subgroup };
           }
 
-          if(req.body.subsubgroup) {
+          if(req.body.subsubgroup && req.body.subsubgroup.length > 0) {
             findParams.subsubgroup = {$in: req.body.subsubgroup };
           }
 
