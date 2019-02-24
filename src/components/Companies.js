@@ -195,7 +195,7 @@ class Companies extends Component {
             header={<MultipleSelectFilter items={postalCodeItems} label="Pnr" column="postalCode" filter={this.filter} field="postalCode" />}
             cell={props => (<TextCell {...props} column="postalCode" />)}
             fixed={true}
-            width={sm - 30}
+            width={sm - 35}
           />
           <Column
             header={<TextFilter label="Sími" column="phone" filter={this.filterRow} sorting={this.sortIcon('phone')} onSort={this.onSort} />}
@@ -234,7 +234,7 @@ class Companies extends Component {
             }
             cell={props => (<TextTooltipCell {...props} column="maingroup" />)}
             fixed={true}
-            width={md -3}
+            width={md - 8}
           />
           <Column
             header={
@@ -243,7 +243,7 @@ class Companies extends Component {
             // header={<TextFilter label="Undirflokkur" column="subgroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
             cell={props => (<TextTooltipCell {...props} column="subgroup" />)}
             fixed={true}
-            width={md - 3}
+            width={md - 10}
           />
           <Column
             header={
@@ -251,7 +251,7 @@ class Companies extends Component {
             }
             cell={props => (<TextTooltipCell {...props} column="subsubgroup" />)}
             fixed={true}
-            width={md - 3}
+            width={md - 10}
           />
           <Column
             header={<MultipleSelectFilter items={focusGroups} label="MH" column="focusGroup" filter={this.filter} field="focusGroups" />}
