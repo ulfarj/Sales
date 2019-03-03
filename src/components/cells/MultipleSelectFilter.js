@@ -30,7 +30,8 @@ class MultipleSelectFilter extends Component {
   }
 
   changeItem = (e) => {
-    const { items } = this.state;
+    // const { items } = this.state;
+    const items = this.props.currentFilter ? this.props.currentFilter : [];
 
     if(e.target.checked) {
       items.push(e.target.value);
@@ -44,7 +45,7 @@ class MultipleSelectFilter extends Component {
 
   setItems = (items) => {
     const { field } = this.props;
-    this.setState({ items });
+    // this.setState({ items });
     this.props.filter(field, items);
   };
 
@@ -80,6 +81,8 @@ class MultipleSelectFilter extends Component {
   render() {
     const { label, column } = this.props;
 
+    const currentFilter = this.props.currentFilter ? this.props.currentFilter : [];
+
     let items = this.props.items.map(item => {
       return (
         <Input
@@ -87,7 +90,7 @@ class MultipleSelectFilter extends Component {
          type="checkbox"
          label={item.name}
          value={item._id}
-         checked={this.state.items.indexOf(item._id) >= 0}
+         checked={currentFilter.indexOf(item._id) >= 0}
          onClick={e => this.changeItem(e)}
         />
       );
@@ -99,7 +102,7 @@ class MultipleSelectFilter extends Component {
 
           <div>
             <Button
-              bsStyle="secondary"
+              bsStyle={(currentFilter.length > 0) ? "primary" : "secondary"}
               onClick={this.handleTouchTap}>
                 {label}
             </Button>
@@ -135,6 +138,7 @@ MultipleSelectFilter.propTypes = {
   dispatch: PropTypes.func.isRequired,
   filter: PropTypes.func.isRequired,
   field: PropTypes.string.isRequired,
+  currentFilter: PropTypes.array,
 }
 
 export default MultipleSelectFilter;

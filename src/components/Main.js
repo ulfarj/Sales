@@ -75,6 +75,14 @@ class Main extends Component {
       var filter = this.props.filter;
       filter[name] = value;
 
+      if(name === 'maingroup') {
+        filter['subgroup'] = [];
+        filter['subsubgroup'] = [];
+      }
+      if(name === 'subgroup') {
+        filter['subsubgroup'] = [];
+      }
+
       const { dispatch } = this.props;
       dispatch(fetchCompanies(filter));
     };
@@ -170,7 +178,8 @@ class Main extends Component {
             <Companies
               filter={this.filter}
               rowCount={companiesCount}
-              onClick={this.editCompany} />
+              onClick={this.editCompany}
+            />
           </div>
         </div>
   		);

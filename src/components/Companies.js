@@ -203,8 +203,16 @@ class Companies extends Component {
             width={md}
           />
           <Column
-            //header={<TextFilter label="Pnr" column="postalCode" filter={this.filterRow} sorting={this.sortIcon('postalCode')} onSort={this.onSort} /> }
-            header={<MultipleSelectFilter items={postalCodeItems} label="Pnr" column="postalCode" filter={this.filter} field="postalCode" />}
+            header={
+              <MultipleSelectFilter
+                items={postalCodeItems}
+                label="Pnr"
+                column="postalCode"
+                filter={this.filter}
+                field="postalCode"
+                currentFilter={currentFilter.postalCode}
+              />
+            }
             cell={props => (<TextCell {...props} column="postalCode" />)}
             fixed={true}
             width={sm - 35}
@@ -242,7 +250,14 @@ class Companies extends Component {
           />
           <Column
             header={
-              <MultipleSelectFilter items={mainGroups} label="Yfirflokkur" column="maingroup" filter={this.filter} field="maingroup" />
+              <MultipleSelectFilter
+                items={mainGroups}
+                label="Yfirflokkur"
+                column="maingroup"
+                filter={this.filter}
+                field="maingroup"
+                currentFilter={currentFilter.maingroup}
+              />
             }
             cell={props => (<TextTooltipCell {...props} column="maingroup" />)}
             fixed={true}
@@ -250,23 +265,45 @@ class Companies extends Component {
           />
           <Column
             header={
-              <MultipleSelectFilter items={subGroups} label="Undirflokkur" column="subgroup" filter={this.filter} field="subgroup" />
+              <MultipleSelectFilter
+                items={subGroups}
+                label="Undirflokkur"
+                column="subgroup"
+                filter={this.filter}
+                field="subgroup"
+                currentFilter={currentFilter.subgroup}
+              />
             }
-            // header={<TextFilter label="Undirflokkur" column="subgroup" filter={this.filterRow} sorting={this.sortIcon('contact')} onSort={this.onSort} />}
             cell={props => (<TextTooltipCell {...props} column="subgroup" />)}
             fixed={true}
             width={md - 10}
           />
           <Column
             header={
-              <MultipleSelectFilter items={subsubGroups} label="Undirflokkur" column="subsubgroup" filter={this.filter} field="subsubgroup" />
+              <MultipleSelectFilter
+                items={subsubGroups}
+                label="Undirflokkur"
+                column="subsubgroup"
+                filter={this.filter}
+                field="subsubgroup"
+                currentFilter={currentFilter.subsubgroup}
+              />
             }
             cell={props => (<TextTooltipCell {...props} column="subsubgroup" />)}
             fixed={true}
             width={md - 10}
           />
           <Column
-            header={<MultipleSelectFilter items={focusGroups} label="MH" column="focusGroup" filter={this.filter} field="focusGroups" />}
+            header={
+              <MultipleSelectFilter
+                items={focusGroups}
+                label="MH"
+                column="focusGroup"
+                filter={this.filter}
+                field="focusGroups"
+                currentFilter={currentFilter.focusGroups}
+              />
+            }
             cell={props => (<FocusGroupCell {...props} column="focusgroup"/>)}
             fixed={true}
             width={sm}
@@ -274,7 +311,10 @@ class Companies extends Component {
         </Table>
     )
   }
+}
 
+Companies.defaultProps = {
+  currentFilter: [],
 }
 
 Companies.propTypes = {
@@ -288,6 +328,7 @@ Companies.propTypes = {
   focusGroups: PropTypes.array.isRequired,
   groups: PropTypes.array.isRequired,
   filter: PropTypes.object.isRequired,
+  currentFilter: PropTypes.object,
 }
 
 function mapStateToProps(state) {
