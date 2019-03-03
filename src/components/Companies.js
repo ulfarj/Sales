@@ -117,7 +117,7 @@ class Companies extends Component {
   };
 
   render() {
-    const { rowCount, sorting, width, height, focusGroups, groups } = this.props;
+    const { rowCount, sorting, width, height, focusGroups, groups, currentFilter } = this.props;
 
     const postalCodeItems = postalCodes.map(code => ({
       _id: code.code.toString(),
@@ -134,9 +134,21 @@ class Companies extends Component {
       if (group.type === 'Yfirflokkur') {
         mainGroups.push(val);
       } else if (group.type === 'Undirflokkur') {
-        subGroups.push(val);
+        if (currentFilter.maingroup && currentFilter.maingroup.length > 0) {
+          if (currentFilter.maingroup.includes(group.parent)) {
+            subGroups.push(val);
+          }
+        } else {
+          subGroups.push(val);
+        }
       } else if (group.type === 'Undirundirflokkur') {
-        subsubGroups.push(val);
+        if ((currentFilter.maingroup && currentFilter.maingroup.length > 0) || (currentFilter.subgroup && currentFilter.subgroup.length > 0)) {
+          if (currentFilter.subgroup.includes(group.parent)) {
+            subsubGroups.push(val);
+          }
+        } else {
+          subsubGroups.push(val);
+        }
       }
     })
 
@@ -275,6 +287,7 @@ Companies.propTypes = {
   height: PropTypes.number.isRequired,
   focusGroups: PropTypes.array.isRequired,
   groups: PropTypes.array.isRequired,
+  filter: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state) {
@@ -303,7 +316,9 @@ function mapStateToProps(state) {
   const width = (state.common.width - 40);
   const height = (state.common.height - 100);
 
-  return { statuses, salesmen, categories, sorting, width, height, focusGroups, groups  }
+  const currentFilter = state.companies.filter;
+
+  return { statuses, salesmen, categories, sorting, width, height, focusGroups, groups, currentFilter  }
 }
 
 export default connect(mapStateToProps)(Companies);

@@ -716,7 +716,7 @@ app.post('/companies', function (req, res) {
 
           var findParams = {};
 
-          if(req.body.name) {
+          if(req.body.na8me) {
              findParams.name = new RegExp(req.body.name, 'i');
           }
 
@@ -805,13 +805,10 @@ app.post('/companies', function (req, res) {
           findParams.deleted = { $exists: false };
 
           var collection = db.collection('companies');
-          collection.find(findParams).explain();
+          collection.find(findParams).toArray(function(err, docs) {
+            var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
 
-          const sortOrder = req.body.sorting.order === 'asc' ? 1 : -1;
-
-          collection.find(findParams).sort({ [req.body.sorting.column]: sortOrder }).toArray(function(err, docs) {
-          //  var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
-            res.jsonp({companies: docs, requestAt: req.body.requestAt});
+            res.jsonp({companies: companies, requestAt: req.body.requestAt});
           });
 
       });
