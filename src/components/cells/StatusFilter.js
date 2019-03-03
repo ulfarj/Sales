@@ -115,7 +115,7 @@ class StatusFilter extends Component {
 
           <div>
             <Button
-              bsStyle="secondary"
+              bsStyle={(this.state.statuses.length > 0) ? "primary" : "secondary"}
               onClick={this.handleTouchTap}>
                 Staða
             </Button>

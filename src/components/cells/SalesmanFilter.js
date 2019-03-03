@@ -115,7 +115,7 @@ class SalesmanFilter extends Component {
 
           <div style={{ marginLeft: -6 }}>
             <Button
-              bsStyle="secondary"
+              bsStyle={(this.state.salesmen.length > 0) ? "primary" : "secondary"}
               onClick={this.handleTouchTap}>
                 SM
             </Button>
