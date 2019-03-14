@@ -18,6 +18,12 @@ function receiveCompanies(json) {
   }
 }
 
+const sortByColumn = (column, order) => {
+  const collator = new Intl.Collator('is', { numeric: true, sensitivity: 'accent' });
+  return (a, b) => (order === 'asc') ?
+    collator.compare(a[column], b[column]) : collator.compare(b[column], a[column]);
+};
+
 export function fetchCompanies(filter) {
 
   let requestAt = Date.now().toString();
@@ -34,14 +40,16 @@ export function fetchCompanies(filter) {
   }
 
   return (dispatch, getState) => {
-    dispatch(requestCompanies(filter))
+    dispatch(requestCompanies(filter));
     return fetch(webconfig.apiUrl+'/companies/', config)
       .then(response => {
-        return response.json()
+        return response.json();
        })
       .then(json => {
+
         if(getState().companies.filter.requestAt === json.requestAt) {
-          dispatch(receiveCompanies(json.companies))
+          const sorted = json.companies.sort(sortByColumn(filter.sorting.column, filter.sorting.order));
+          dispatch(receiveCompanies(sorted));
         }
       })
     }

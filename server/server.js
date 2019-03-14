@@ -808,11 +808,23 @@ app.post('/companies', function (req, res) {
           collection.find(findParams).explain();
 
           const sortOrder = req.body.sorting.order === 'asc' ? 1 : -1;
+          const sortColumn = req.body.sorting.column;
 
-          collection.find(findParams).sort({ [req.body.sorting.column]: sortOrder }).toArray(function(err, docs) {
+          collection.find(findParams).sort({[req.body.sorting.column]: sortOrder }).toArray(function(err, docs) {
           //  var companies = docs.sort(sortByProperty(req.body.sorting.column, req.body.sorting.order));
             res.jsonp({companies: docs, requestAt: req.body.requestAt});
           });
+
+          // collection.aggregate([
+          //   { $match: findParams },
+          //   // { $sort: { [sortColumn]: sortOrder }},
+          // ]).toArray(function(err, docs) {
+
+          //   //console.log(new Intl.Collator('sv', { sensitivity: 'base' }).compare('ä', 'a'));
+          //   // var companies = _.sortBy(docs, (company) => _.deburr(company[sortColumn]) );
+          //   // var companies = docs.sort(sortCompanies(sortColumn, sortOrder));
+          //   res.jsonp({companies: docs, requestAt: req.body.requestAt});
+          // });
 
       });
     }
@@ -821,17 +833,28 @@ app.post('/companies', function (req, res) {
     }
 });
 
-var sortByProperty = function (property, order) {
-    if(order === 'asc') {
-      return function (a, b) {
-          return a[property].localeCompare(b[property], 'is');
-      };
-    }else {
-      return function (a, b) {
-          return b[property].localeCompare(a[property], 'is');
-      };
-    }
-};
+// var sortCompanies = (column, order) => {
+//   const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'accent' });
+//   if (order === 1) {
+//     return (a, b) => { return collator.compare(a[column], b[column]) };
+//     //_.sortBy(companies, (company) => _.deburr(company[column]))
+//   }
+
+//   return (a, b) => { return collator.compare(b[column], a[column]) };
+//     // return _.sortBy(companies, (company) => _.deburr(company[column])).reverse();
+// };
+
+// var sortByProperty = function (property, order) {
+//     if(order === 1) {
+//       return function (a, b) {
+//           return a[property].localeCompare(b[property], 'is');
+//       };
+//     }else {
+//       return function (a, b) {
+//           return b[property].localeCompare(a[property], 'is');
+//       };
+//     }
+// };
 
 app.get('/company/:id', function (req, res) {
 

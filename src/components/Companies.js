@@ -25,6 +25,7 @@ import {fetchGroups} from '../actions/groups';
 
 import postalCodes from 'json!../../data/postalCodes.json';
 import focusGroups from '../reducers/focusGroups';
+import { setFilter } from '../actions/companies';
 
 const styles = {
   input: {
