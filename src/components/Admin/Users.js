@@ -34,6 +34,8 @@ class Users extends Component {
         return 'Sölumaður';
       case 'salesmanLimited':
         return 'Sölumaður - takmarkað';
+      case 'salesmanIceland':
+        return 'Sölumaður - Ísland';
       default:
         return type;
     }
@@ -70,7 +72,7 @@ class Users extends Component {
       );
     });
 
-    return (      
+    return (
         <Table>
           <thead>
             <tr style={{fontWeight: 'bold'}}>
@@ -92,6 +94,7 @@ class Users extends Component {
                   <option value="supervisorlimited">Yfirmaður -takmarkað</option>
                   <option value="salesman">Sölumaður</option>
                   <option value="salesmanLimited">Sölumaður - takmarkað</option>
+                  <option value="salesmanIceland">Sölumaður - Ísland</option>
                 </Input>
               </td>
               <td>
@@ -111,7 +114,7 @@ class Users extends Component {
             </tr>
             {users}
           </tbody>
-        </Table>      
+        </Table>
     );
   }
 }

@@ -60,7 +60,9 @@ class Companies extends Component {
 
     filter['sorting'] = sorting;
 
-    filter['nosale'] = true;
+    filter['nosale'] = jwtDecode(sessionStorage.token).type !== "salesmanIceland" ? true : false;
+    // let token = jwtDecode(sessionStorage.token);
+    // filter['nosale'] = (token.type !== "salesmanIceland");
 
     dispatch(fetchCompanies(filter));
   };
@@ -99,7 +101,7 @@ class Companies extends Component {
   onClick = (company, tab) => {
     const { salesmen } = this.props;
     let token = jwtDecode(sessionStorage.token);
-    let assigned = (token.type !== "salesman" || company.sales.length === 0) ? true : false;
+    let assigned = ((token.type !== "salesman" && token.type !== "salesmanIceland") || company.sales.length === 0) ? true : false;
 
     company.sales.map(sale => {
       if(sale.salesmanId === token.salesman) {
@@ -342,7 +344,22 @@ function mapStateToProps(state) {
       return salesman._id;
   });
 
-  let categories = state.categories.items.map(category => {
+  let token = jwtDecode(sessionStorage.token);
+  let cat = state.categories.items;
+
+  // if(token.type === 'supervisorlimited') {
+  //   cat = _.remove(cat, function(category) {
+  //     return !(category.name === 'Ísland atvinnuhættir og menning');
+  //   });
+  // }
+
+  if(token.type === 'salesmanIceland') {
+    cat = _.remove(cat, function(category) {
+      return (category.name === 'Ísland atvinnuhættir og menning');
+    });
+  }
+
+  let categories = cat.map(category => {
       return category._id;
   });
 

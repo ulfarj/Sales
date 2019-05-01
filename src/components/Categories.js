@@ -90,9 +90,12 @@ class Categories extends Component {
           );
     });
 
+    let token = jwtDecode(sessionStorage.token);
+
     return(
       <Grid>
         <Row>
+          {token.type !== 'salesmanIceland' &&
           <Col>
             <Input
               type="checkbox"
@@ -108,6 +111,7 @@ class Categories extends Component {
               onClick={this.showNoSaleCompanies}
               />
           </Col>
+          }
           {categories}
         </Row>
       </Grid>
@@ -123,11 +127,17 @@ Categories.propTypes = {
 function mapStateToProps(state) {
   let categories =  _.sortBy( state.categories.items, function(o) { return o.name; });
 
-  
+
   let token = jwtDecode(sessionStorage.token);
   if(token.type === 'supervisorlimited') {
     categories = _.remove(categories, function(category) {
       return !(category.name == 'Ísland atvinnuhættir og menning');
+    });
+  }
+
+  if(token.type === 'salesmanIceland') {
+    categories = _.remove(categories, function(category) {
+      return (category.name == 'Ísland atvinnuhættir og menning');
     });
   }
 
