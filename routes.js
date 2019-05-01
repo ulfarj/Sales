@@ -5,6 +5,7 @@ import moment from 'moment';
 import App from './src/containers/app';
 import Main from './src/components/main';
 import Login from './src/components/login';
+import Reports from './src/containers/Reports';
 import ImportFG from './src/containers/import/ImportFG';
 import Admin from './src/containers/Admin';
 import { authenticated, notAuthenticated } from './src/actions/account';
@@ -48,6 +49,7 @@ class Routes extends React.Component {
           <Route path="Admin" component={Admin} />
         </Route>
         <Route path="Login" component={Login} />
+        <Route path="reports" component={Reports} />
       </Router>
     );
   }

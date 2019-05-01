@@ -1191,6 +1191,18 @@ app.post('/updateSale', function (req, res) {
    }
 
   });
+});
+
+app.get('/report/totalsales/:id', function(req, res) {
+
+  const category = req.params.id;
+
+  MongoClient.connect(url, function(err, db) {
+    var collection = db.collection("contracts");
+    collection.find({ category: category }).toArray(function(err, docs) {
+      res.jsonp(docs);
+    });
+  });
 
 });
 

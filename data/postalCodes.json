@@ -1,1450 +1,173 @@
 [
-    {
-      "code": 101,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Pósthússtræti 5",
-      "oldCode": null
-    },
-    {
-      "code": 103,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Síðumúla 3-5",
-      "oldCode": null
-    },
-    {
-      "code": 104,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Síðumúla 3-5",
-      "oldCode": null
-    },
-    {
-      "code": 105,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Síðumúla 3-5",
-      "oldCode": null
-    },
-    {
-      "code": 107,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Eiðistorg 15",
-      "oldCode": null
-    },
-    {
-      "code": 108,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Síðumúla 3-5",
-      "oldCode": null
-    },
-    {
-      "code": 109,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Þönglabakka 4",
-      "oldCode": null
-    },
-    {
-      "code": 110,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Höfðabakki 9",
-      "oldCode": null
-    },
-    {
-      "code": 111,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Þönglabakka 4",
-      "oldCode": null
-    },
-    {
-      "code": 112,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Höfðabakki 9",
-      "oldCode": null
-    },
-    {
-      "code": 113,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Höfðabakki 9",
-      "oldCode": null
-    },
-    {
-      "code": 116,
-      "place": "Reykjavík",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Háholti 14",
-      "oldCode": null
-    },
-    {
-      "code": 121,
-      "place": "Reykjavík",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Pósthússtræti 5 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 123,
-      "place": "Reykjavík",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Síðumúla 3-5 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 124,
-      "place": "Reykjavík",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Síðumúla 3-5 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 125,
-      "place": "Reykjavík",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Síðumúla 3-5 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 127,
-      "place": "Reykjavík",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Eiðistorg 15 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 128,
-      "place": "Reykjavík",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Síðumúli 3-5 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 129,
-      "place": "Reykjavík",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Þönglabakka 4 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 130,
-      "place": "Reykjavík",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Hraunbæ 119 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 132,
-      "place": "Reykjavík",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Hverafold 1-3 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 162,
-      "place": "Reykjavík - Dreifbýli",
-      "type": "Dreifbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "*Háholt 14, Mosfellsbær",
-      "oldCode": 116
-    },
-    {
-      "code": 170,
-      "place": "Seltjarnarnesi",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Eiðistorg 15",
-      "oldCode": null
-    },
-    {
-      "code": 172,
-      "place": "Seltjarnarnesi",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Eiðistorg 15 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 190,
-      "place": "Vogum",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Iðndal 2",
-      "oldCode": null
-    },
-    {
-      "code": 191,
-      "place": "Vogum",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "*Reykjanesbær Hafnargötu 89",
-      "oldCode": 190
-    },
-    {
-      "code": 200,
-      "place": "Kópavogi",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Dalvegi 18",
-      "oldCode": null
-    },
-    {
-      "code": 201,
-      "place": "Kópavogi",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Dalvegi 18",
-      "oldCode": null
-    },
-    {
-      "code": 202,
-      "place": "Kópavogi",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Dalvegi 18 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 203,
-      "place": "Kópavogi",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Dalvegi 18",
-      "oldCode": null
-    },
-    {
-      "code": 210,
-      "place": "Garðabæ",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Litlatúni 3",
-      "oldCode": null
-    },
-    {
-      "code": 212,
-      "place": "Garðabæ",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Litlatúni 3 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 220,
-      "place": "Hafnarfirði",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Fjarðargötu 13-15",
-      "oldCode": null
-    },
-    {
-      "code": 221,
-      "place": "Hafnarfirði",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Fjarðargötu 13-15",
-      "oldCode": null
-    },
-    {
-      "code": 222,
-      "place": "Hafnarfirði",
-      "type": "Pósthólf",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Firði (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 225,
-      "place": "Garðabæ",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Garðatorgi 5 (Garðabæ)",
-      "oldCode": null
-    },
-    {
-      "code": 230,
-      "place": "Reykjanesbæ",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Hafnargötu 89",
-      "oldCode": null
-    },
-    {
-      "code": 232,
-      "place": "Reykjanesbæ",
-      "type": "Pósthólf",
-      "area": "Suðurland og Reykjanes",
-      "address": "Hafnargötu 89 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 233,
-      "place": "Reykjanesbæ",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Hafnargötu 89 (Keflavík)",
-      "oldCode": null
-    },
-    {
-      "code": 235,
-      "place": "Keflavíkurflugvöllur",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Hafnargötu 89 (Keflavík)",
-      "oldCode": null
-    },
-    {
-      "code": 240,
-      "place": "Grindavík",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Víkurbraut 25",
-      "oldCode": null
-    },
-    {
-      "code": 241,
-      "place": "Grindavík",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "*Póstbílll fá Reykjanesbæ",
-      "oldCode": 240
-    },
-    {
-      "code": 245,
-      "place": "Sandgerði",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Suðurgötu 2 - 4",
-      "oldCode": null
-    },
-    {
-      "code": 246,
-      "place": "Sandgerði",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "*Póstbílll fá Reykjanesbæ",
-      "oldCode": 245
-    },
-    {
-      "code": 250,
-      "place": "Garði",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Garðbraut 69",
-      "oldCode": null
-    },
-    {
-      "code": 251,
-      "place": "Garði",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "*Póstbílll fá Reykjanesbæ",
-      "oldCode": 250
-    },
-    {
-      "code": 260,
-      "place": "Reykjanesbæ",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Hafnargötu 89 (Keflavík)",
-      "oldCode": null
-    },
-    {
-      "code": 262,
-      "place": "Reykjanesbæ",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "*Hafnargötu 89 Reykjanesbær ",
-      "oldCode": 235
-    },
-    {
-      "code": 270,
-      "place": "Mosfellsbæ",
-      "type": "Þéttbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Háholt 14 (Mosfellsbæ)",
-      "oldCode": null
-    },
-    {
-      "code": 271,
-      "place": "Mosfellsbæ",
-      "type": "Dreifbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Háholt 14 (Mosfellsbæ)",
-      "oldCode": null
-    },
-    {
-      "code": 276,
-      "place": "Mosfellsbæ",
-      "type": "Dreifbýli",
-      "area": "Höfuðborgarsvæðið",
-      "address": "Háholt 14 (Mosfellsbæ)",
-      "oldCode": null
-    },
-    {
-      "code": 300,
-      "place": "Akranesi",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Smiðjuvöllum 30",
-      "oldCode": null
-    },
-    {
-      "code": 301,
-      "place": "Akranesi",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 302,
-      "place": "Akranesi",
-      "type": "Pósthólf",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Smiðjuvöllum 30 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 310,
-      "place": "Borgarnesi",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Borgarbraut 12",
-      "oldCode": null
-    },
-    {
-      "code": 311,
-      "place": "Borgarnesi",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 320,
-      "place": "Reykholt í Borgarfirði",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 340,
-      "place": "Stykkishólmi",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Aðalgötu 31",
-      "oldCode": null
-    },
-    {
-      "code": 341,
-      "place": "Stykkishólmi",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "*Aðalgötu 31",
-      "oldCode": 340
-    },
-    {
-      "code": 345,
-      "place": "Flatey á Breiðafirði",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Flatey",
-      "oldCode": null
-    },
-    {
-      "code": 350,
-      "place": "Grundarfirði",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Grundargötu 50",
-      "oldCode": null
-    },
-    {
-      "code": 351,
-      "place": "Grundarfirði",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "*Bæjartúni 5 Ólafsvík",
-      "oldCode": 350
-    },
-    {
-      "code": 355,
-      "place": "Ólafsvík",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Bæjartúni 5",
-      "oldCode": null
-    },
-    {
-      "code": 356,
-      "place": "Snæfellsbæ",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 360,
-      "place": "Hellissandi",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Klettsbúð 7",
-      "oldCode": null
-    },
-    {
-      "code": 370,
-      "place": "Búðardal",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Miðbraut 13",
-      "oldCode": null
-    },
-    {
-      "code": 371,
-      "place": "Búðardal",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 380,
-      "place": "Reykhólahreppi",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 381,
-      "place": "Reykhólahreppi",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "*Miðbraut 13",
-      "oldCode": 380
-    },
-    {
-      "code": 400,
-      "place": "Ísafirði",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Aðalstræti 18",
-      "oldCode": null
-    },
-    {
-      "code": 401,
-      "place": "Ísafirði",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 410,
-      "place": "Hnífsdal",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 415,
-      "place": "Bolungarvík",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Aðalstræti 14",
-      "oldCode": null
-    },
-    {
-      "code": 416,
-      "place": "Bolungarvík",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "*Hafnarstræti 9-11 Ísafirði",
-      "oldCode": 415
-    },
-    {
-      "code": 420,
-      "place": "Súðavík",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Grundarstræti 3-5",
-      "oldCode": null
-    },
-    {
-      "code": 421,
-      "place": "Súðavík",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "*Hafnarstræti 9-11 Ísafirði",
-      "oldCode": 420
-    },
-    {
-      "code": 425,
-      "place": "Flateyri",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Ránargötu 1",
-      "oldCode": null
-    },
-    {
-      "code": 426,
-      "place": "Flateyri",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "*Hafnarstræti 9-11 Ísafirði",
-      "oldCode": 425
-    },
-    {
-      "code": 430,
-      "place": "Suðureyri",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Aðalgötu 8",
-      "oldCode": null
-    },
-    {
-      "code": 431,
-      "place": "Suðureyri",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "*Hafnarstræti 9-11 Ísafirði",
-      "oldCode": 430
-    },
-    {
-      "code": 450,
-      "place": "Patreksfirði",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Bjarkargötu 4",
-      "oldCode": null
-    },
-    {
-      "code": 451,
-      "place": "Patreksfirði",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 460,
-      "place": "Tálknafirði",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Strandgötu 38",
-      "oldCode": null
-    },
-    {
-      "code": 461,
-      "place": "Tálknafirði",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "*Bjarkargötu 4 Patreksfirði",
-      "oldCode": 460
-    },
-    {
-      "code": 465,
-      "place": "Bíldudal",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Lönguhlíð 1",
-      "oldCode": null
-    },
-    {
-      "code": 466,
-      "place": "Bíldudal",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "*Bjarkargötu 4 Patreksfirði",
-      "oldCode": 465
-    },
-    {
-      "code": 470,
-      "place": "Þingeyri",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Fjarðargata 2",
-      "oldCode": null
-    },
-    {
-      "code": 471,
-      "place": "Þingeyri",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 500,
-      "place": "Stað",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 510,
-      "place": "Hólmavík",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Hafnarbraut 19",
-      "oldCode": null
-    },
-    {
-      "code": 511,
-      "place": "Hólmavík",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "*Hafnarbraut 19 Hólmavík",
-      "oldCode": 510
-    },
-    {
-      "code": 512,
-      "place": "Hólmavík",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 520,
-      "place": "Drangsnesi",
-      "type": "Þéttbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Borgargötu 2",
-      "oldCode": null
-    },
-    {
-      "code": 524,
-      "place": "Árneshreppi",
-      "type": "Dreifbýli",
-      "area": "Vesturland og Vestfirðir",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 530,
-      "place": "Hvammstanga",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Lækjargötu 2",
-      "oldCode": null
-    },
-    {
-      "code": 531,
-      "place": "Hvammstanga",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 540,
-      "place": "Blönduósi",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Hnjúkabyggð 32",
-      "oldCode": null
-    },
-    {
-      "code": 541,
-      "place": "Blönduósi",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 545,
-      "place": "Skagaströnd",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Höfða",
-      "oldCode": null
-    },
-    {
-      "code": 546,
-      "place": "Skagaströnd",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "*Hnjúkabyggð 32 Blönduósi",
-      "oldCode": 545
-    },
-    {
-      "code": 550,
-      "place": "Sauðárkróki",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Kirkjutorgi 5",
-      "oldCode": null
-    },
-    {
-      "code": 551,
-      "place": "Sauðárkróki",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 560,
-      "place": "Varmahlíð",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Varmahlíð",
-      "oldCode": null
-    },
-    {
-      "code": 561,
-      "place": "Varmahlíð",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "*Ártorgi 6 Sauðarkróki",
-      "oldCode": 560
-    },
-    {
-      "code": 565,
-      "place": "Hofsós",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 566,
-      "place": "Hofsós",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 570,
-      "place": "Fljótum",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Aðalgötu 24 (Siglufirði)",
-      "oldCode": null
-    },
-    {
-      "code": 580,
-      "place": "Siglufirði",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Aðalgötu 24",
-      "oldCode": null
-    },
-    {
-      "code": 581,
-      "place": "Siglufirði",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "*Aðalgötu 24 Siglufirði",
-      "oldCode": 580
-    },
-    {
-      "code": 600,
-      "place": "Akureyri",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Strandgötu 3",
-      "oldCode": null
-    },
-    {
-      "code": 601,
-      "place": "Akureyri",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 602,
-      "place": "Akureyri",
-      "type": "Pósthólf",
-      "area": "Norðurland",
-      "address": "Strandgötu 3",
-      "oldCode": null
-    },
-    {
-      "code": 603,
-      "place": "Akureyri",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Norðurtanga 3",
-      "oldCode": null
-    },
-    {
-      "code": 610,
-      "place": "Grenivík",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Túngötu 3",
-      "oldCode": null
-    },
-    {
-      "code": 611,
-      "place": "Grímsey",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Flugstöð",
-      "oldCode": null
-    },
-    {
-      "code": 616,
-      "place": "Grenivík",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Norðurtanga 3",
-      "oldCode": 610
-    },
-    {
-      "code": 620,
-      "place": "Dalvík",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Hafnarbraut 26",
-      "oldCode": null
-    },
-    {
-      "code": 621,
-      "place": "Dalvík",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 625,
-      "place": "Ólafsfirði",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Aðalgötu 14",
-      "oldCode": null
-    },
-    {
-      "code": 626,
-      "place": "Ólafsfirði",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "*Aðalgötu 2-4 Ólafsfirði",
-      "oldCode": 625
-    },
-    {
-      "code": 630,
-      "place": "Hrísey",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Norðurvegi 6 - 8",
-      "oldCode": null
-    },
-    {
-      "code": 640,
-      "place": "Húsavík",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Garðarsbraut 70",
-      "oldCode": null
-    },
-    {
-      "code": 641,
-      "place": "Húsavík",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 645,
-      "place": "Fosshólli",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 650,
-      "place": "Laugum",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Kjarna",
-      "oldCode": null
-    },
-    {
-      "code": 660,
-      "place": "Mývatni",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Helluhrauni 3",
-      "oldCode": null
-    },
-    {
-      "code": 670,
-      "place": "Kópaskeri",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Bakkagötu 8-10",
-      "oldCode": null
-    },
-    {
-      "code": 671,
-      "place": "Kópaskeri",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 675,
-      "place": "Raufarhöfn",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Aðalbraut 19",
-      "oldCode": null
-    },
-    {
-      "code": 676,
-      "place": "Raufarhöfn",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "*Landpóstur",
-      "oldCode": 675
-    },
-    {
-      "code": 680,
-      "place": "Þórshöfn",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Fjarðarvegi 5",
-      "oldCode": null
-    },
-    {
-      "code": 681,
-      "place": "Þórshöfn",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 685,
-      "place": "Bakkafirði",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 686,
-      "place": "Bakkafirði",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "*Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 690,
-      "place": "Vopnafirði",
-      "type": "Þéttbýli",
-      "area": "Norðurland",
-      "address": "Kolbeinsgötu 10",
-      "oldCode": null
-    },
-    {
-      "code": 691,
-      "place": "Vopnafirði",
-      "type": "Dreifbýli",
-      "area": "Norðurland",
-      "address": "*Landpóstur",
-      "oldCode": 690
-    },
-    {
-      "code": 700,
-      "place": "Egilsstöðum",
-      "type": "Þéttbýli",
-      "area": "Austurland",
-      "address": "Fagradalsbraut 9",
-      "oldCode": null
-    },
-    {
-      "code": 701,
-      "place": "Egilsstöðum",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 710,
-      "place": "Seyðisfirði",
-      "type": "Þéttbýli",
-      "area": "Austurland",
-      "address": "Hafnargötu 4",
-      "oldCode": null
-    },
-    {
-      "code": 711,
-      "place": "Seyðisfirði",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "*Landpóstur",
-      "oldCode": 710
-    },
-    {
-      "code": 715,
-      "place": "Mjóafirði",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 720,
-      "place": "Borgarfirði (eystri)",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 721,
-      "place": "Borgarfirði (eystri)",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "Landpóstur",
-      "oldCode": 720
-    },
-    {
-      "code": 730,
-      "place": "Reyðarfirði",
-      "type": "Þéttbýli",
-      "area": "Austurland",
-      "address": "Búðareyri 35",
-      "oldCode": null
-    },
-    {
-      "code": 731,
-      "place": "Reyðarfirði",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "*Landpóstur",
-      "oldCode": 730
-    },
-    {
-      "code": 735,
-      "place": "Eskifirði",
-      "type": "Þéttbýli",
-      "area": "Austurland",
-      "address": "Strandgötu 55",
-      "oldCode": null
-    },
-    {
-      "code": 736,
-      "place": "Eskifirði",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "*Landpóstur",
-      "oldCode": 735
-    },
-    {
-      "code": 740,
-      "place": "Neskaupstað",
-      "type": "Þéttbýli",
-      "area": "Austurland",
-      "address": "Miðstræti 26",
-      "oldCode": null
-    },
-    {
-      "code": 741,
-      "place": "Neskaupsstað",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "*Landpóstur",
-      "oldCode": 740
-    },
-    {
-      "code": 750,
-      "place": "Fáskrúðsfirði",
-      "type": "Þéttbýli",
-      "area": "Austurland",
-      "address": "Skólavegi 57",
-      "oldCode": null
-    },
-    {
-      "code": 751,
-      "place": "Fáskrúðsfirði",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "*Landpóstur",
-      "oldCode": 750
-    },
-    {
-      "code": 755,
-      "place": "Stöðvarfirði",
-      "type": "Þéttbýli",
-      "area": "Austurland",
-      "address": "Fjarðarbraut 54",
-      "oldCode": null
-    },
-    {
-      "code": 756,
-      "place": "Stöðvarfirði",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "*Landpóstur",
-      "oldCode": 755
-    },
-    {
-      "code": 760,
-      "place": "Breiðdalsvík",
-      "type": "Þéttbýli",
-      "area": "Austurland",
-      "address": "Selnesi 38",
-      "oldCode": null
-    },
-    {
-      "code": 761,
-      "place": "Breiðdalsvík",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "*Landpóstur",
-      "oldCode": 760
-    },
-    {
-      "code": 765,
-      "place": "Djúpavogi",
-      "type": "Þéttbýli",
-      "area": "Austurland",
-      "address": "Markarlandi 1",
-      "oldCode": null
-    },
-    {
-      "code": 766,
-      "place": "Djúpavogi",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "*Landpóstur",
-      "oldCode": 765
-    },
-    {
-      "code": 780,
-      "place": "Höfn í Hornafirði",
-      "type": "Þéttbýli",
-      "area": "Austurland",
-      "address": "Hafnarbraut 21",
-      "oldCode": null
-    },
-    {
-      "code": 781,
-      "place": "Höfn í Hornafirði",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 785,
-      "place": "Öræfum",
-      "type": "Dreifbýli",
-      "area": "Austurland",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 800,
-      "place": "Selfossi",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Austurvegi 26",
-      "oldCode": null
-    },
-    {
-      "code": 801,
-      "place": "Selfossi",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 802,
-      "place": "Selfossi",
-      "type": "Pósthólf",
-      "area": "Suðurland og Reykjanes",
-      "address": "Austurvegi 26 (pósthólf)",
-      "oldCode": null
-    },
-    {
-      "code": 810,
-      "place": "Hveragerði",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Sunnumörk 2-4",
-      "oldCode": null
-    },
-    {
-      "code": 815,
-      "place": "Þorlákshöfn",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Reykjabraut 2",
-      "oldCode": null
-    },
-    {
-      "code": 816,
-      "place": "Ölfus",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 820,
-      "place": "Eyrarbakka",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 825,
-      "place": "Stokkseyri",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 840,
-      "place": "Laugarvatni",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 845,
-      "place": "Flúðum",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 846,
-      "place": "Flúðum",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "*Landpóstur",
-      "oldCode": 845
-    },
-    {
-      "code": 850,
-      "place": "Hellu",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Þrúðvangi 10",
-      "oldCode": null
-    },
-    {
-      "code": 851,
-      "place": "Hellu",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Þrúðvangi 10",
-      "oldCode": null
-    },
-    {
-      "code": 860,
-      "place": "Hvolsvelli",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Austurvegi 2",
-      "oldCode": null
-    },
-    {
-      "code": 861,
-      "place": "Hvolsvelli",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Austurvegi 2",
-      "oldCode": null
-    },
-    {
-      "code": 870,
-      "place": "Vík",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 871,
-      "place": "Vík",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 880,
-      "place": "Kirkjubæjarklaustri",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Landpóstur",
-      "oldCode": null
-    },
-    {
-      "code": 881,
-      "place": "Kirkjubæjarklaustri",
-      "type": "Dreifbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "*Landpóstur",
-      "oldCode": 880
-    },
-    {
-      "code": 900,
-      "place": "Vestmannaeyjum",
-      "type": "Þéttbýli",
-      "area": "Suðurland og Reykjanes",
-      "address": "Strandvegi 52",
-      "oldCode": null
-    },
-    {
-      "code": 902,
-      "place": "Vestmannaeyjum",
-      "type": "Pósthólf",
-      "area": "Suðurland og Reykjanes",
-      "address": "Strandvegi 52 (pósthólf)",
-      "oldCode": null
-    }
-   ]
+  {"code":101,"place":"Reykjavík"},
+  {"code":103,"place":"Reykjavík"},
+  {"code":104,"place":"Reykjavík"},
+  {"code":105,"place":"Reykjavík"},
+  {"code":107,"place":"Reykjavík"},
+  {"code":108,"place":"Reykjavík"},
+  {"code":109,"place":"Reykjavík"},
+  {"code":110,"place":"Reykjavík"},
+  {"code":111,"place":"Reykjavík"},
+  {"code":112,"place":"Reykjavík"},
+  {"code":113,"place":"Reykjavík"},
+  {"code":116,"place":"Reykjavík"},
+  {"code":162,"place":"Reykjavík"},
+  {"code":121,"place":"Reykjavík"},
+  {"code":125,"place":"Reykjavík"},
+  {"code":128,"place":"Reykjavík"},
+  {"code":150,"place":"Reykjavík"},
+  {"code":155,"place":"Reykjavík"},
+  {"code":170,"place":"Seltjarnarnes"},
+  {"code":190,"place":"Vogar"},
+  {"code":191,"place":"Vogar"},
+  {"code":200,"place":"Kópavogur"},
+  {"code":201,"place":"Kópavogur"},
+  {"code":203,"place":"Kópavogur"},
+  {"code":210,"place":"Garðabær"},
+  {"code":220,"place":"Hafnarfjörður"},
+  {"code":221,"place":"Hafnarfjörður"},
+  {"code":222,"place":"Hafnarfjörður"},
+  {"code":225,"place":"Garðabær"},
+  {"code":230,"place":"Reykjanesbær"},
+  {"code":233,"place":"Reykjanesbær"},
+  {"code":235,"place":"Keflavíkurflugvöllur"},
+  {"code":240,"place":"Grindavík"},
+  {"code":241,"place":"Grindavík"},
+  {"code":245,"place":"Sandgerði"},
+  {"code":246,"place":"Sandgerði"},
+  {"code":250,"place":"Garður"},
+  {"code":251,"place":"Garður"},
+  {"code":260,"place":"Reykjanesbær"},
+  {"code":262,"place":"Reykjanesbær"},
+  {"code":270,"place":"Mosfellsbær"},
+  {"code":271,"place":"Mosfellsbær"},
+  {"code":276,"place":"Mosfellsbær"},
+  {"code":300,"place":"Akranes"},
+  {"code":301,"place":"Akranes"},
+  {"code":310,"place":"Borgarnes"},
+  {"code":311,"place":"Borgarnes"},
+  {"code":320,"place":"Reykholt"},
+  {"code":340,"place":"Stykkishólmur"},
+  {"code":341,"place":"Stykkishólmur"},
+  {"code":345,"place":"Flatey"},
+  {"code":350,"place":"Grundarfjörður"},
+  {"code":351,"place":"Grundarfjörður"},
+  {"code":355,"place":"Ólafsvík"},
+  {"code":356,"place":"Snæfellsbær"},
+  {"code":360,"place":"Hellissandur"},
+  {"code":370,"place":"Búðardalur"},
+  {"code":371,"place":"Búðardalur"},
+  {"code":380,"place":"Reykhólahreppur"},
+  {"code":381,"place":"Reykhólahreppur"},
+  {"code":400,"place":"Ísafjörður"},
+  {"code":401,"place":"Ísafjörður"},
+  {"code":410,"place":"Hnífsdalur"},
+  {"code":415,"place":"Bolungarvík"},
+  {"code":416,"place":"Bolungarvík"},
+  {"code":420,"place":"Súðavík"},
+  {"code":421,"place":"Súðavík"},
+  {"code":425,"place":"Flateyri"},
+  {"code":426,"place":"Flateyri"},
+  {"code":430,"place":"Suðureyri"},
+  {"code":431,"place":"Suðureyri"},
+  {"code":450,"place":"Patreksfjörður"},
+  {"code":451,"place":"Patreksfjörður"},
+  {"code":460,"place":"Tálknafjörður"},
+  {"code":461,"place":"Tálknafjörður"},
+  {"code":465,"place":"Bíldudalur"},
+  {"code":466,"place":"Bíldudalur"},
+  {"code":470,"place":"Þingeyri"},
+  {"code":471,"place":"Þingeyri"},
+  {"code":500,"place":"Staður"},
+  {"code":510,"place":"Hólmavík"},
+  {"code":511,"place":"Hólmavík"},
+  {"code":512,"place":"Hólmavík"},
+  {"code":520,"place":"Drangsnes"},
+  {"code":524,"place":"Árneshreppur"},
+  {"code":530,"place":"Hvammstangi"},
+  {"code":531,"place":"Hvammstangi"},
+  {"code":540,"place":"Blönduós"},
+  {"code":541,"place":"Blönduós"},
+  {"code":545,"place":"Skagaströnd"},
+  {"code":546,"place":"Skagaströnd"},
+  {"code":550,"place":"Sauðárkrókur"},
+  {"code":551,"place":"Sauðárkrókur"},
+  {"code":560,"place":"Varmahlíð"},
+  {"code":561,"place":"Varmahlíð"},
+  {"code":565,"place":"Hofsós"},
+  {"code":566,"place":"Hofsós"},
+  {"code":570,"place":"Fljót"},
+  {"code":580,"place":"Siglufjörður"},
+  {"code":581,"place":"Siglufjörður"},
+  {"code":600,"place":"Akureyri"},
+  {"code":601,"place":"Akureyri"},
+  {"code":602,"place":"Akureyri"},
+  {"code":603,"place":"Akureyri"},
+  {"code":610,"place":"Grenivík"},
+  {"code":611,"place":"Grímsey"},
+  {"code":616,"place":"Grenivík"},
+  {"code":620,"place":"Dalvík"},
+  {"code":621,"place":"Dalvík"},
+  {"code":625,"place":"Ólafsfjörður"},
+  {"code":626,"place":"Ólafsfjörður"},
+  {"code":630,"place":"Hrísey"},
+  {"code":640,"place":"Húsavík"},
+  {"code":641,"place":"Húsavík"},
+  {"code":645,"place":"Fosshóll"},
+  {"code":650,"place":"Laugar"},
+  {"code":660,"place":"Mývatn"},
+  {"code":670,"place":"Kópasker"},
+  {"code":671,"place":"Kópasker"},
+  {"code":675,"place":"Raufarhöfn"},
+  {"code":676,"place":"Raufarhöfn"},
+  {"code":680,"place":"Þórshöfn"},
+  {"code":681,"place":"Þórshöfn"},
+  {"code":685,"place":"Bakkafjörður"},
+  {"code":686,"place":"Bakkafjörður"},
+  {"code":690,"place":"Vopnafjörður"},
+  {"code":691,"place":"Vopnafjörður"},
+  {"code":700,"place":"Egilsstaðir"},
+  {"code":701,"place":"Egilsstaðir"},
+  {"code":710,"place":"Seyðisfjörður"},
+  {"code":711,"place":"Seyðisfjörður"},
+  {"code":715,"place":"Mjóifjörður"},
+  {"code":720,"place":"Borgarfjörður eystri"},
+  {"code":721,"place":"Borgarfjörður eystri"},
+  {"code":730,"place":"Reyðarfjörður"},
+  {"code":731,"place":"Reyðarfjörður"},
+  {"code":735,"place":"Eskifjörður"},
+  {"code":736,"place":"Eskifjörður"},
+  {"code":740,"place":"Neskaupstaður"},
+  {"code":741,"place":"Neskaupstaður"},
+  {"code":750,"place":"Fáskrúðsfjörður"},
+  {"code":751,"place":"Fáskrúðsfjörður"},
+  {"code":755,"place":"Stöðvarfjörður"},
+  {"code":756,"place":"Stöðvarfjörður"},
+  {"code":760,"place":"Breiðdalsvík"},
+  {"code":761,"place":"Breiðdalsvík"},
+  {"code":765,"place":"Djúpivogur"},
+  {"code":766,"place":"Djúpivogur"},
+  {"code":780,"place":"Höfn"},
+  {"code":781,"place":"Höfn"},
+  {"code":785,"place":"Öræfi"},
+  {"code":800,"place":"Selfoss"},
+  {"code":801,"place":"Selfoss"},
+  {"code":810,"place":"Hveragerði"},
+  {"code":815,"place":"Þorlákshöfn"},
+  {"code":816,"place":"Ölfus"},
+  {"code":820,"place":"Eyrarbakki"},
+  {"code":825,"place":"Stokkseyri"},
+  {"code":840,"place":"Laugarvatn"},
+  {"code":845,"place":"Flúðir"},
+  {"code":846,"place":"Flúðir"},
+  {"code":850,"place":"Hella"},
+  {"code":851,"place":"Hella"},
+  {"code":860,"place":"Hvolsvöllur"},
+  {"code":861,"place":"Hvolsvöllur"},
+  {"code":870,"place":"Vík"},
+  {"code":871,"place":"Vík"},
+  {"code":880,"place":"Kirkjubæjarklaustur"},
+  {"code":881,"place":"Kirkjubæjarklaustur"},
+  {"code":900,"place":"Vestmannaeyjar"},
+  {"code":902,"place":"Vestmannaeyjar"}
+]
