@@ -4,7 +4,7 @@
  module.exports = {
    entry: [
       //'webpack/hot/only-dev-server',
-      "./index.js"
+      "./src/index.js"
     ],
     output: {
         path: __dirname + '/build',

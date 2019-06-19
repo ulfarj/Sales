@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import { Route, Router, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import moment from 'moment';
-import App from './src/containers/app';
-import Main from './src/components/main';
-import Login from './src/components/login';
-import Reports from './src/containers/Reports';
-import Admin from './src/containers/Admin';
-import { authenticated, notAuthenticated } from './src/actions/account';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { updateSize } from './src/actions/common';
+import App from './containers/app';
+import Main from './components/main';
+import Login from './components/login';
+import Reports from './containers/Reports';
+import Admin from './containers/Admin';
+import { authenticated, notAuthenticated } from './actions/account';
+import { updateSize } from './actions/common';
 
 class Routes extends React.Component {
 
