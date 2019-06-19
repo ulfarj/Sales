@@ -41,14 +41,15 @@ class Routes extends React.Component {
   render() {
     const history = syncHistoryWithStore(browserHistory, this.props.store);
     return (
-      <Router history={history}>
-        <Route path="/" component={App} onEnter={this.authenticate}>
-          <IndexRoute component={Main} />
-          <Route path="Admin" component={Admin} />
-        </Route>
-        <Route path="Login" component={Login} />
-        <Route path="reports" component={Reports} />
-      </Router>
+      <div>Hello world</div>
+      // <Router history={history}>
+      //   <Route path="/" component={App} onEnter={this.authenticate}>
+      //     <IndexRoute component={Main} />
+      //     <Route path="Admin" component={Admin} />
+      //   </Route>
+      //   <Route path="Login" component={Login} />
+      //   <Route path="reports" component={Reports} />
+      // </Router>
     );
   }
 }
