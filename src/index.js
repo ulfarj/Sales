@@ -6,14 +6,9 @@ import Routes from './routes';
 
 const store = configureStore();
 
-// ReactDOM.render(
-//   <Provider store={store}>
-//     <Routes store={store} />
-//   </Provider>,
-//   document.getElementById('app')
-// );
-
 ReactDOM.render(
-  <div>Hello</div>,
+  <Provider store={store}>
+    <Routes store={store} />
+  </Provider>,
   document.getElementById('app')
 );
