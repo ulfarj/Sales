@@ -68,9 +68,6 @@
     "require": "^2.4.20",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack-dev-server": "^1.14.1"
-  },
-  "devDependencies": {
     "babel-cli": "^6.5.1",
     "babel-loader": "^6.2.3",
     "babel-preset-es2015": "^6.5.0",
@@ -78,7 +75,8 @@
     "babel-preset-stage-0": "^6.5.0",
     "nodemon": "^1.11.0",
     "react-hot-loader": "^1.3.0",
-    "webpack": "^1.12.13",    
+    "webpack": "^1.12.13",
+    "webpack-dev-server": "^1.14.1",
     "write-file-webpack-plugin": "^3.1.8"
   }
 }
