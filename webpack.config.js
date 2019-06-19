@@ -3,7 +3,6 @@
 
  module.exports = {
    entry: [
-      //'webpack/hot/only-dev-server',
       "./src/index.js"
     ],
     output: {
