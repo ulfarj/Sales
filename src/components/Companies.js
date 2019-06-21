@@ -48,10 +48,23 @@ class Companies extends Component {
   componentWillMount = () => {
     const { dispatch, statuses, salesmen, categories } = this.props;
 
+    const limitedSales = jwtDecode(sessionStorage.token).type === "salesmanIceland";
+
+    let categoriesIds = [];
+
+    if(limitedSales) {
+      const category = _.find(categories, ['name', 'Ísland atvinnuhættir og menning']);
+      categoriesIds.push(category._id);
+    } else {
+      categoriesIds = categories.map(category => {
+        return category._id;
+      });
+    }
+
     let filter = {};
     filter['statuses'] = statuses;
     filter['salesmen'] = salesmen;
-    filter['categories'] = categories;
+    filter['categories'] = categoriesIds;
 
     let sorting = {
       'column': 'name',
@@ -59,10 +72,7 @@ class Companies extends Component {
     };
 
     filter['sorting'] = sorting;
-
-    filter['nosale'] = jwtDecode(sessionStorage.token).type !== "salesmanIceland" ? true : false;
-    // let token = jwtDecode(sessionStorage.token);
-    // filter['nosale'] = (token.type !== "salesmanIceland");
+    filter['nosale'] = limitedSales ? false : true;
 
     dispatch(fetchCompanies(filter));
   };
@@ -344,8 +354,8 @@ function mapStateToProps(state) {
       return salesman._id;
   });
 
-  let token = jwtDecode(sessionStorage.token);
-  let cat = state.categories.items;
+  // let token = jwtDecode(sessionStorage.token);
+  // let cat = state.categories.items;
 
   // if(token.type === 'supervisorlimited') {
   //   cat = _.remove(cat, function(category) {
@@ -353,15 +363,17 @@ function mapStateToProps(state) {
   //   });
   // }
 
-  if(token.type === 'salesmanIceland') {
-    cat = _.remove(cat, function(category) {
-      return (category.name === 'Ísland atvinnuhættir og menning');
-    });
-  }
+  // if(token.type === 'salesmanIceland') {
+  //   cat = _.remove(cat, function(category) {
+  //     return (category.name === 'Ísland atvinnuhættir og menning');
+  //   });
+  // }
 
-  let categories = cat.map(category => {
-      return category._id;
-  });
+  // let categories = cat.map(category => {
+  //     return category._id;
+  // });
+
+  const categories = state.categories.items;
 
   let sorting = {};
 

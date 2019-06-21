@@ -127,7 +127,6 @@ Categories.propTypes = {
 function mapStateToProps(state) {
   let categories =  _.sortBy( state.categories.items, function(o) { return o.name; });
 
-
   let token = jwtDecode(sessionStorage.token);
   if(token.type === 'supervisorlimited') {
     categories = _.remove(categories, function(category) {
