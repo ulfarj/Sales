@@ -6,7 +6,6 @@ import App from './src/containers/app';
 import Main from './src/components/main';
 import Login from './src/components/login';
 import Reports from './src/containers/Reports';
-import ImportFG from './src/containers/import/ImportFG';
 import Admin from './src/containers/Admin';
 import { authenticated, notAuthenticated } from './src/actions/account';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -45,7 +44,6 @@ class Routes extends React.Component {
       <Router history={history}>
         <Route path="/" component={App} onEnter={this.authenticate}>
           <IndexRoute component={Main} />
-          {/* <Route path="ImportFG" component={ImportFG} /> */}
           <Route path="Admin" component={Admin} />
         </Route>
         <Route path="Login" component={Login} />

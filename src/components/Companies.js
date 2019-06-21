@@ -23,7 +23,7 @@ import FocusGroupCell from './cells/FocusGroupCell';
 import 'fixed-data-table/dist/fixed-data-table.min.css';
 import {fetchGroups} from '../actions/groups';
 
-import postalCodes from 'json!../../data/postalCodes.json';
+import postalCodes from '../data/postalCodes.json';
 import focusGroups from '../reducers/focusGroups';
 import { setFilter } from '../actions/companies';
 
