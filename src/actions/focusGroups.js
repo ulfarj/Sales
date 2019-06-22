@@ -19,9 +19,19 @@ function receive(json) {
 }
 
 export function fetchCurrentFocusGroups() {
+
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
     return dispatch => {
       dispatch(request())
-      return fetch(webconfig.apiUrl+'/focusGroups')
+      return fetch(webconfig.apiUrl+'/focusGroups', config)
         .then(response => response.json())
         .then(json => dispatch(receive(json)))
     }
@@ -77,10 +87,12 @@ export function setFocusGroups(companyId, focusGroups) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify({ companyId, focusGroups }),
   }
+
   return (dispatch) => {
     dispatch(setGroupsRequest(focusGroups))
     return fetch(webconfig.apiUrl+'/setFocusGroups/', config)
@@ -103,10 +115,13 @@ export function setFocusGroupsBulk(focusGroups) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify({ focusGroups }),
   }
+
+ 
   return (dispatch) => {
     dispatch(setGroupsRequest(focusGroups))
     return fetch(webconfig.apiUrl+'/setFocusGroupsBulk/', config)

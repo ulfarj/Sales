@@ -28,7 +28,8 @@ export function fetchGroups() {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
   }
 
@@ -73,7 +74,8 @@ export function createGroup(group) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(group),
   }
@@ -120,7 +122,8 @@ export function setGroups(groups) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(groups),
   }
@@ -163,10 +166,18 @@ function deleteGroupFailure(error){
 
 
 export function deleteGroup(id) {
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
 
   return (dispatch, getState) => {
     dispatch(deleteGroupRequest(id))
-    return fetch(webconfig.apiUrl+'/deleteGroup/'+id)
+    return fetch(webconfig.apiUrl+'/deleteGroup/'+id, config)
       .then(response => response.json())
       .then(function(response) {
         if(response.error){

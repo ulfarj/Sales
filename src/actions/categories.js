@@ -34,9 +34,18 @@ function shouldFetchCategories(state) {
 //82.221.102.173
 
 function fetchCategories() {
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
   return dispatch => {
     dispatch(requestCategories())
-    return fetch(webconfig.apiUrl+'/categories')
+    return fetch(webconfig.apiUrl+'/categories', config)
       .then(response => response.json())
       .then(json => dispatch(receiveCategories(json)))
   }
@@ -51,9 +60,18 @@ export function fetchCategoriesIfNeeded() {
 }
 
 export function fetchCurrentCategories() {
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
   return dispatch => {
     dispatch(requestCategories())
-    return fetch(webconfig.apiUrl+'/categories')
+    return fetch(webconfig.apiUrl+'/categories', config)
       .then(response => response.json())
       .then(json => dispatch(receiveCategories(json)))
   }

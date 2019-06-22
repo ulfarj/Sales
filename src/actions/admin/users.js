@@ -18,9 +18,18 @@ function requestUsersSuccess(users) {
 }
 
 export function fetchCurrentUsers() {
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
   return dispatch => {
     dispatch(requestUsers())
-    return fetch(webconfig.apiUrl+'/users')
+    return fetch(webconfig.apiUrl+'/users', config)
       .then(response => response.json())
       .then(json => dispatch(requestUsersSuccess(json)))
   }
@@ -64,7 +73,8 @@ export function createUser(name, username, type, salesman, password) {
         "type": type,
         "salesman": salesman,
         "password": password,
-      })
+      }),
+      Authorization: sessionStorage.token,
   }
 
   return (dispatch, getState) => {
@@ -106,9 +116,18 @@ function deleteUserFailure(error){
 
 export function deleteUser(id) {
 
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
   return (dispatch, getState) => {
     dispatch(deleteUserRequest(id))
-    return fetch(webconfig.apiUrl+'/deleteUser/'+id)
+    return fetch(webconfig.apiUrl+'/deleteUser/'+id, config)
       .then(response => response.json())
       .then(function(response) {
         if(response.error){

@@ -9,8 +9,9 @@ export default function configureStore(initialState) {
   const store = createStore(
   	rootReducer,
   	initialState,
-  	applyMiddleware(thunkMiddleware, createLogger()),
-  	reduxReactRouter({createHistory}),
+		// applyMiddleware(thunkMiddleware, createLogger()),
+		applyMiddleware(thunkMiddleware),
+  	reduxReactRouter({ createHistory }),
   	);
 
   return store;

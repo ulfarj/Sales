@@ -47,7 +47,8 @@ export function loginUser(username, password) {
   let config = {
   		method: 'POST',
     	headers: { 'Content-Type':'application/x-www-form-urlencoded' },
-      body: `grant_type=${grant_type}&username=${username}&password=${password}`
+      body: `grant_type=${grant_type}&username=${username}&password=${password}`,
+      Authorization: sessionStorage.token,
    }
 
   return dispatch => {

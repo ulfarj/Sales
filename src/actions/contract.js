@@ -28,7 +28,8 @@ export function fetchContracts(companyId) {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
   }
 
@@ -73,7 +74,8 @@ export function createContract(contract) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(contract),
   }
@@ -100,7 +102,8 @@ export function updateContract(contract) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(contract),
   }
@@ -146,7 +149,8 @@ export function deleteContract(contract) {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
   }
 

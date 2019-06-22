@@ -32,11 +32,14 @@ function shouldFetchStatuses(state) {
 }
 
 function fetchStatuses() {
+ 
   const config = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
   }
 
   return dispatch => {
@@ -56,9 +59,18 @@ export function fetchStatusesIfNeeded() {
 }
 
 export function fetchCurrentStatuses() {
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
   return dispatch => {
     dispatch(requestStatuses())
-    return fetch(webconfig.apiUrl+'/statuses')
+    return fetch(webconfig.apiUrl+'/statuses', config)
       .then(response => response.json())
       .then(json => dispatch(receivesStatuses(json)))
   }

@@ -31,7 +31,8 @@ export function createSalesman(name) {
       'Accept': 'application/json',
       'Content-Type':'application/json'
     },
-    body: JSON.stringify({"name": name})
+    body: JSON.stringify({"name": name}),
+    Authorization: sessionStorage.token,
   }
 
   return (dispatch, getState) => {
@@ -72,10 +73,18 @@ function deleteSalesmanFailure(error){
 
 
 export function deleteSalesman(id) {
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
 
   return (dispatch, getState) => {
     dispatch(deleteSalesmanRequest(id))
-    return fetch(webconfig.apiUrl+'/deleteSalesman/'+id)
+    return fetch(webconfig.apiUrl+'/deleteSalesman/'+id, config)
       .then(response => response.json())
       .then(function(response) {
         if(response.error){

@@ -31,7 +31,8 @@ export function createFocusGroup(name, color) {
       'Accept': 'application/json',
       'Content-Type':'application/json'
     },
-    body: JSON.stringify({"name": name, "color": color})
+    body: JSON.stringify({"name": name, "color": color}),
+    Authorization: sessionStorage.token,
   }
 
   return (dispatch, getState) => {
@@ -73,9 +74,18 @@ function deleteFailure(error){
 
 export function deleteFocusGroup(id) {
 
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      
+    },
+  }
+
   return (dispatch, getState) => {
     dispatch(deleteRequest(id))
-    return fetch(webconfig.apiUrl+'/deleteFocusGroup/'+id)
+    return fetch(webconfig.apiUrl+'/deleteFocusGroup/'+id, config)
       .then(response => response.json())
       .then(function(response) {
         if(response.error){

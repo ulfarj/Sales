@@ -20,9 +20,18 @@ function receiveComments(json) {
 
 export function fetchComments(companyId) {
 
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
   return dispatch => {
     dispatch(requestComments(companyId))
-    return fetch(webconfig.apiUrl+'/comments/'+companyId)
+    return fetch(webconfig.apiUrl+'/comments/'+companyId, config)
       .then(response => response.json())
       .then(json => dispatch(receiveComments(json)))
   }

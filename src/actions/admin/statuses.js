@@ -32,7 +32,8 @@ export function createStatus(name, color) {
       'Accept': 'application/json',
       'Content-Type':'application/json'
     },
-    body: JSON.stringify({"name": name, "color": color})
+    body: JSON.stringify({"name": name, "color": color}),
+    Authorization: sessionStorage.token,
   }
 
   return (dispatch, getState) => {
@@ -74,9 +75,18 @@ function deleteStatusFailure(error){
 
 export function deleteStatus(id) {
 
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
   return (dispatch, getState) => {
     dispatch(deleteStatusRequest(id))
-    return fetch(webconfig.apiUrl+'/deleteStatus/'+id)
+    return fetch(webconfig.apiUrl+'/deleteStatus/'+id, config)
       .then(response => response.json())
       .then(function(response) {
         if(response.error){

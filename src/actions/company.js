@@ -34,11 +34,12 @@ function findCompanyFailure(error){
 
 export function findCompany(ssn) {
 
-  let config = {
+  const config = {
 		method: 'GET',
 		headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
   }
 
@@ -146,7 +147,8 @@ export function importCompanies(companies) {
 		method: 'POST',
 		headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify({"companies": companies})
   }
@@ -178,7 +180,8 @@ export function updateCompany(id, ssn, name, address, postalCode, phone, email, 
 		method: 'POST',
 		headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(company)
   }
@@ -231,7 +234,8 @@ export function addComment(id, comment) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(body)
   }
@@ -260,9 +264,18 @@ export function deleteCompany(id) {
     "id": id
   };
 
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
   return (dispatch, getState) => {
     dispatch(updateCompanyRequest(company))
-    return fetch(webconfig.apiUrl+'/deleteCompany/'+id)
+    return fetch(webconfig.apiUrl+'/deleteCompany/'+id, config)
       .then(response => response.json())
       .then(function(response) {
         if(response.error){

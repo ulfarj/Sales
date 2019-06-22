@@ -20,9 +20,18 @@ function receiveSales(items) {
 }
 
 export function fetchSales(companyId) {
+  const config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
+    },
+  }
+
   return dispatch => {
     dispatch(requestSales(companyId))
-    return fetch(webconfig.apiUrl+'/sales/'+companyId)
+    return fetch(webconfig.apiUrl+'/sales/'+companyId, config)
       .then(response => response.json())
       .then(json => {
         dispatch(receiveSales(json));
@@ -62,7 +71,8 @@ export function addSale(id, sale) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(body)
   }
@@ -118,7 +128,8 @@ export function deleteSale(id, categoryId) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(body)
   }
@@ -176,11 +187,13 @@ export function updateSale(id, categoryId, sale) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(body)
   }
 
+ 
   return (dispatch, getState) => {
     dispatch(updateSaleRequest(sale))
     return fetch(webconfig.apiUrl+'/updateSale/', config)

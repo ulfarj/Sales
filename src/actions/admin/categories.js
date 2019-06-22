@@ -29,7 +29,8 @@ export function createCategory(name) {
 		method: 'POST',
 		headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+       Authorization: sessionStorage.token,
     },
     body: JSON.stringify({"name": name})
   }
@@ -72,10 +73,18 @@ function deleteCategoryFailure(error){
 
 
 export function deleteCategory(id) {
+  let config = {
+		method: 'GET',
+		headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json',
+      
+    },
+  }
 
   return (dispatch, getState) => {
     dispatch(deleteCategoryRequest(id))
-    return fetch(webconfig.apiUrl+'/deleteCategory/'+id)
+    return fetch(webconfig.apiUrl+'/deleteCategory/'+id, config)
       .then(response => response.json())
       .then(function(response) {
         if(response.error){
