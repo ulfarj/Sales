@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --hot --progress --colors",
-    "start": "node index.js"
+    "pbuild": "webpack -p --config ./webpack.config.js",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
