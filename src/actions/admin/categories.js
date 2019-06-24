@@ -73,12 +73,12 @@ function deleteCategoryFailure(error){
 
 
 export function deleteCategory(id) {
-  let config = {
+  const config = {
 		method: 'GET',
 		headers: {
       'Accept': 'application/json',
       'Content-Type':'application/json',
-      
+      Authorization: sessionStorage.token,
     },
   }
 

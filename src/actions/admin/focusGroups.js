@@ -79,7 +79,7 @@ export function deleteFocusGroup(id) {
 		headers: {
       'Accept': 'application/json',
       'Content-Type':'application/json',
-      
+      Authorization: sessionStorage.token,
     },
   }
 
