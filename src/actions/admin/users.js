@@ -64,7 +64,8 @@ export function createUser(name, username, type, salesman, password) {
 		method: 'POST',
 		headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify(
       {
