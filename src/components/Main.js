@@ -78,13 +78,13 @@ class Main extends Component {
       if(name === 'maingroup') {
         filter['subgroup'] = [];
         filter['subsubgroup'] = [];
+      }
+      if(name === 'subgroup') {
+        filter['subsubgroup'] = [];
 
         if(filter[name].indexOf('Fiskvinnsla og útgerð') !== -1) {
           filter[name].push('Fiskvinnsla og Útgerð')
         }
-      }
-      if(name === 'subgroup') {
-        filter['subsubgroup'] = [];
       }
 
       const { dispatch } = this.props;
