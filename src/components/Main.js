@@ -81,6 +81,11 @@ class Main extends Component {
       }
       if(name === 'subgroup') {
         filter['subsubgroup'] = [];
+
+        if(filter[name].indexOf('Fiskvinnsla og útgerð') !== -1) {
+          filter[name].push('Fiskvinnsla og Útgerð')
+        }
+        console.log(filter[name]);
       }
 
       const { dispatch } = this.props;
