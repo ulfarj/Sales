@@ -29,7 +29,8 @@ export function createSalesman(name) {
 		method: 'POST',
 		headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify({"name": name}),
     Authorization: sessionStorage.token,
