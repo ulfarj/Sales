@@ -43,6 +43,9 @@ module.exports = {
   optimization: {
     minimize: true,
   },
+  devServer: {
+    historyApiFallback: true,
+  },
   resolve: {
     alias: {
         config: `${__dirname}/config/prod`

@@ -30,10 +30,10 @@ export function createStatus(name, color) {
 		method: 'POST',
 		headers: {
       'Accept': 'application/json',
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      Authorization: sessionStorage.token,
     },
     body: JSON.stringify({"name": name, "color": color}),
-    Authorization: sessionStorage.token,
   }
 
   return (dispatch, getState) => {
