@@ -3,6 +3,7 @@ import {Table, Input, Fade, Button, Well, ButtonToolbar, Overlay, Popover, Panel
 	Grid, Row, Col, Tabs, Tab} from 'react-bootstrap';
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import jwtDecode from 'jwt-decode';
 import { updateCompany, deleteCompany } from '../actions/company';
 import ToggleDisplay from 'react-toggle-display';
 import { fetchCompanies } from '../actions/companies';
@@ -154,6 +155,9 @@ class EditCompany extends React.Component {
 		  );
 		}
 
+		const token = jwtDecode(sessionStorage.token);
+    	const admin = (token.type === "admin");
+
 		return(
 			<div>
 				<div>
@@ -234,15 +238,17 @@ class EditCompany extends React.Component {
 							</div>
 						}
 						</Tab>
-						<Tab eventKey={4} title="Stjórnandi">
-							<div style={{paddingTop: '20px'}}>
-								<Button
-									onClick={e => this.deleteCompany(e)}
-									bsStyle="primary" style={{height:'35px'}}>
-									Eyða fyrirtæki
-								</Button>
-							</div>
-						</Tab>
+						{admin &&
+							<Tab eventKey={4} title="Stjórnandi">
+								<div style={{paddingTop: '20px'}}>
+									<Button
+										onClick={e => this.deleteCompany(e)}
+										bsStyle="primary" style={{height:'35px'}}>
+										Eyða fyrirtæki
+									</Button>
+								</div>
+							</Tab>
+						}
 						<Tab eventKey={5} title="Samningar">
 						{this.props.contractsLoaded &&
 							<div>
